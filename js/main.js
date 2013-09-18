@@ -130,7 +130,7 @@ function addFaucetSensors(){
 }
 
 //This function deals with and checks the conditions for adding 25% greenRoof.
-function addGreenRoofs(){
+function addGreenRoof(){
 	
 	if(canPlay() && greenRoof.count < 4){
 		
@@ -297,15 +297,69 @@ function turnPass(){
 	//Make any changes that the user has toggled based on the buttons pressed
 	
 	if(irrigateAtNightDiv.style.color == "green"){
-		if(addNightIrrigation() )
+		if(addNightIrrigation() ) //attempt to add irrigateAtNight
 			console.log("Added irrigateAtNight 25%.");
 		else
 			irrigateAtNightDiv.style.color == "black";
 	}
+	
+	if(irrigateLessDiv.style.color == "green"){
+		if(addLessIrrigation() ) //attempt to add irrigateLess
+			console.log("Added irrigateLess 25%.");
+		else
+			irrigateLessDiv.style.color == "black";
+	}
+	
+	if(dualFlushToiletDiv.style.color == "green"){
+		if(addDualFlushToilet() ) //attempt to add dualFlushToilets
+			console.log("Added dualFlushToilets 25%.");
+		else
+			dualFlushToiletDiv.style.color == "black";
+	}
+	
+	if(faucetSensorsDiv.style.color == "green"){
+		if(addFaucetSensors() ) //attempt to add faucetSensors
+			console.log("Added faucetSensors 25%.");
+		else
+			faucetSensorsDiv.style.color == "black";
+	}
+	
+	if(greenRoofDiv.style.color == "green"){
+		if(addGreenRoof() ) //attempt to add faucetSensors
+			console.log("Added greenRoof 25%.");
+		else
+			greenRoofDiv.style.color == "black";
+	}
+	
+	if(cisternDiv.style.color == "green"){
+		if(addCistern() ) //attempt to add cistern
+			console.log("Added cistern 25%.");
+		else
+			cisternDiv.style.color == "black";
+	}
+	
+	
+	
 	//Re-"Bill" for maintenance costs of each type of device
 	if(irrigateAtNightDiv.style.color == "black"){
 		modifyBudget(irrigateAtNight.costMaintain * irrigateAtNight.count);
 	}
+	if(irrigateLessDiv.style.color == "black"){
+		modifyBudget(irrigateLess.costMaintain * irrigateLess.count);
+	}
+	if(dualFlushToiletDiv.style.color == "black"){
+		modifyBudget(dualFlushToilet.costMaintain * dualFlushToilet.count);
+	}
+	if(faucetSensorsDiv.style.color == "black"){
+		modifyBudget(faucetSensors.costMaintain * faucetSensors.count);
+	}
+	if(greenRoofDiv.style.color == "black"){
+		modifyBudget(greenRoof.costMaintain * greenRoof.count);
+	}
+	if(cisternDiv.style.color == "black"){
+		modifyBudget(cistern.costMaintain * cistern.count);
+	}
+	
 	
 	//Check to make sure you have not lost, and if you have, then too bad! 
 	//Decrement the "Months" unit, and also make sure that it is not 0 when we advance a turn.
@@ -313,6 +367,9 @@ function turnPass(){
 	
 	//Reset all buttons back to "unpressed" state	
 	updateAll();
+	
+	//Check once again to see if you have lost or not
+	canPlay();
 }
 
 
@@ -330,7 +387,6 @@ function resetGame(){
 	greenRoof.count = 0;
 	cistern.count = 0;
 	updateAll(); //refresh the rendering for the user
-	
 }
 
 
