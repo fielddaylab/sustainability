@@ -387,6 +387,7 @@ function resetGame(){
 	greenRoof.count = 0;
 	cistern.count = 0;
 	updateAll(); //refresh the rendering for the user
+
 }
 
 
