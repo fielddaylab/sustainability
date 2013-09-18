@@ -33,12 +33,12 @@ function updateAll(){
 	waterPlantCapacityDiv.innerHTML = "Water Plant Initial Capacity: " + waterPlantCapacity + " gallons";
 	waterPlantNetCapacityDiv.innerHTML = "Water Plant Net Capacity: " + waterNetCapacity + " gallons";
 	
-	irrigateAtNightDiv.innerHTML = "Irrigate at night: " + (25 * irrigateAtNight.count) + "% of campus currently";
-	irrigateLessDiv.innerHTML = "Irrigate less: " + (25 * irrigateLess.count) + "% of campus currently";
-	dualFlushToiletDiv.innerHTML = "Dual Flush Toilet: " + (25 * dualFlushToilet.count) + "% of campus currently";
-	faucetSensorsDiv.innerHTML = "Faucet Sensors: " + (25 * faucetSensors.count) + "% of campus currently";
-	greenRoofDiv.innerHTML = "Green Roofs: " + (25 * greenRoof.count) + "% of campus currently";
-	cisternDiv.innerHTML = "Cisterns: " + (25 * cistern.count) + "% of campus currently";
+	irrigateAtNightDiv.innerHTML = irrigateAtNight.name + (25 * irrigateAtNight.count) + "% of campus currently";
+	irrigateLessDiv.innerHTML = irrigateLess.name + (25 * irrigateLess.count) + "% of campus currently";
+	dualFlushToiletDiv.innerHTML = dualFlushToilet.name + (25 * dualFlushToilet.count) + "% of campus currently";
+	faucetSensorsDiv.innerHTML = faucetSensors.name + (25 * faucetSensors.count) + "% of campus currently";
+	greenRoofDiv.innerHTML = greenRoof.name + (25 * greenRoof.count) + "% of campus currently";
+	cisternDiv.innerHTML = cistern.name + (25 * cistern.count) + "% of campus currently";
 }
 
 
@@ -53,7 +53,7 @@ function addNightIrrigation(){
 		modifySatisfaction(irrigateAtNight.satisfaction);
 				
 		irrigateAtNight.count++;
-		irrigateAtNight.innerHTML = "Irrigate At Night: " + (25 * irrigateAtNight.count) + 
+		irrigateAtNight.innerHTML = irrigateAtNight.name + (25 * irrigateAtNight.count) + 
 											"% of campus currently";
 		updateAll();
 	}
@@ -70,7 +70,7 @@ function addLessIrrigation(){
 		modifySatisfaction(irrigateLess.satisfaction);
 				
 		irrigateLess.count++;
-		irrigateLess.innerHTML = "Irrigate Less: " + (25 * irrigateLess.count) + 
+		irrigateLess.innerHTML = irrigateLess.name + (25 * irrigateLess.count) + 
 											"% of campus currently";
 		updateAll();
 	}
@@ -88,7 +88,7 @@ function addDualFlushToilet(){
 		modifySatisfaction(dualFlushToilet.satisfaction);
 				
 		dualFlushToilet.count++;
-		dualFlushToilet.innerHTML = "Dual Flush Toilet: " + (25 * dualFlushToilet.count) + 
+		dualFlushToilet.innerHTML = dualFlushToilet.name + (25 * dualFlushToilet.count) + 
 											"% of campus currently";
 		updateAll();
 	}
@@ -105,7 +105,7 @@ function addFaucetSensors(){
 		modifySatisfaction(faucetSensors.satisfaction);
 				
 		faucetSensors.count++;
-		faucetSensors.innerHTML = "Faucet Sensors: " + (25 * faucetSensors.count) + 
+		faucetSensors.innerHTML = faucetSensors.name + (25 * faucetSensors.count) + 
 											"% of campus currently";
 		updateAll();
 	}
@@ -122,7 +122,7 @@ function addGreenRoofs(){
 		modifySatisfaction(greenRoof.satisfaction);
 				
 		greenRoof.count++;
-		greenRoof.innerHTML = "Green Roofs: " + (25 * greenRoof.count) + 
+		greenRoof.innerHTML = greenRoof.name + (25 * greenRoof.count) + 
 											"% of campus currently";
 		updateAll();
 	}
@@ -138,7 +138,7 @@ function addCistern(){
 		modifySatisfaction(cistern.satisfaction);
 				
 		cistern.count++;
-		cistern.innerHTML = "Cisterns: " + (25 * cistern.count) + 
+		cistern.innerHTML = cistern.name + (25 * cistern.count) + 
 											"% of campus currently";
 		updateAll();
 	}
