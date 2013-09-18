@@ -197,6 +197,19 @@ function turnPass(){
 
 function resetGame(){
 	//Reset the entire game
+	budget = initialBudget; 
+	timeRemaining = initialTimeRemaining;
+	satisfaction = initialSatisfaction;
+	waterWasteRate = initialWaterWasteRate;
+	waterPlantCapacity = initialWaterPlantCapacity;
+	irrigateAtNight.count = 0;
+	irrigateLess.count = 0;
+	dualFlushToilet.count = 0;
+	faucetSensors.count = 0;
+	greenRoof.count = 0;
+	cistern.count = 0;
+	updateAll(); //refresh the rendering for the user
+	
 }
 
 
