@@ -180,18 +180,110 @@ function modifySatisfaction(amount){
 
 }
 
+//Toggles whether or not irrigateAtNight gets added in the next turn.
+function toggleIrrigateAtNight(){
+	if(irrigateAtNight.selected == 1){
+		irrigateAtNight.selected = 0;
+		irrigateAtNightDiv.style.color = "black";
+		console.log("Unselected irrigateAtNight.");
+	}
+	
+	else{
+		irrigateAtNight.selected = 1;
+		irrigateAtNightDiv.style.color = "green";
+		console.log("Selected irrigateAtNight.");
+	}
+}
+
+//Toggles whether or not irrigateLess gets added in the next turn.
+function toggleIrrigateLess(){
+	if(irrigateLess.selected == 1){
+		irrigateLess.selected = 0;
+		irrigateLessDiv.style.color = "black";
+		console.log("Unselected irrigateLess.");
+	}
+	
+	else{
+		irrigateLess.selected = 1;
+		irrigateLessDiv.style.color = "green";
+		console.log("Selected irrigateLess.");
+	}
+}
+
+//Toggles whether or not dualFlushToilet gets added in the next turn.
+function toggleDualFlushToilet(){
+	if(dualFlushToilet.selected == 1){
+		dualFlushToilet.selected = 0;
+		dualFlushToiletDiv.style.color = "black";
+		console.log("Unselected dualFlushToilet.");
+	}
+	
+	else{
+		dualFlushToilet.selected = 1;
+		dualFlushToiletDiv.style.color = "green";
+		console.log("Selected dualFlushToilet.");
+	}
+}
+
+//Toggles whether or not faucetSensors gets added in the next turn.
+function toggleFaucetSensors(){
+	if(faucetSensors.selected == 1){
+		faucetSensors.selected = 0;
+		faucetSensorsDiv.style.color = "black";
+		console.log("Unselected faucetSensors.");
+	}
+	
+	else{
+		faucetSensors.selected = 1;
+		faucetSensorsDiv.style.color = "green";
+		console.log("Selected faucetSensors.");
+	}
+}
+
+//Toggles whether or not greenRoof gets added in the next turn.
+function toggleGreenRoof(){
+	if(greenRoof.selected == 1){
+		greenRoof.selected = 0;
+		greenRoofDiv.style.color = "black";
+		console.log("Unselected greenRoof.");
+	}
+	
+	else{
+		greenRoof.selected = 1;
+		greenRoofDiv.style.color = "green";
+		console.log("Selected greenRoof.");
+	}
+}
+
+//Toggles whether or not greenRoof gets added in the next turn.
+function toggleCistern(){
+	if(cistern.selected == 1){
+		cistern.selected = 0;
+		cisternDiv.style.color = "black";
+		console.log("Unselected cistern.");
+	}
+	
+	else{
+		cistern.selected = 1;
+		cisternDiv.style.color = "green";
+		console.log("Selected cistern.");
+	}
+}
+
+
 
 
 
 function turnPass(){
 	//This is the stuff that will happen when a turn passes:
 	
+	//addNightIrrigation();
+	 
 	//Make any changes that the user has toggled based on the buttons pressed
 	//Re-"Bill" for maintenance costs of each type of device
 	//Check to make sure you have not lost, and if you have, then too bad! 
 	//Decrement the "Months" unit, and also make sure that it is not 0 when we advance a turn.
-	//Reset all buttons back to "unpressed" state
-	
+	//Reset all buttons back to "unpressed" state	
 }
 
 

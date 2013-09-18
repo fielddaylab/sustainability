@@ -12,54 +12,66 @@ var waterPlantCapacity = initialWaterPlantCapacity; // The capacity of the water
 
 // Irrigate at night
 var irrigateAtNight = { 
+	name: "Irrigate At Night",
 	cost: 0,
 	costMaintain: 0,
 	waterSaved: 200,
 	satisfaction: 0,
-	count: 0
+	count: 0,
+	selected: 0
 };
 
 // Irrigate less
-var irrigateLess = { 
+var irrigateLess = {
+	name: "Irrigate Less",
 	cost: -100000,
 	costMaintain: 0,
 	waterSaved: 400,
 	satisfaction: -25,
-	count: 0
+	count: 0,
+	selected: 0
 };
 
 // Dual flush toilet
 var dualFlushToilet = { 
+	name: "Dual Flush Toilet",
 	cost: 100000,
 	costMaintain: 0,
 	waterSaved: 200,
 	satisfaction: 0,
-	count: 0
+	count: 0,
+	selected: 0
 };
 
 // Faucet sensors
 var faucetSensors = { 
+	name: "Faucet Sensors",
 	cost: 100000,
 	costMaintain: 15000,
 	waterSaved: 100,
 	satisfaction: 0,
-	count: 0
+	count: 0,
+	selected: 0
 };
 
 // Green roof
 var greenRoof = { 
+	name: "Green Roof",
 	cost: 200000,
 	costMaintain: 25000,
 	waterSaved: 0,
 	satisfaction: 50,
-	count: 0
+	count: 0,
+	selected: 0
 };
 
 // 
 var cistern = { 
+	name: "Cistern",
 	cost: 100000,
 	costMaintain: 25000,
 	waterSaved: 200,
 	satisfaction: 0,
-	count: 0
+	count: 0,
+	selected: 0
 };
