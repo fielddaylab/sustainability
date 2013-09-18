@@ -1,4 +1,6 @@
 <html>
+<script src="js/variables.js"></script>
+
 <body>
 	<div id = "budget"> Budget here </div>
 	
@@ -14,23 +16,23 @@
 	
 	
 	<br/>
-	<span id= "irrigateNight"> % of Night Irrigation </span> <button 			onclick="addNightIrrigation()">+25%</button>
+	<span id= "irrigateNight"> % of Night Irrigation </span> <button 			onclick="toggleIrrigateAtNight()">+25%</button>
 	
 	<br/>
-	<span id= "irrigateLess"> % of Less Irrigation </span> <button 			onclick="addLessIrrigation()">+25%</button>
+	<span id= "irrigateLess"> % of Less Irrigation </span> <button 			onclick="toggleIrrigateLess()">+25%</button>
 	
 	<br/>
-	<span id= "dualFlushToilet"> % of Dual Flush Toilet </span> <button 			onclick="addDualFlushToilet()">+25%</button>
+	<span id= "dualFlushToilet"> % of Dual Flush Toilet </span> <button 			onclick="toggleDualFlushToilet()">+25%</button>
 	
 	<br/>
-	<span id= "faucetSensors"> % of Faucet Sensors </span> <button 			onclick="addFaucetSensors()">+25%</button>
+	<span id= "faucetSensors"> % of Faucet Sensors </span> <button 			onclick="toggleFaucetSensors()">+25%</button>
 	
 	<br/>
-	<span id= "greenRoof"> % of Green Roofs </span> <button 			onclick="addGreenRoofs()">+25%</button>
+	<span id= "greenRoof"> % of Green Roofs </span> <button 			onclick="toggleGreenRoof()">+25%</button>
 	
 	<br/>
 	<span id= "cistern"> % of Cisterns</span> <button 			
-			onclick="addCistern()">+25%</button>
+			onclick="toggleCistern()">+25%</button>
 			
 			
 	<br/>
@@ -41,6 +43,5 @@
 	
 </body>
 
-<script src="js/variables.js"></script>
 <script src="js/main.js"></script> 
 </html>
