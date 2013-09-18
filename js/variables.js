@@ -4,15 +4,20 @@ var initialSatisfaction = 50; //This is the starting satisfaction (in %), defaul
 var initialWaterWasteRate = 800; //The starting water waste rate in gal/mo, default 0
 var initialWaterPlantCapacity = 1000; // The capacity of the water filtration plant in gallons, default 1000.
 
-var budget = initialBudget; //This is the budget amount in $, default 1000000
-var timeRemaining = initialTimeRemaining; //This is the starting time remaining in Months, default 12
-var satisfaction = initialSatisfaction; //This is the starting satisfaction (in %), default 100
-var waterWasteRate = initialWaterWasteRate; //The starting water waste rate in gal/mo, default 0
-var waterPlantCapacity = initialWaterPlantCapacity; // The capacity of the water filtration plant in gallons, default 1000.
+//Initializing the "temporary" variables with the constants that can be changed.
+var budget = initialBudget;
+var timeRemaining = initialTimeRemaining; 
+var satisfaction = initialSatisfaction;
+var waterWasteRate = initialWaterWasteRate; 
+var waterPlantCapacity = initialWaterPlantCapacity;
+//End initializations
 
+
+//Begin "object" initalizations
+// 
 // Irrigate at night
 var irrigateAtNight = { 
-	name: "Irrigate At Night",
+	name: "Irrigate At Night ",
 	cost: 0,
 	costMaintain: 0,
 	waterSaved: 200,
@@ -23,7 +28,7 @@ var irrigateAtNight = {
 
 // Irrigate less
 var irrigateLess = {
-	name: "Irrigate Less",
+	name: "Irrigate Less ",
 	cost: -100000,
 	costMaintain: 0,
 	waterSaved: 400,
@@ -34,7 +39,7 @@ var irrigateLess = {
 
 // Dual flush toilet
 var dualFlushToilet = { 
-	name: "Dual Flush Toilet",
+	name: "Dual Flush Toilet ",
 	cost: 100000,
 	costMaintain: 0,
 	waterSaved: 200,
@@ -45,7 +50,7 @@ var dualFlushToilet = {
 
 // Faucet sensors
 var faucetSensors = { 
-	name: "Faucet Sensors",
+	name: "Faucet Sensors ",
 	cost: 100000,
 	costMaintain: 15000,
 	waterSaved: 100,
@@ -56,7 +61,7 @@ var faucetSensors = {
 
 // Green roof
 var greenRoof = { 
-	name: "Green Roof",
+	name: "Green Roof ",
 	cost: 200000,
 	costMaintain: 25000,
 	waterSaved: 0,
@@ -67,7 +72,7 @@ var greenRoof = {
 
 // 
 var cistern = { 
-	name: "Cistern",
+	name: "Cistern ",
 	cost: 100000,
 	costMaintain: 25000,
 	waterSaved: 200,
