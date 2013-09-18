@@ -39,6 +39,27 @@ function updateAll(){
 	faucetSensorsDiv.innerHTML = faucetSensors.name + (25 * faucetSensors.count) + "% of campus currently";
 	greenRoofDiv.innerHTML = greenRoof.name + (25 * greenRoof.count) + "% of campus currently";
 	cisternDiv.innerHTML = cistern.name + (25 * cistern.count) + "% of campus currently";
+	
+	
+	//Reset everything back to "black" color, and selected as 0.
+	irrigateAtNightDiv.style.color = "black";
+	irrigateAtNight.selected = 0;
+	
+	irrigateLessDiv.style.color = "black";
+	irrigateLess.selected = 0;
+	
+	dualFlushToiletDiv.style.color = "black";
+	dualFlushToilet.selected = 0;
+	
+	faucetSensorsDiv.style.color = "black";
+	faucetSensors.selected = 0;
+	
+	greenRoofDiv.style.color = "black";
+	greenRoof.selected = 0;
+	
+	cisternDiv.style.color = "black";
+	cistern.selected = 0;
+	
 }
 
 
@@ -55,7 +76,6 @@ function addNightIrrigation(){
 		irrigateAtNight.count++;
 		irrigateAtNight.innerHTML = irrigateAtNight.name + (25 * irrigateAtNight.count) + 
 											"% of campus currently";
-		updateAll();
 	}
 
 }
@@ -72,7 +92,6 @@ function addLessIrrigation(){
 		irrigateLess.count++;
 		irrigateLess.innerHTML = irrigateLess.name + (25 * irrigateLess.count) + 
 											"% of campus currently";
-		updateAll();
 	}
 
 }
@@ -90,7 +109,6 @@ function addDualFlushToilet(){
 		dualFlushToilet.count++;
 		dualFlushToilet.innerHTML = dualFlushToilet.name + (25 * dualFlushToilet.count) + 
 											"% of campus currently";
-		updateAll();
 	}
 
 }
@@ -107,7 +125,6 @@ function addFaucetSensors(){
 		faucetSensors.count++;
 		faucetSensors.innerHTML = faucetSensors.name + (25 * faucetSensors.count) + 
 											"% of campus currently";
-		updateAll();
 	}
 
 }
@@ -124,7 +141,6 @@ function addGreenRoofs(){
 		greenRoof.count++;
 		greenRoof.innerHTML = greenRoof.name + (25 * greenRoof.count) + 
 											"% of campus currently";
-		updateAll();
 	}
 }
 
@@ -140,7 +156,6 @@ function addCistern(){
 		cistern.count++;
 		cistern.innerHTML = cistern.name + (25 * cistern.count) + 
 											"% of campus currently";
-		updateAll();
 	}
 }
 
@@ -280,10 +295,24 @@ function turnPass(){
 	//addNightIrrigation();
 	 
 	//Make any changes that the user has toggled based on the buttons pressed
+	
+	if(irrigateAtNightDiv.style.color == "green"){
+		if(addNightIrrigation() )
+			console.log("Added irrigateAtNight 25%.");
+		else
+			irrigateAtNightDiv.style.color == "black";
+	}
 	//Re-"Bill" for maintenance costs of each type of device
+	if(irrigateAtNightDiv.style.color == "black"){
+		modifyBudget(irrigateAtNight.costMaintain * irrigateAtNight.count);
+	}
+	
 	//Check to make sure you have not lost, and if you have, then too bad! 
 	//Decrement the "Months" unit, and also make sure that it is not 0 when we advance a turn.
+	timeRemaining -= 1;
+	
 	//Reset all buttons back to "unpressed" state	
+	updateAll();
 }
 
 
@@ -311,26 +340,33 @@ function resetGame(){
 
 //Checks to see if you're still able to "play", ie if you haven't lost yet
 function canPlay(){
-	if(budget >= 0){
-		if(satisfaction >= 0){
-			if(waterWasteRate < waterPlantCapacity){
-				console.log("Still have not lost.");
-				return true;
+	if(timeRemaining > 0){
+		if(budget >= 0){
+			if(satisfaction >= 0){
+				if(waterWasteRate < waterPlantCapacity){
+					console.log("Still have not lost.");
+					return true;
+				}
+				else{
+					alert("Water waste rate is greater than your plant capacity! You have lost.");
+					resetGame();
+					return false;
+				}
 			}
 			else{
-				alert("Water waste rate is greater than your plant capacity! You have lost.");
+				alert("Satisfaction is 0, you have lost.");
 				resetGame();
 				return false;
 			}
 		}
 		else{
-			alert("Satisfaction is 0, you have lost.");
+			alert("Budget is negative, you have lost.");
 			resetGame();
 			return false;
 		}
 	}
 	else{
-		alert("Budget is negative, you have lost.");
+		alert("Time is up, you win!");
 		resetGame();
 		return false;
 	}
