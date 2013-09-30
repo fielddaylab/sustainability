@@ -376,7 +376,7 @@ function turnPass(){
 function resetGame(){
 	//Reset the entire game
 	alert("You survived " + (initialTimeRemaining - timeRemaining) + " months. Your score is: " + 
-		(initialTimeRemaining - timeRemaining ));
+		calculateScore());
 
 	budget = initialBudget; 
 	timeRemaining = initialTimeRemaining;
@@ -391,6 +391,14 @@ function resetGame(){
 	cistern.count = 0;
 	updateAll(); //refresh the rendering for the user
 
+}
+
+
+//This is completely arbitrary right now, just to see some numbers at the end. 
+function calculateScore(){
+	return (initialTimeRemaining - timeRemaining) + (irrigateAtNight.count * 2) + (satisfaction * 10) +
+			(irrigateLess.count * 2) + (dualFlushToilet.count * 2) + (faucetSensors.count * 2) + 
+			(greenRoof.count * 2) + (cistern.count * 2);
 }
 
 
