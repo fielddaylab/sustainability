@@ -325,7 +325,7 @@ function turnPass(){
 	}
 	
 	if(greenRoofDiv.style.color == "green"){
-		if(addGreenRoof() ) //attempt to add faucetSensors
+		if(addGreenRoof() ) //attempt to add greenRoof
 			console.log("Added greenRoof 25%.");
 		else
 			greenRoofDiv.style.color == "black";
@@ -375,6 +375,9 @@ function turnPass(){
 
 function resetGame(){
 	//Reset the entire game
+	alert("You survived " + (initialTimeRemaining - timeRemaining) + " months. Your score is: " + 
+		(initialTimeRemaining - timeRemaining ));
+
 	budget = initialBudget; 
 	timeRemaining = initialTimeRemaining;
 	satisfaction = initialSatisfaction;
