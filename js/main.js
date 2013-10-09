@@ -372,7 +372,7 @@ function turnPass(){
 	canPlay();
 
 	if((timeRemaining % 3 == 0) && (timeRemaining != 12)){
-		alert("Random event has occurred! Something will be here at a later time");
+		throwRandomEvent();
 	}
 }
 
@@ -403,6 +403,11 @@ function calculateScore(){
 	return (initialTimeRemaining - timeRemaining) + (irrigateAtNight.count * 2) + (satisfaction * 10) +
 			(irrigateLess.count * 2) + (dualFlushToilet.count * 2) + (faucetSensors.count * 2) + 
 			(greenRoof.count * 2) + (cistern.count * 2);
+}
+
+
+function throwRandomEvent(){
+	alert("Random event has occurred! Something will be here at a later time");
 }
 
 
