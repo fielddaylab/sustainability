@@ -1,4 +1,4 @@
-var initialBudget = 1000000; //This is the budget amount in $, default 1000000
+var initialBudget = 100000; //This is the budget amount in $, default 1000000
 var initialTimeRemaining = 12; //This is the starting time remaining in Months, default 12
 var initialSatisfaction = 50; //This is the starting satisfaction (in %), default 100
 var initialWaterWasteRate = 800; //The starting water waste rate in gal/mo, default 0

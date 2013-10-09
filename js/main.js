@@ -364,6 +364,9 @@ function turnPass(){
 	//Check to make sure you have not lost, and if you have, then too bad! 
 	//Decrement the "Months" unit, and also make sure that it is not 0 when we advance a turn.
 	timeRemaining -= 1;
+
+	//Add another "month's" worth of budget to your balance.
+	budget += initialBudget;
 	
 	//Reset all buttons back to "unpressed" state	
 	updateAll();
