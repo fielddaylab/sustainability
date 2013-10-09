@@ -370,6 +370,10 @@ function turnPass(){
 	
 	//Check once again to see if you have lost or not
 	canPlay();
+
+	if((timeRemaining % 3 == 0) && (timeRemaining != 12){
+		alert("Random event has occurred! Something will be here at a later time");
+	}
 }
 
 
