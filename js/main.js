@@ -14,6 +14,15 @@ var faucetSensorsDiv = document.getElementById("faucetSensors");
 var greenRoofDiv = document.getElementById("greenRoof");
 var cisternDiv = document.getElementById("cistern");
 
+
+//progress bars
+var irrigateNightBarDiv = document.getElementById("irrigateNightBar");
+var irrigateLessBarDiv = document.getElementById("irrigateLessBar");
+var toiletBarDiv = document.getElementById("toiletBar");
+var faucetBarDiv = document.getElementById("faucetBar");
+var roofBarDiv = document.getElementById("roofBar");
+var cisternBarDiv = document.getElementById("cisternBar");
+
 var waterNetCapacity = waterPlantCapacity - waterWasteRate; //the current capacity, after waste
 
 updateAll(); //Initialize all of our divs with their respective values
@@ -76,6 +85,9 @@ function addNightIrrigation(){
 		irrigateAtNight.count++;
 		irrigateAtNight.innerHTML = irrigateAtNight.name + (25 * irrigateAtNight.count) + 
 											"% of campus currently";
+
+		irrigateAtNight.percentage += 5;	
+		irrigateNightBarDiv.style.width = "" + irrigateAtNight.percentage + "%";
 	}
 
 }
@@ -92,6 +104,9 @@ function addLessIrrigation(){
 		irrigateLess.count++;
 		irrigateLess.innerHTML = irrigateLess.name + (25 * irrigateLess.count) + 
 											"% of campus currently";
+
+		irrigateLess.percentage += 5;	
+		irrigateLessBarDiv.style.width = "" + irrigateLess.percentage + "%";
 	}
 
 }
@@ -109,6 +124,9 @@ function addDualFlushToilet(){
 		dualFlushToilet.count++;
 		dualFlushToilet.innerHTML = dualFlushToilet.name + (25 * dualFlushToilet.count) + 
 											"% of campus currently";
+
+		dualFlushToilet.percentage += 5;	
+		toiletBarDiv.style.width = "" + dualFlushToilet.percentage + "%";
 	}
 
 }
@@ -125,6 +143,9 @@ function addFaucetSensors(){
 		faucetSensors.count++;
 		faucetSensors.innerHTML = faucetSensors.name + (25 * faucetSensors.count) + 
 											"% of campus currently";
+
+		faucetSensors.percentage += 5;	
+		faucetBarDiv.style.width = "" + faucetSensors.percentage + "%";
 	}
 
 }
@@ -141,6 +162,9 @@ function addGreenRoof(){
 		greenRoof.count++;
 		greenRoof.innerHTML = greenRoof.name + (25 * greenRoof.count) + 
 											"% of campus currently";
+
+		greenRoof.percentage += 5;	
+		roofBarDiv.style.width = "" + greenRoof.percentage + "%";
 	}
 }
 
@@ -156,6 +180,8 @@ function addCistern(){
 		cistern.count++;
 		cistern.innerHTML = cistern.name + (25 * cistern.count) + 
 											"% of campus currently";
+		cistern.percentage += 5;
+		cisternBarDiv.style.width = "" + cistern.percentage + "%";											
 	}
 }
 

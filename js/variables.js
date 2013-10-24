@@ -23,6 +23,7 @@ var irrigateAtNight = {
 	waterSaved: 200,
 	satisfaction: 0,
 	count: 0,
+	percentage: 0,
 	selected: 0
 };
 
@@ -34,6 +35,7 @@ var irrigateLess = {
 	waterSaved: 400,
 	satisfaction: -25,
 	count: 0,
+	percentage: 0,
 	selected: 0
 };
 
@@ -45,6 +47,7 @@ var dualFlushToilet = {
 	waterSaved: 200,
 	satisfaction: 0,
 	count: 0,
+	percentage: 0,
 	selected: 0
 };
 
@@ -56,6 +59,7 @@ var faucetSensors = {
 	waterSaved: 100,
 	satisfaction: 0,
 	count: 0,
+	percentage: 0,
 	selected: 0
 };
 
@@ -67,6 +71,7 @@ var greenRoof = {
 	waterSaved: 0,
 	satisfaction: 50,
 	count: 0,
+	percentage: 0,
 	selected: 0
 };
 
@@ -78,5 +83,6 @@ var cistern = {
 	waterSaved: 200,
 	satisfaction: 0,
 	count: 0,
+	percentage: 0,
 	selected: 0
 };

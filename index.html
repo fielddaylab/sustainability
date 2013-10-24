@@ -1,11 +1,62 @@
 <html>
 <script src="js/variables.js"></script>
 
+<style>
+    #progressbar {
+      background-color: black;
+      border-radius: 13px; /* (height of inner div) / 2 + padding */
+      padding: 3px;
+    }
+    
+    #irrigateNightBar {
+       background-color: green;
+       width: 1%; /* Adjust with JavaScript */
+       height: 20px;
+       border-radius: 10px;
+    }
+
+     #irrigateLessBar {
+       background-color: green;
+       width: 1%; /* Adjust with JavaScript */
+       height: 20px;
+       border-radius: 10px;
+    }
+
+     #toiletBar {
+       background-color: green;
+       width: 1%; /* Adjust with JavaScript */
+       height: 20px;
+       border-radius: 10px;
+    }
+
+    #faucetBar {
+       background-color: green;
+       width: 1%; /* Adjust with JavaScript */
+       height: 20px;
+       border-radius: 10px;
+    }
+
+    #roofBar {
+       background-color: green;
+       width: 1%; /* Adjust with JavaScript */
+       height: 20px;
+       border-radius: 10px;
+    }
+
+    #cisternBar {
+       background-color: green;
+       width: 1%; /* Adjust with JavaScript */
+       height: 20px;
+       border-radius: 10px;
+    }
+
+</style>
+
 <body>
 	<div id = "budget"> Budget will go here </div>
 	
 	<div id = "timeRemaining"> Time remaining here</div>
-	
+
 	<div id = "satisfaction"> Satisfaction here </div>
 	
 	<div id = "waterPlantCapacity"> Water Plant Capacity here </div>
@@ -17,23 +68,34 @@
 	
 	<br/>
 	<span id= "irrigateNight"> % of Night Irrigation </span> <button 			onclick="toggleIrrigateAtNight()">+25%</button>
+
+	<div id = "irrigateNightBar"> </div>
 	
 	<br/>
 	<span id= "irrigateLess"> % of Less Irrigation </span> <button 			onclick="toggleIrrigateLess()">+25%</button>
+
+	<div id = "irrigateLessBar"> </div>
 	
 	<br/>
 	<span id= "dualFlushToilet"> % of Dual Flush Toilet </span> <button 			onclick="toggleDualFlushToilet()">+25%</button>
+
+	<div id = "toiletBar"> </div>
 	
 	<br/>
 	<span id= "faucetSensors"> % of Faucet Sensors </span> <button 			onclick="toggleFaucetSensors()">+25%</button>
 	
+	<div id = "faucetBar"> </div>
+
 	<br/>
 	<span id= "greenRoof"> % of Green Roofs </span> <button 			onclick="toggleGreenRoof()">+25%</button>
+
+	<div id = "roofBar"> </div>
 	
 	<br/>
 	<span id= "cistern"> % of Cisterns</span> <button 			
 			onclick="toggleCistern()">+25%</button>
 			
+	<div id = "cisternBar"> </div>
 			
 	<br/>
 	<button onclick="turnPass()">Submit Changes</button>
