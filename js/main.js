@@ -1,6 +1,6 @@
 console.log("Beginning");
 var budgetDiv = document.getElementById("budget");
-var timeRemainingDiv = document.getElementById("timeRemaining");
+var timeSurvivedDiv = document.getElementById("timeSurvived");
 var satisfactionDiv = document.getElementById("satisfaction");
 var waterWasteRateDiv = document.getElementById("waterWasteRate");
 var waterPlantCapacityDiv = document.getElementById("waterPlantCapacity");
@@ -33,7 +33,7 @@ function updateAll(){
 	
 	budgetDiv.innerHTML = "Budget: " + budget;
 	
-	timeRemainingDiv.innerHTML = "Time Remaining: " + timeRemaining + " Months";
+	timeSurvivedDiv.innerHTML = "Time Survived: " + timeSurvived + " Months";
 	
 	satisfactionDiv.innerHTML = "Satisfaction: " + satisfaction + "%";
 	
@@ -388,8 +388,8 @@ function turnPass(){
 	
 	
 	//Check to make sure you have not lost, and if you have, then too bad! 
-	//Decrement the "Months" unit, and also make sure that it is not 0 when we advance a turn.
-	timeRemaining -= 1;
+	//Increment the "time" unit
+	timeSurvived += 1;
 
 	//Add another "month's" worth of budget to your balance.
 	budget += initialBudget;
@@ -400,7 +400,7 @@ function turnPass(){
 	//Check once again to see if you have lost or not
 	canPlay();
 
-	if((timeRemaining % 3 == 0) && (timeRemaining != 12)){
+	if(timeSurvived % 3 == 0 && timeSurvived != 0){
 		throwRandomEvent();
 	}
 }
@@ -408,11 +408,11 @@ function turnPass(){
 
 function resetGame(){
 	//Reset the entire game
-	alert("You survived " + (initialTimeRemaining - timeRemaining) + " months. Your score is: " + 
+	alert("You survived " + timeSurvived + " months. Your score is: " + 
 		calculateScore());
 
 	budget = initialBudget; 
-	timeRemaining = initialTimeRemaining;
+	timeSurvived = initialtimeSurvived;
 	satisfaction = initialSatisfaction;
 	waterWasteRate = initialWaterWasteRate;
 	waterPlantCapacity = initialWaterPlantCapacity;
@@ -429,9 +429,9 @@ function resetGame(){
 
 //This is completely arbitrary right now, just to see some numbers at the end. 
 function calculateScore(){
-	return (initialTimeRemaining - timeRemaining) + (irrigateAtNight.count * 2) + (satisfaction * 10) +
+	return (timeSurvived + (irrigateAtNight.count * 2) + (satisfaction * 10) +
 			(irrigateLess.count * 2) + (dualFlushToilet.count * 2) + (faucetSensors.count * 2) + 
-			(greenRoof.count * 2) + (cistern.count * 2);
+			(greenRoof.count * 2) + (cistern.count * 2));
 }
 
 
@@ -446,7 +446,6 @@ function throwRandomEvent(){
 
 //Checks to see if you're still able to "play", ie if you haven't lost yet
 function canPlay(){
-	if(timeRemaining > 0){
 		if(budget >= 0){
 			if(satisfaction >= 0){
 				if(waterWasteRate < waterPlantCapacity){
@@ -471,9 +470,4 @@ function canPlay(){
 			return false;
 		}
 	}
-	else{
-		alert("Time is up, you win!");
-		resetGame();
-		return false;
-	}
-}
+
