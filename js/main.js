@@ -5,7 +5,7 @@ var satisfactionDiv = document.getElementById("satisfaction");
 var waterWasteRateDiv = document.getElementById("waterWasteRate");
 var waterPlantCapacityDiv = document.getElementById("waterPlantCapacity");
 var waterPlantNetCapacityDiv = document.getElementById("waterPlantNetCapacity"); 
-
+var rainAmountDiv = document.getElementById("rainAmount");
 
 var irrigateAtNightDiv = document.getElementById("irrigateNight");
 var irrigateLessDiv = document.getElementById("irrigateLess");
@@ -24,6 +24,8 @@ var roofBarDiv = document.getElementById("roofBar");
 var cisternBarDiv = document.getElementById("cisternBar");
 
 var waterNetCapacity = waterPlantCapacity - waterWasteRate; //the current capacity, after waste
+
+
 
 updateAll(); //Initialize all of our divs with their respective values
 
@@ -49,6 +51,7 @@ function updateAll(){
 	greenRoofDiv.innerHTML = greenRoof.name + (25 * greenRoof.count) + "% of campus currently";
 	cisternDiv.innerHTML = cistern.name + (25 * cistern.count) + "% of campus currently";
 	
+	rainAmount.innerHTML = rainfall() + " inches of rain fell today ";
 	
 	//Reset everything back to "black" color, and selected as 0.
 	irrigateAtNightDiv.style.color = "black";
@@ -437,6 +440,10 @@ function calculateScore(){
 
 function throwRandomEvent(){
 	alert("Random event has occurred! Something will be here at a later time");
+}
+
+function rainfall(){
+	return Math.round(Math.random() * 10);
 }
 
 
