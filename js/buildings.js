@@ -1,9 +1,10 @@
 var buildings = {};
 var name;
 
-buildings.Building = function(){
-	this.name = name;
-};
+
+// buildings.Building = function(){
+// 	this.name = name;
+// };
 
 
 //Hard coding buildings for now..
@@ -36,3 +37,12 @@ buildings.Hospital = {
 	unlocked: false,
 	upgrades: []
 };
+
+
+buildings.addUpgrade = function(Building, Upgrade){
+	Building.upgrades.push(Upgrade);
+}
+
+buildings.unlock = function(Building){
+	Buildings.unlocked = true;
+}
