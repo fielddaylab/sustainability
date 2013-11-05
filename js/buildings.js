@@ -8,31 +8,31 @@ var name;
 
 
 //Hard coding buildings for now..
-buildings.HumanEcology = {
+buildings.building1 = {
 	name: "School of Human Ecology",
 	unlocked: false,
 	upgrades: []
 };
 
-buildings.Education = {
+buildings.building2 = {
 	name: "Education Building",
 	unlocked: false,
 	upgrades: []
 };
 
-buildings.Science = {
+buildings.building3 = {
 	name: "Science Hall",
 	unlocked: false,
 	upgrades: []
 };
 
-buildings.WID = {
+buildings.building4 = {
 	name: "Wisconsin Institutes for Discovery",
 	unlocked: false,
 	upgrades: []
 };
 
-buildings.Hospital = {
+buildings.building5 = {
 	name: "UW Hospital",
 	unlocked: false,
 	upgrades: []
@@ -44,5 +44,36 @@ buildings.addUpgrade = function(Building, Upgrade){
 }
 
 buildings.unlock = function(Building){
-	Buildings.unlocked = true;
+	Building.unlocked = true;
+}
+
+buildings.unlockAllBuildings = function(){
+	console.log("Unlocking all buildings");
+	buildings.building1.unlocked = true;
+	buildings.building2.unlocked = true;
+	buildings.building3.unlocked = true;
+	buildings.building4.unlocked = true;
+	buildings.building5.unlocked = true;
+	refresh();
+}
+
+buildings.getAvailableUpgrades = function(Building){
+
+	if(Building.unlocked){
+		for(var i = 0; i < Building.upgrades.length; i++){
+
+		}
+	}
+}
+
+buildings.getOwnedUpgrades = function(Building){
+	var temp = " ";
+	for(var i = 0; i < Building.upgrades.length; i++){
+		temp += Building.upgrades[i].name + "<br/> ";
+	}
+
+	if(temp !== " ") //Make sure we actually have upgrades,
+		return temp;
+	else //otherwise return "None"
+		return " None ";
 }
