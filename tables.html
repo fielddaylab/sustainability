@@ -1,0 +1,49 @@
+<html>
+<script src = "js/upgrades.js"></script>
+<script src = "js/buildings.js"></script>
+<script src = "js/variables.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<table border="1" id="table">
+<tr id="row1">
+<th id="header1">Building</th>
+<th id="header2">Building</th>
+<th id="header3">Building</th>
+<th id="header4">Building</th>
+<th id="header5">Building</th>
+</tr>
+<tr id="row2">
+<td>row 1, cell 1</td>
+<td>row 1, cell 2</td>
+<td>row 1, cell 3</td>
+<td>row 1, cell 4</td>
+<td>row 1, cell 5</td>
+</tr>
+<tr>
+<td>row 2, cell 1</td>
+<td>row 2, cell 2</td>
+<td>row 2, cell 3</td>
+<td>row 2, cell 4</td>
+<td>row 2, cell 5</td>
+</tr>
+</table>
+
+
+<script>
+$(document).ready(function() { 
+	var header1 = $("#header1")[0];
+	var header2 = $("#header2")[0];
+	var header3 = $("#header3")[0];
+	var header4 = $("#header4")[0];
+	var header5 = $("#header5")[0];
+
+	header1.innerHTML = buildings.building1.name;
+	header2.innerHTML = buildings.building2.name;
+	header3.innerHTML = buildings.building3.name;
+	header4.innerHTML = buildings.building4.name;
+	header5.innerHTML = buildings.building5.name;
+
+});
+</script>
+
+</html>
