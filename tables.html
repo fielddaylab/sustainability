@@ -73,6 +73,8 @@ Development Options:
 <button onclick="buildings.unlock(buildings.building2)">Unlock Building 2</button>
 
 <script>
+var refreshBuildings;
+
 $(document).ready(function() { 
 	var header1 = $("#header1")[0]; //Building1 div
 	var header2 = $("#header2")[0]; //Building2 div
@@ -82,7 +84,7 @@ $(document).ready(function() {
 
 	var cells = $("td"); //Save the entire table
 
-	var count = 0;
+	var upgradeIndex = 0;
 
 	//Giving building1 a few upgrades
 	buildings.addUpgrade(buildings.building1, upgrades.irrigateAtNight);
@@ -92,16 +94,18 @@ $(document).ready(function() {
 	buildings.unlock(buildings.building1);
 
 
-	function refreshBuildings(){
+	refreshBuildings = function(){
 	//Loop through all the upgrades:
-	for(var i = 0; i < cells.length; i++){
+	upgradeIndex = 0;
+	console.log("Cells.length: " + cells.length);
 
+	for(var i = 0; i < cells.length; i++){
 		//If building 1 is unlocked:
 		if(buildings.building1.unlocked){
 			if(cells.get(i).id == "building1"){
-				if(buildings.building1.upgrades[count] != null){
+				if(buildings.building1.upgrades[upgradeIndex] != null){
 					//Add the upgrade's name here
-					cells.get(i).innerHTML = buildings.building1.upgrades[count].name;
+					cells.get(i).innerHTML = buildings.building1.upgrades[upgradeIndex].name;
 				}
 				else{
 					//Add the text saying upgrade was not unlocked.
@@ -119,8 +123,8 @@ $(document).ready(function() {
 		//If building 2 is unlocked:
 		if(buildings.building2.unlocked){
 			if(cells.get(i).id == "building2")
-				if(buildings.building2.upgrades[count] != null)
-					cells.get(i).innerHTML = buildings.building2.upgrades[count].name;
+				if(buildings.building2.upgrades[upgradeIndex] != null)
+					cells.get(i).innerHTML = buildings.building2.upgrades[upgradeIndex].name;
 				else
 					cells.get(i).innerHTML = "Upgrade not yet unlocked";
 			continue; //Move on to the next building if we're done looping building2.
@@ -136,8 +140,8 @@ $(document).ready(function() {
 
 			//If we're still working with building 3:
 			if(cells.get(i).id == "building3")
-				if(buildings.building3.upgrades[count] != null)
-					cells.get(i).innerHTML = buildings.building3.upgrades[count].name;
+				if(buildings.building3.upgrades[upgradeIndex] != null)
+					cells.get(i).innerHTML = buildings.building3.upgrades[upgradeIndex].name;
 				else
 					cells.get(i).innerHTML = "Upgrade not yet unlocked";
 			continue; //Otherwise move on to the next building.
@@ -153,8 +157,8 @@ $(document).ready(function() {
 
 			//If we're currently working with building4 cells:
 			if(cells.get(i).id == "building4")
-				if(buildings.building4.upgrades[count] != null)
-					cells.get(i).innerHTML = buildings.building4.upgrades[count].name;
+				if(buildings.building4.upgrades[upgradeIndex] != null)
+					cells.get(i).innerHTML = buildings.building4.upgrades[upgradeIndex].name;
 				else
 					cells.get(i).innerHTML = "Upgrade not yet unlocked";
 			continue; //If we're done with building 4 cells, move on.
@@ -170,8 +174,8 @@ $(document).ready(function() {
 
 			//If we're working with buidling5 cells:
 			if(cells.get(i).id == "building5")
-				if(buildings.building5.upgrades[count] != null)
-					cells.get(i).innerHTML = buildings.building5.upgrades[count].name;
+				if(buildings.building5.upgrades[upgradeIndex] != null)
+					cells.get(i).innerHTML = buildings.building5.upgrades[upgradeIndex].name;
 				else
 					cells.get(i).innerHTML = "Upgrade not yet unlocked";
 			continue; //If we're done working with building 5 cells, move on.
@@ -181,10 +185,10 @@ $(document).ready(function() {
 		else
 			cells.get(i).innerHTML = "Building not yet unlocked";
 
-		//Since we only have 5 buildings, we need to restart the counter after we
-		//loop them all. No idea what this is here for, though...? 
-		if(i % 4 == 0 && i >= 4)
-			count++;
+		//Since we only have 4 upgrades, we need to keep track of them.
+		
+		if(i % 3 == 0 && i >= 3)
+			upgradeIndex++;
 		
 	}
 
