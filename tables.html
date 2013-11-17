@@ -70,34 +70,44 @@ $(document).ready(function() {
 	//Unlocking building1	
 	buildings.unlock(buildings.building1);
 
+
+	//Loop through all the upgrades:
 	for(var i = 0; i < cells.length; i++){
 
+		//If building 1 is unlocked:
 		if(buildings.building1.unlocked){
 			if(cells.get(i).id == "building1"){
 				if(buildings.building1.upgrades[count] != null){
+					//Add the upgrade's name here
 					cells.get(i).innerHTML = buildings.building1.upgrades[count].name;
 				}
 				else{
+					//Add the text saying upgrade was not unlocked.
 					cells.get(i).innerHTML = "Upgrade not yet unlocked";
 				}
-			continue;
+			continue; //Move on to the next building if we're done looping building1
 			}
 		}
 
+		//If building 1 is NOT unlocked... 
 		else
 			cells.get(i).innerHTML = "Building not yet unlocked";
 
+
+		//If building 2 is unlocked:
 		if(buildings.building2.unlocked){
 			if(cells.get(i).id == "building2")
 				if(buildings.building2.upgrades[count] != null)
 					cells.get(i).innerHTML = buildings.building2.upgrades[count].name;
 				else
 					cells.get(i).innerHTML = "Upgrade not yet unlocked";
-			continue;
+			continue; //Move on to the next building if we're done looping building2.
 		}
 
+		//If building 2 is NOT unlocked:
 		else
 			cells.get(i).innerHTML = "Building not yet unlocked";
+
 
 		if(buildings.building3.unlocked){
 			if(cells.get(i).id == "building3")
