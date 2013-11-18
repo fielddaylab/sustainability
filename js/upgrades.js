@@ -4,24 +4,36 @@
 
 var upgrades = {};
 
-upgrades.irrigateAtNight = {
-	name: "Irrigate At Night ",
-	cost: 0,
+// upgrades.irrigateAtNight = {
+// 	name: "Irrigate At Night ",
+// 	cost: 0,
+// 	costMaintain: 0,
+// 	waterSaved: 200,
+// 	satisfaction: 0,
+// 	count: 0,
+// 	percentage: 0,
+// 	selected: 0
+// };
+
+// // Irrigate less
+// upgrades.irrigateLess = {
+// 	name: "Irrigate Less ",
+// 	cost: -100000,
+// 	costMaintain: 0,
+// 	waterSaved: 400,
+// 	satisfaction: -25,
+// 	count: 0,
+// 	percentage: 0,
+// 	selected: 0
+// };
+
+//Porous pavement
+upgrades.porousPavement = {
+	name: "Porous Pavement ",
+	cost: 100000,
 	costMaintain: 0,
 	waterSaved: 200,
 	satisfaction: 0,
-	count: 0,
-	percentage: 0,
-	selected: 0
-};
-
-// Irrigate less
-upgrades.irrigateLess = {
-	name: "Irrigate Less ",
-	cost: -100000,
-	costMaintain: 0,
-	waterSaved: 400,
-	satisfaction: -25,
 	count: 0,
 	percentage: 0,
 	selected: 0

@@ -90,10 +90,12 @@ $(document).ready(function() {
 	var upgradeIndex = 0;
 
 	//Giving building1 a few upgrades
-	buildings.addUpgrade(buildings.building1, upgrades.irrigateAtNight);
-	buildings.addUpgrade(buildings.building1, upgrades.irrigateLess);
+	console.log("Debug: Giving Building 1 two upgrades: Porous Pavement and Cisterns");
+	buildings.addUpgrade(buildings.building1, upgrades.porousPavement);
+	buildings.addUpgrade(buildings.building1, upgrades.cistern);
 
-	//Unlocking building1	
+	//Unlocking building1
+	console.log("Debug: Unlocking Building 1.");
 	buildings.unlock(buildings.building1);
 
 
@@ -210,99 +212,6 @@ $(document).ready(function() {
 		if(i >= 4 && i % 4 == 0)
 			upgradeIndex++;
 	}
-
-	// for(var i = 0; i < cells.length; i++){
-	// 	//If building 1 is unlocked:
-	// 	if(buildings.building1.unlocked){
-	// 		if(cells.get(i).id == "building1"){
-	// 			if(buildings.building1.upgrades[upgradeIndex] != null){
-	// 				//Add the upgrade's name here
-	// 				cells.get(i).innerHTML = buildings.building1.upgrades[upgradeIndex].name;
-	// 			}
-	// 			else{
-	// 				//Add the text saying upgrade was not unlocked.
-	// 				cells.get(i).innerHTML = "Upgrade not yet unlocked";
-	// 			}
-	// 		continue; //Move on to the next upgrade if we're done looping building1
-	// 		}
-	// 	}
-
-	// 	//If building 1 is NOT unlocked... 
-	// 	else
-	// 		cells.get(i).innerHTML = "Building not yet unlocked";
-
-
-	// 	//If building 2 is unlocked:
-	// 	if(buildings.building2.unlocked){
-	// 		if(cells.get(i).id == "building2")
-	// 			if(buildings.building2.upgrades[upgradeIndex] != null)
-	// 				cells.get(i).innerHTML = buildings.building2.upgrades[upgradeIndex].name;
-	// 			else
-	// 				cells.get(i).innerHTML = "Upgrade not yet unlocked";
-	// 		continue; //Move on to the next building if we're done looping building2.
-	// 	}
-
-	// 	//If building 2 is NOT unlocked:
-	// 	else
-	// 		cells.get(i).innerHTML = "Building not yet unlocked";
-
-
-	// 	//If building 3 is unlocked:
-	// 	if(buildings.building3.unlocked){
-
-	// 		//If we're still working with building 3:
-	// 		if(cells.get(i).id == "building3")
-	// 			if(buildings.building3.upgrades[upgradeIndex] != null)
-	// 				cells.get(i).innerHTML = buildings.building3.upgrades[upgradeIndex].name;
-	// 			else
-	// 				cells.get(i).innerHTML = "Upgrade not yet unlocked";
-	// 		continue; //Otherwise move on to the next building.
-	// 	}
-
-	// 	//If building 3 is NOT unlocked:
-	// 	else
-	// 		cells.get(i).innerHTML = "Building not yet unlocked";
-
-
-	// 	//If building 4 is unlocked:
-	// 	if(buildings.building4.unlocked){
-
-	// 		//If we're currently working with building4 cells:
-	// 		if(cells.get(i).id == "building4")
-	// 			if(buildings.building4.upgrades[upgradeIndex] != null)
-	// 				cells.get(i).innerHTML = buildings.building4.upgrades[upgradeIndex].name;
-	// 			else
-	// 				cells.get(i).innerHTML = "Upgrade not yet unlocked";
-	// 		continue; //If we're done with building 4 cells, move on.
-	// 	}
-
-	// 	//If building 4 is NOT unlocked:
-	// 	else
-	// 		cells.get(i).innerHTML = "Building not yet unlocked";
-
-
-	// 	//If building 5 is unlocked:
-	// 	if(buildings.building5.unlocked){
-
-	// 		//If we're working with buidling5 cells:
-	// 		if(cells.get(i).id == "building5")
-	// 			if(buildings.building5.upgrades[upgradeIndex] != null)
-	// 				cells.get(i).innerHTML = buildings.building5.upgrades[upgradeIndex].name;
-	// 			else
-	// 				cells.get(i).innerHTML = "Upgrade not yet unlocked";
-	// 		continue; //If we're done working with building 5 cells, move on.
-	// 	}
-
-	// 	//Move 
-	// 	else
-	// 		cells.get(i).innerHTML = "Building not yet unlocked";
-
-	// 	//Since we only have 4 upgrades, we need to keep track of them.
-		
-	// 	if(i % 3 == 0 && i >= 3)
-	// 		upgradeIndex++;
-		
-	// }
 
 }
 

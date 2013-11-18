@@ -11,31 +11,36 @@ var name;
 buildings.building1 = {
 	name: "School of Human Ecology",
 	unlocked: false,
-	upgrades: []
+	upgrades: [],
+	effectMultiplier: 1
 };
 
 buildings.building2 = {
 	name: "Education Building",
 	unlocked: false,
-	upgrades: []
+	upgrades: [],
+	effectMultiplier: 1
 };
 
 buildings.building3 = {
 	name: "Science Hall",
 	unlocked: false,
-	upgrades: []
+	upgrades: [],
+	effectMultiplier: 1
 };
 
 buildings.building4 = {
 	name: "Wisconsin Institutes for Discovery",
 	unlocked: false,
-	upgrades: []
+	upgrades: [],
+	effectMultiplier: 1
 };
 
 buildings.building5 = {
 	name: "UW Hospital",
 	unlocked: false,
-	upgrades: []
+	upgrades: [],
+	effectMultiplier: 1 
 };
 
 
