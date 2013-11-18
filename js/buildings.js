@@ -45,7 +45,8 @@ buildings.building5 = {
 
 
 buildings.addUpgrade = function(Building, Upgrade){
-	if(Upgrade["name"] != undefined && Building["name"] != undefined)
+	//If Upgrade is valid, Building is valid, and Building is unlocked..
+	if(Upgrade["name"] != undefined && Building["name"] != undefined && Building.unlocked)
 		Building.upgrades.push(Upgrade);
 }
 
