@@ -63,6 +63,14 @@
 <td id="building4">Building 4, Upgrade 4</td>
 <td id="building5">Building 5, Upgrade 4</td>
 </tr>
+
+<tr id="row6">
+<td id="building1">Building 1, Upgrade 5</td>
+<td id="building2">Building 2, Upgrade 5</td>
+<td id="building3">Building 3, Upgrade 5</td>
+<td id="building4">Building 4, Upgrade 5</td>
+<td id="building5">Building 5, Upgrade 5</td>
+</tr>
 </table>
 
 <br/>
@@ -97,7 +105,6 @@ $(document).ready(function() {
 	//Unlocking building1
 	console.log("Debug: Unlocking Building 1.");
 	buildings.unlock(buildings.building1);
-
 
 	refreshBuildings = function(){
 	//Loop through all the upgrades:
@@ -216,6 +223,9 @@ $(document).ready(function() {
 }
 
 
+
+	refreshBuildings(); //initially load the buildings
+	
 	//Debug output; just to make sure our first cell is getting set correctly
 	console.log(cells.get(0).id);
 

@@ -45,12 +45,25 @@ buildings.building5 = {
 
 
 buildings.addUpgrade = function(Building, Upgrade){
-	Building.upgrades.push(Upgrade);
+	if(Upgrade["name"] != undefined && Building["name"] != undefined)
+		Building.upgrades.push(Upgrade);
 }
 
 buildings.unlock = function(Building){
 	Building.unlocked = true;
 }
+
+
+// Upgrades should be checked for validity as soon as possible
+// buildings.validateUpgrade = function(Upgrade){
+// 	for(var i = 0; i < upgrades.length; i++){
+// 		if(Upgrade.name == upgrades[i].name){
+// 			return true; //found the upgrade requested
+// 		}
+// 	}
+
+// 	return false; //didn't find the upgrade requested
+// }
 
 buildings.unlockAllBuildings = function(){
 	console.log("Unlocking all buildings");
