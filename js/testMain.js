@@ -11,14 +11,15 @@ $(document).ready(function() {
 
 	var upgradeIndex = 0;
 
+	//Unlocking building1
+	console.log("Debug: Unlocking Building 1.");
+	buildings.unlock(buildings.building1);
+
+	
 	//Giving building1 a few upgrades
 	console.log("Debug: Giving Building 1 two upgrades: Porous Pavement and Cisterns");
 	buildings.addUpgrade(buildings.building1, upgrades.porousPavement);
 	buildings.addUpgrade(buildings.building1, upgrades.cistern);
-
-	//Unlocking building1
-	console.log("Debug: Unlocking Building 1.");
-	buildings.unlock(buildings.building1);
 
 	refreshBuildings = function(){
 	//Loop through all the upgrades:
