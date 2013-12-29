@@ -2,112 +2,88 @@
 <script src = "js/upgrades.js"></script>
 <script src = "js/buildings.js"></script>
 <script src = "js/variables.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-<style>
-    #progressbar {
-      background-color: black;
-      border-radius: 13px; /* (height of inner div) / 2 + padding */
-      padding: 3px;
-    }
-    
-    #irrigateNightBar {
-       background-color: green;
-       width: 1%; /* Adjust with JavaScript */
-       height: 20px;
-       border-radius: 10px;
-    }
+<div id = "budget"> Budget will go here </div>
 
-     #irrigateLessBar {
-       background-color: green;
-       width: 1%; /* Adjust with JavaScript */
-       height: 20px;
-       border-radius: 10px;
-    }
+<div id = "timeSurvived"> Time remaining here</div>
 
-     #toiletBar {
-       background-color: green;
-       width: 1%; /* Adjust with JavaScript */
-       height: 20px;
-       border-radius: 10px;
-    }
+<div id = "satisfaction"> Satisfaction here </div>
 
-    #faucetBar {
-       background-color: green;
-       width: 1%; /* Adjust with JavaScript */
-       height: 20px;
-       border-radius: 10px;
-    }
+<div id = "waterPlantCapacity"> Water Plant Capacity here </div>
 
-    #roofBar {
-       background-color: green;
-       width: 1%; /* Adjust with JavaScript */
-       height: 20px;
-       border-radius: 10px;
-    }
+<div id = "waterWasteRate"> Water Waste Rate here </div>
 
-    #cisternBar {
-       background-color: green;
-       width: 1%; /* Adjust with JavaScript */
-       height: 20px;
-       border-radius: 10px;
-    }
+<div id = "waterPlantNetCapacity"> Water Plant Net Capacity Here </div>
 
-</style>
+<div id = "rainAmount"> Rain Amount Here </div>
 
-<body>
-	<div id = "budget"> Budget will go here </div>
-	
-	<div id = "timeSurvived"> Time remaining here</div>
+<br/>
+<h3>Upgrades:</h3>
 
-	<div id = "satisfaction"> Satisfaction here </div>
-	
-	<div id = "waterPlantCapacity"> Water Plant Capacity here </div>
-	
-	<div id = "waterWasteRate"> Water Waste Rate here </div>
-	
-	<div id = "waterPlantNetCapacity"> Water Plant Net Capacity Here </div>
+<table border="1" id="table">
 
-	<div id = "rainAmount"> Rain Amount Here </div>
-	
-	
-	<br/>
-	<span id= "irrigateNight"> % of Night Irrigation </span> <button 			onclick="toggleIrrigateAtNight()">+25%</button>
+    <tr id="row1">
+        <th id="header1">Building</th>
+        <th id="header2">Building</th>
+        <th id="header3">Building</th>
+        <th id="header4">Building</th>
+        <th id="header5">Building</th>
+    </tr>
 
-	<div id = "irrigateNightBar"> </div>
-	
-	<br/>
-	<span id= "irrigateLess"> % of Less Irrigation </span> <button 			onclick="toggleIrrigateLess()">+25%</button>
+    <tr id="row2">
+        <td id="building1">Building 1, Upgrade 1</td>
+        <td id="building2">Building 2, Upgrade 1</td>
+        <td id="building3">Building 3, Upgrade 1</td>
+        <td id="building4">Building 4, Upgrade 1</td>
+        <td id="building5">Building 5, Upgrade 1</td>
+    </tr>
 
-	<div id = "irrigateLessBar"> </div>
-	
-	<br/>
-	<span id= "dualFlushToilet"> % of Dual Flush Toilet </span> <button 			onclick="toggleDualFlushToilet()">+25%</button>
+    <tr id="row3">
+        <td id="building1">Building 1, Upgrade 2</td>
+        <td id="building2">Building 2, Upgrade 2</td>
+        <td id="building3">Building 3, Upgrade 2</td>
+        <td id="building4">Building 4, Upgrade 2</td>
+        <td id="building5">Building 5, Upgrade 2</td>
+    </tr>
 
-	<div id = "toiletBar"> </div>
-	
-	<br/>
-	<span id= "faucetSensors"> % of Faucet Sensors </span> <button 			onclick="toggleFaucetSensors()">+25%</button>
-	
-	<div id = "faucetBar"> </div>
+    <tr id="row4">
+        <td id="building1">Building 1, Upgrade 3</td>
+        <td id="building2">Building 2, Upgrade 3</td>
+        <td id="building3">Building 3, Upgrade 3</td>
+        <td id="building4">Building 4, Upgrade 3</td>
+        <td id="building5">Building 5, Upgrade 3</td>
+    </tr>
 
-	<br/>
-	<span id= "greenRoof"> % of Green Roofs </span> <button 			onclick="toggleGreenRoof()">+25%</button>
 
-	<div id = "roofBar"> </div>
-	
-	<br/>
-	<span id= "cistern"> % of Cisterns</span> <button 			
-			onclick="toggleCistern()">+25%</button>
-			
-	<div id = "cisternBar"> </div>
-			
-	<br/>
-	<button onclick="turnPass()">Submit Changes</button>
-	
-	
-	
-	
-</body>
+    <tr id="row5">
+        <td id="building1">Building 1, Upgrade 4</td>
+        <td id="building2">Building 2, Upgrade 4</td>
+        <td id="building3">Building 3, Upgrade 4</td>
+        <td id="building4">Building 4, Upgrade 4</td>
+        <td id="building5">Building 5, Upgrade 4</td>
+    </tr>
 
-<script src="js/main.js"></script> 
+    <tr id="row6">
+        <td id="building1">Building 1, Upgrade 5</td>
+        <td id="building2">Building 2, Upgrade 5</td>
+        <td id="building3">Building 3, Upgrade 5</td>
+        <td id="building4">Building 4, Upgrade 5</td>
+        <td id="building5">Building 5, Upgrade 5</td>
+    </tr>
+</table>
+
+<br/>
+<button onclick="refreshBuildings()">Refresh Table (Temp)</button>
+<br/>
+
+Development/Test Options:
+<button onclick="buildings.unlock(buildings.building2)">Unlock Building 2</button>
+<button onclick="buildings.unlock(buildings.building3)">Unlock Building 3</button>
+<button onclick="buildings.unlock(buildings.building4)">Unlock Building 4</button>
+<button onclick="buildings.unlock(buildings.building5)">Unlock Building 5</button>
+
+<script src="js/testMain.js"> </script>
+
+
 </html>
