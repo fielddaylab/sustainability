@@ -30,7 +30,7 @@ var upgrades = {};
 //Porous pavement
 upgrades.porousPavement = {
 	name: "Porous Pavement ",
-	cost: 100000,
+	cost: 10000,
 	costMaintain: 0,
 	waterSaved: 200,
 	satisfaction: 0,
@@ -42,7 +42,7 @@ upgrades.porousPavement = {
 // Dual flush toilet
 upgrades.dualFlushToilet = { 
 	name: "Dual Flush Toilet ",
-	cost: 100000,
+	cost: 10000,
 	costMaintain: 0,
 	waterSaved: 200,
 	satisfaction: 0,
@@ -54,8 +54,8 @@ upgrades.dualFlushToilet = {
 // Faucet sensors
 upgrades.faucetSensors = { 
 	name: "Faucet Sensors ",
-	cost: 100000,
-	costMaintain: 15000,
+	cost: 10000,
+	costMaintain: 1500,
 	waterSaved: 100,
 	satisfaction: 0,
 	count: 0,
@@ -66,8 +66,8 @@ upgrades.faucetSensors = {
 // Green roof
 upgrades.greenRoof = { 
 	name: "Green Roof ",
-	cost: 200000,
-	costMaintain: 25000,
+	cost: 20000,
+	costMaintain: 2500,
 	waterSaved: 0,
 	satisfaction: 50,
 	count: 0,
@@ -78,8 +78,8 @@ upgrades.greenRoof = {
 // 
 upgrades.cistern = { 
 	name: "Cistern ",
-	cost: 100000,
-	costMaintain: 25000,
+	cost: 10000,
+	costMaintain: 2500,
 	waterSaved: 200,
 	satisfaction: 0,
 	count: 0,
