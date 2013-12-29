@@ -189,7 +189,7 @@ function updateAll(){
 	
 	budgetDiv.innerHTML = "Budget: " + budget;
 	
-	timeSurvivedDiv.innerHTML = "Time Survived: " + timeSurvived + " Months";
+	timeSurvivedDiv.innerHTML = "Time Survived: " + timeSurvived + " Seasons";
 	
 	satisfactionDiv.innerHTML = "Satisfaction: " + satisfaction + "%";
 	
@@ -205,7 +205,7 @@ function updateAll(){
 	greenRoofDiv.innerHTML = upgrades.greenRoof.name + (25 * upgrades.greenRoof.count) + "% of campus currently";
 	cisternDiv.innerHTML = upgrades.cistern.name + (25 * upgrades.cistern.count) + "% of campus currently";
 	
-	rainAmount.innerHTML = rainfall() + " inches of rain fell today ";
+	rainAmount.innerHTML = rainfall() + " inches of rain fell this season ";
 	
 	//Reset everything back to "black" color, and selected as 0.
 //	irrigateAtNightDiv.style.color = "black";
@@ -596,7 +596,7 @@ function throwRandomEvent(){
 }
 
 function rainfall(){
-	return Math.round(Math.random() * 10);
+	return Math.round(Math.random() * 25);
 }
 
 
