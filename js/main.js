@@ -5,10 +5,10 @@ var satisfactionDiv = document.getElementById("satisfaction");
 var waterWasteRateDiv = document.getElementById("waterWasteRate");
 var waterPlantCapacityDiv = document.getElementById("waterPlantCapacity");
 var waterPlantNetCapacityDiv = document.getElementById("waterPlantNetCapacity"); 
-var rainAmountDiv = document.getElementById("rainAmount");
+//var rainAmountDiv = document.getElementById("rainAmount");
 
-var irrigateAtNightDiv = document.getElementById("irrigateNight");
-var irrigateLessDiv = document.getElementById("irrigateLess");
+//var irrigateAtNightDiv = document.getElementById("irrigateNight");
+//var irrigateLessDiv = document.getElementById("irrigateLess");
 var dualFlushToiletDiv = document.getElementById("dualFlushToilet");
 var faucetSensorsDiv = document.getElementById("faucetSensors");
 var greenRoofDiv = document.getElementById("greenRoof");
@@ -16,8 +16,8 @@ var cisternDiv = document.getElementById("cistern");
 
 
 //progress bars
-var irrigateNightBarDiv = document.getElementById("irrigateNightBar");
-var irrigateLessBarDiv = document.getElementById("irrigateLessBar");
+//var irrigateNightBarDiv = document.getElementById("irrigateNightBar");
+//var irrigateLessBarDiv = document.getElementById("irrigateLessBar");
 var toiletBarDiv = document.getElementById("toiletBar");
 var faucetBarDiv = document.getElementById("faucetBar");
 var roofBarDiv = document.getElementById("roofBar");
@@ -25,12 +25,13 @@ var cisternBarDiv = document.getElementById("cisternBar");
 
 var waterNetCapacity = waterPlantCapacity - waterWasteRate; //the current capacity, after waste
 
+var refreshBuildings; //A function to be defined later
+
 
 initializeTables();
 updateAll(); //Initialize all of our divs with their respective values
 
 function initializeTables(){
-    var refreshBuildings;
     var header1 = $("#header1")[0]; //Building1 div
     var header2 = $("#header2")[0]; //Building2 div
     var header3 = $("#header3")[0]; //Building3 div
@@ -43,13 +44,13 @@ function initializeTables(){
 
     //Unlocking building1
     console.log("Debug: Unlocking Building 1.");
-    buildings.unlock(buildings.building1);
+//    buildings.unlock(buildings.building1);
 
 
     //Giving building1 a few upgrades
-    console.log("Debug: Giving Building 1 two upgrades: Porous Pavement and Cisterns");
-    buildings.addUpgrade(buildings.building1, upgrades.porousPavement);
-    buildings.addUpgrade(buildings.building1, upgrades.cistern);
+//    console.log("Debug: Giving Building 1 two upgrades: Porous Pavement and Cisterns");
+//    buildings.addUpgrade(buildings.building1, upgrades.porousPavement);
+//    buildings.addUpgrade(buildings.building1, upgrades.cistern);
 
     refreshBuildings = function () {
         //Loop through all the upgrades:
@@ -166,6 +167,7 @@ function initializeTables(){
         }
 
     }
+
 
 
     refreshBuildings(); //initially load the buildings
