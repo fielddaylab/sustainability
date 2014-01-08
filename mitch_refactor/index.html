@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sustainable U - Water Minigame - Mitchell Refactor</title>
+    <style>
+        .Building{
+            vertical-align: top;
+            display: inline-block;
+            background-color: #DABEEF;
+            width: 250px;
+            height: 300px;
+            border-right: 1px dashed #000000;
+        }
+        #buildingTemplate{
+            display: none;
+        }
+        .Building div{
+            display: block;
+            min-width: 100%;
+            min-height: 25px;
+            background-color: #222222;
+            color: #FFFFFF;
+            border-bottom: 1px dashed #CCCCCC;
+        }
+        .canPurchase{
+            display: inline-block;
+            background-color: #00FF00;
+            width: 100%;
+            color: black;
+        }
+        .tooExpensive{
+            display: inline-block;
+            background-color: #FF0000;
+            width: 100%;
+            color: black;
+        }
+    </style>
+</head>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+<body>
+    <div id="sustainable">
+        <div id="metrics"></div>
+    </div>
+
+    <!-- below this are template dom elements, used to build dom w/ javascript -->
+    <div id="buildingTemplate" class="Building">
+        <div class="name"></div>
+        <div class="image"></div>
+        <div class="stats"></div>
+        <div class="purchasedUpgrades"></div>
+        <div class="availableUpgrades"></div>
+    </div>
+</body>
+
+<script src="js/main.js"> </script>
+
+</html>
