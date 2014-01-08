@@ -4,11 +4,10 @@ var timeSurvivedDiv = document.getElementById("timeSurvived");
 var satisfactionDiv = document.getElementById("satisfaction");
 var waterWasteRateDiv = document.getElementById("waterWasteRate");
 var waterPlantCapacityDiv = document.getElementById("waterPlantCapacity");
-var waterPlantNetCapacityDiv = document.getElementById("waterPlantNetCapacity"); 
+var waterPlantNetCapacityDiv = document.getElementById("waterPlantNetCapacity");
 //var rainAmountDiv = document.getElementById("rainAmount");
 
-//var irrigateAtNightDiv = document.getElementById("irrigateNight");
-//var irrigateLessDiv = document.getElementById("irrigateLess");
+
 var dualFlushToiletDiv = document.getElementById("dualFlushToilet");
 var faucetSensorsDiv = document.getElementById("faucetSensors");
 var greenRoofDiv = document.getElementById("greenRoof");
@@ -16,8 +15,6 @@ var cisternDiv = document.getElementById("cistern");
 
 
 //progress bars
-//var irrigateNightBarDiv = document.getElementById("irrigateNightBar");
-//var irrigateLessBarDiv = document.getElementById("irrigateLessBar");
 var toiletBarDiv = document.getElementById("toiletBar");
 var faucetBarDiv = document.getElementById("faucetBar");
 var roofBarDiv = document.getElementById("roofBar");
@@ -44,9 +41,7 @@ function updateAll(){
 	
 	waterPlantCapacityDiv.innerHTML = "Water Plant Initial Capacity: " + waterPlantCapacity + " gallons";
 	waterPlantNetCapacityDiv.innerHTML = "Water Plant Net Capacity: " + waterNetCapacity + " gallons";
-	
-//	irrigateAtNightDiv.innerHTML = upgrades.irrigateAtNight.name + (25 * upgrades.irrigateAtNight.count) + "% of campus currently";
-//	irrigateLessDiv.innerHTML = upgrades.irrigateLess.name + (25 * upgrades.irrigateLess.count) + "% of campus currently";
+
 	dualFlushToiletDiv.innerHTML = upgrades.dualFlushToilet.name + (25 * upgrades.dualFlushToilet.count) + "% of campus currently";
 	faucetSensorsDiv.innerHTML = upgrades.faucetSensors.name + (25 * upgrades.faucetSensors.count) + "% of campus currently";
 	greenRoofDiv.innerHTML = upgrades.greenRoof.name + (25 * upgrades.greenRoof.count) + "% of campus currently";
@@ -55,11 +50,6 @@ function updateAll(){
 	rainAmount.innerHTML = rainfall() + " inches of rain fell this season ";
 	
 	//Reset everything back to "black" color, and selected as 0.
-//	irrigateAtNightDiv.style.color = "black";
-//	upgrades.irrigateAtNight.selected = 0;
-//
-//	irrigateLessDiv.style.color = "black";
-//	upgrades.irrigateLess.selected = 0;
 	
 	dualFlushToiletDiv.style.color = "black";
 	upgrades.dualFlushToilet.selected = 0;
@@ -75,45 +65,6 @@ function updateAll(){
 	
 }
 
-
-
-////This function deals with and checks the conditions for adding 25% upgrades.irrigateAtNight.
-//function addNightIrrigation(){
-//
-//	if(canPlay() && upgrades.irrigateAtNight.count < 4){
-//
-//		modifyBudget( (upgrades.irrigateAtNight.cost + upgrades.irrigateAtNight.costMaintain));
-//		modifyWaterWasteRate(upgrades.irrigateAtNight.waterSaved);
-//		modifySatisfaction(upgrades.irrigateAtNight.satisfaction);
-//
-//		upgrades.irrigateAtNight.count++;
-//		irrigateAtNightDiv.innerHTML = upgrades.irrigateAtNight.name + (25 * upgrades.irrigateAtNight.count) +
-//											"% of campus currently";
-//
-//		upgrades.irrigateAtNight.percentage += 5;
-//		irrigateNightBarDiv.style.width = "" + upgrades.irrigateAtNight.percentage + "%";
-//	}
-//
-//}
-//
-////This function deals with and checks the conditions for adding 25% lessIrrigation.
-//function addLessIrrigation(){
-//
-//	if(canPlay() && upgrades.irrigateLess.count < 4){
-//
-//		modifyBudget( (upgrades.irrigateLess.cost + upgrades.irrigateLess.costMaintain));
-//		modifyWaterWasteRate(upgrades.irrigateLess.waterSaved);
-//		modifySatisfaction(upgrades.irrigateLess.satisfaction);
-//
-//		upgrades.irrigateLess.count++;
-//		irrigateLessDiv.innerHTML = upgrades.irrigateLess.name + (25 * upgrades.irrigateLess.count) +
-//											"% of campus currently";
-//
-//		upgrades.irrigateLess.percentage += 5;
-//		irrigateLessBarDiv.style.width = "" + upgrades.irrigateLess.percentage + "%";
-//	}
-//
-//}
 
 
 //This function deals with and checks the conditions for adding 25% upgrades.dualFlushToilet.
@@ -225,35 +176,7 @@ function modifySatisfaction(amount){
 
 }
 
-////Toggles whether or not upgrades.irrigateAtNight gets added in the next turn.
-//function toggleIrrigateAtNight(){
-//	if(upgrades.irrigateAtNight.selected == 1){
-//		upgrades.irrigateAtNight.selected = 0;
-//		irrigateAtNightDiv.style.color = "black";
-//		console.log("Unselected upgrades.irrigateAtNight.");
-//	}
-//
-//	else{
-//		upgrades.irrigateAtNight.selected = 1;
-//		irrigateAtNightDiv.style.color = "green";
-//		console.log("Selected upgrades.irrigateAtNight.");
-//	}
-//}
-//
-////Toggles whether or not upgrades.irrigateLess gets added in the next turn.
-//function toggleIrrigateLess(){
-//	if(upgrades.irrigateLess.selected == 1){
-//		upgrades.irrigateLess.selected = 0;
-//		irrigateLessDiv.style.color = "black";
-//		console.log("Unselected upgrades.irrigateLess.");
-//	}
-//
-//	else{
-//		upgrades.irrigateLess.selected = 1;
-//		irrigateLessDiv.style.color = "green";
-//		console.log("Selected upgrades.irrigateLess.");
-//	}
-//}
+
 
 //Toggles whether or not upgrades.dualFlushToilet gets added in the next turn.
 function toggleDualFlushToilet(){
@@ -321,24 +244,9 @@ function toggleCistern(){
 
 function turnPass(){
 	//This is the stuff that will happen when a turn passes:
-	
-	//addNightIrrigation();
-	 
+
 	//Make any changes that the user has toggled based on the buttons pressed
-//
-//	if(irrigateAtNightDiv.style.color == "green"){
-//		if(addNightIrrigation() ) //attempt to add upgrades.irrigateAtNight
-//			console.log("Added upgrades.irrigateAtNight 25%.");
-//		else
-//			irrigateAtNightDiv.style.color == "black";
-//	}
-//
-//	if(irrigateLessDiv.style.color == "green"){
-//		if(addLessIrrigation() ) //attempt to add upgrades.irrigateLess
-//			console.log("Added upgrades.irrigateLess 25%.");
-//		else
-//			irrigateLessDiv.style.color == "black";
-//	}
+
 	
 	if(dualFlushToiletDiv.style.color == "green"){
 		if(addDualFlushToilet() ) //attempt to add dualFlushToilets
@@ -371,12 +279,7 @@ function turnPass(){
 	
 	
 	//Re-"Bill" for maintenance costs of each type of device
-//	if(irrigateAtNightDiv.style.color == "black"){
-//		modifyBudget(upgrades.irrigateAtNight.costMaintain * upgrades.irrigateAtNight.count);
-//	}
-//	if(irrigateLessDiv.style.color == "black"){
-//		modifyBudget(upgrades.irrigateLess.costMaintain * upgrades.irrigateLess.count);
-//	}
+
 	if(dualFlushToiletDiv.style.color == "black"){
 		modifyBudget(upgrades.dualFlushToilet.costMaintain * upgrades.dualFlushToilet.count);
 	}
@@ -420,8 +323,7 @@ function resetGame(){
 	satisfaction = initialSatisfaction;
 	waterWasteRate = initialWaterWasteRate;
 	waterPlantCapacity = initialWaterPlantCapacity;
-//	upgrades.irrigateAtNight.count = 0;
-//	upgrades.irrigateLess.count = 0;
+
 	upgrades.dualFlushToilet.count = 0;
 	upgrades.faucetSensors.count = 0;
 	upgrades.greenRoof.count = 0;
