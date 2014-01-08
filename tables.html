@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sustainable U - Water Minigame</title>
+</head>
+
+<script src = "js/upgrades.js"></script>
+<script src = "js/buildings.js"></script>
+<script src = "js/variables.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+<body>
+<h3>Upgrades:</h3>
+
+<table border="1" id="table">
+
+    <tr id="row1">
+        <th id="header1">Building</th>
+        <th id="header2">Building</th>
+        <th id="header3">Building</th>
+        <th id="header4">Building</th>
+        <th id="header5">Building</th>
+    </tr>
+
+    <tr id="row2">
+        <td id="building1">Building 1, Upgrade 1</td>
+        <td id="building2">Building 2, Upgrade 1</td>
+        <td id="building3">Building 3, Upgrade 1</td>
+        <td id="building4">Building 4, Upgrade 1</td>
+        <td id="building5">Building 5, Upgrade 1</td>
+    </tr>
+
+    <tr id="row3">
+        <td id="building1">Building 1, Upgrade 2</td>
+        <td id="building2">Building 2, Upgrade 2</td>
+        <td id="building3">Building 3, Upgrade 2</td>
+        <td id="building4">Building 4, Upgrade 2</td>
+        <td id="building5">Building 5, Upgrade 2</td>
+    </tr>
+
+    <tr id="row4">
+        <td id="building1">Building 1, Upgrade 3</td>
+        <td id="building2">Building 2, Upgrade 3</td>
+        <td id="building3">Building 3, Upgrade 3</td>
+        <td id="building4">Building 4, Upgrade 3</td>
+        <td id="building5">Building 5, Upgrade 3</td>
+    </tr>
+
+
+    <tr id="row5">
+        <td id="building1">Building 1, Upgrade 4</td>
+        <td id="building2">Building 2, Upgrade 4</td>
+        <td id="building3">Building 3, Upgrade 4</td>
+        <td id="building4">Building 4, Upgrade 4</td>
+        <td id="building5">Building 5, Upgrade 4</td>
+    </tr>
+
+    <tr id="row6">
+        <td id="building1">Building 1, Upgrade 5</td>
+        <td id="building2">Building 2, Upgrade 5</td>
+        <td id="building3">Building 3, Upgrade 5</td>
+        <td id="building4">Building 4, Upgrade 5</td>
+        <td id="building5">Building 5, Upgrade 5</td>
+    </tr>
+</table>
+
+<br/>
+<button onclick="refreshBuildings()">Refresh Table (Temp)</button>
+<br/>
+
+Development/Test Options:
+<button onclick="buildings.unlock(buildings.building1)">Unlock Building 1</button>
+<button onclick="buildings.unlock(buildings.building2)">Unlock Building 2</button>
+<button onclick="buildings.unlock(buildings.building3)">Unlock Building 3</button>
+<button onclick="buildings.unlock(buildings.building4)">Unlock Building 4</button>
+<button onclick="buildings.unlock(buildings.building5)">Unlock Building 5</button>
+
+</body>
+
+<script src="js/tableMain.js"> </script>
+
+</html>
