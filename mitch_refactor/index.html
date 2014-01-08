@@ -8,7 +8,7 @@
             display: inline-block;
             background-color: #DABEEF;
             width: 250px;
-            height: 300px;
+            min-height: 300px;
             border-right: 1px dashed #000000;
         }
         #buildingTemplate{
@@ -44,6 +44,7 @@
     <div id="sustainable">
         <div id="metrics"></div>
     </div>
+    <button onclick="Game.Update()">Next Turn</button>
 
     <!-- below this are template dom elements, used to build dom w/ javascript -->
     <div id="buildingTemplate" class="Building">
