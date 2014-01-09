@@ -1,9 +1,10 @@
+// redefine console.log to work for our message center
 console.log = function(string, level){
 	var bgColor;
 	if(level !== undefined && level === 'warn'){
-		bgColor = "#FFAAAA";
+		bgColor = "#FFAAAA";	// red-ish color - warning
 	} else {
-		bgColor = "#EEEEEE";
+		bgColor = "#EEEEEE";	// default normal background
 	}
 	var newElement = $("<div style='display:none; border-bottom: 1px dotted #333333; background-color: " + bgColor + ";'>" + string + "</div>");
 	Game.dom.$messageCenter.prepend(newElement);
@@ -11,29 +12,29 @@ console.log = function(string, level){
 }
 var settings = {
 	initial: {
-		budget: 100000, //This is the budget amount in $, default 1000000
-		timeSurvived: 0, //This is the starting time remaining in Months, default 12
-		satisfaction: 50, //This is the starting satisfaction (in %), default 100
-		waterWasteRate: 800, //The starting water waste rate in gal/mo, default 0
-		waterPlantCapacity: 1000 // The capacity of the water filtration plant in gallons, default 1000.
+		budget: 100000, 			// This is the budget amount in $, default 1000000
+		timeSurvived: 0, 			// This is the starting time remaining in Months, default 12
+		satisfaction: 50, 			// This is the starting satisfaction (in %), default 100
+		waterWasteRate: 800, 		// The starting water waste rate in gal/mo, default 0
+		waterPlantCapacity: 1000 	// The capacity of the water filtration plant in gallons, default 1000.
 	}
 };
 
 function Upgrade(obj){
-	this.name = 				obj.name;
-	this.cost = 				obj.cost;
-	this.moneyDelta = 			obj.moneyDelta;
-	this.waterDelta = 			obj.waterDelta;
-	this.satisfactionDelta = 	obj.satisfactionDelta;
+	this.name = 				obj.name;				// name of the upgrade
+	this.cost = 				obj.cost;				// initial cost
+	this.moneyDelta = 			obj.moneyDelta;			// cost per turn
+	this.waterDelta = 			obj.waterDelta;			// how it effects runoff
+	this.satisfactionDelta = 	obj.satisfactionDelta;	// satisfaction effect
 	this.count = 				obj.count;
 }
 
 function Building(obj){
-	this.name = 			obj.name;
-	this.imagePath = 		obj.imagePath;
-	this.unlocked = 		obj.unlocked;
-	this.upgrades = 		obj.upgrades;
-	this.effectMultiplier = obj.effectMultiplier;
+	this.name = 			obj.name;					// name of building
+	this.imagePath = 		obj.imagePath;				// image path, used for building display
+	this.unlocked = 		obj.unlocked;				// locked/unlocked
+	this.upgrades = 		obj.upgrades;				// array containing upgrades
+	this.effectMultiplier = obj.effectMultiplier;		// multiplier all effects are multi'd by
 	this.dom = {
 		$container: 		null,	// everything contained in this.dom will be a cached jQuery reference
 		$name: 				null,
@@ -63,16 +64,16 @@ Building.prototype = {
 		} else {
 			// REALLY BUY IT THIS TIME
 			// perform one-time metric changes
-			Game.metrics.budget -= newUpgrade.cost;
-			Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;
-			Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;
-			this.upgrades.push(newUpgrade);	 	// add upgrade to building's list of upgrades
+			Game.metrics.budget -= newUpgrade.cost;		// subtract initial cost of item from budget
+			Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;	// satisfaction effect
+			Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;		// runoff effect
+			this.upgrades.push(newUpgrade);	 			// add upgrade to building's list of upgrades
 			console.log("Purchased '" + newUpgrade.name + "' for $" + newUpgrade.cost + ".");
 			Game.Draw();
 			return true;
 		}
 	},
-	HasUpgrade: function(upgradeToCheck){
+	HasUpgrade: function(upgradeToCheck){	// checks to see if the building has a given upgrade by name
 		for(var i = 0; i < this.upgrades.length; i++){
 			if(this.upgrades[i].name === upgradeToCheck.name){
 				return true;
@@ -80,12 +81,12 @@ Building.prototype = {
 		}
 		return false;
 	},
-	Unlock: function(){
+	Unlock: function(){		// unlocks building, initiates a redraw
 		this.unlocked = true;
 		this.Draw();
 		console.log("Unlocked '" + this.name + ".'")
 	},
-	CombinedStats: function(){
+	CombinedStats: function(){	// combines all stats effects from all upgrades a building has
 		var stats = {
 			waterDelta: 		0,
 			moneyDelta: 		0,
@@ -99,7 +100,7 @@ Building.prototype = {
 		}
 		return stats;
 	},
-	StyleContainerDiv: function(){
+	StyleContainerDiv: function(){ 	// styles the building container accordingly w/ classes
 		if( this.unlocked ){
 			this.dom.$container.addClass('unlocked');
 			this.dom.$container.removeClass('locked');
@@ -109,7 +110,7 @@ Building.prototype = {
 		}
 		this.dom.$container.addClass
 	},
-	SetNameDiv: function(){
+	SetNameDiv: function(){		// resets the Name Div
 		var nameString = this.name;
 		var buildingIndex = Game.buildings.indexOf(this);
 		if( ! this.unlocked ){
@@ -117,10 +118,10 @@ Building.prototype = {
 		}
 		this.dom.$name.html(nameString);
 	},
-	SetImageDiv: function(){
+	SetImageDiv: function(){	// resets the Image Div
 		this.dom.$image.html("<img src='" + this.imagePath + "' />");
 	},
-	SetStatsDiv: function(){
+	SetStatsDiv: function(){	// resets the Stats Div
 		var stats = this.CombinedStats();
 		this.dom.$stats.html(
 			"Building Statistics-----" + "<br />" +
@@ -130,7 +131,7 @@ Building.prototype = {
 			"Multiplier: " + this.effectMultiplier
 		);
 	},
-	SetPurchasedUpgradesDiv: function(){
+	SetPurchasedUpgradesDiv: function(){	// resets the Purchased Upgrades Div
 		var purchased = [];
 		var heading = "Purchased Upgrades -----" + "<br />";
 		for(var i = 0; i < this.upgrades.length; i++){
@@ -138,7 +139,7 @@ Building.prototype = {
 		}
 		this.dom.$purchasedUpgrades.html(heading + purchased.join("<br />"));
 	},
-	SetAvailableUpgradesDiv: function(){
+	SetAvailableUpgradesDiv: function(){	// resets the Available Upgrades Div
 		var available = [];
 		var heading = "Available Upgrades -----" + "<br />";
 		for(var i = 0; i < Game.possibleUpgrades.length; i++){
@@ -152,7 +153,7 @@ Building.prototype = {
 		}
 		this.dom.$availableUpgrades.html(heading + available.join("<br />"));
 	},
-	Draw: function(){
+	Draw: function(){	// redraws a building's container and all of its contents appropriately
 		this.StyleContainerDiv();
 		this.SetNameDiv();
 		this.SetImageDiv();
@@ -160,7 +161,7 @@ Building.prototype = {
 		this.SetPurchasedUpgradesDiv();
 		this.SetAvailableUpgradesDiv();
 	},
-	Update: function(){ // essentially performs a 'next turn'
+	Update: function(){ // essentially performs a 'next turn,' applies all stats as needed
 		var stats = this.CombinedStats();
 		Game.metrics.budget += stats.moneyDelta;
 	}
@@ -273,11 +274,13 @@ var Game = {
     	// create building DOM elements
     	for(var i = 0; i < Game.buildings.length; i++){
 
+    		// copy the building template DOM, add it to game div (#sustainable)
     		var currentBuilding = Game.buildings[i];
     		$newBuilding = $('#buildingTemplate').clone();
     		$newBuilding.attr('id', currentBuilding.name);
     		$('#sustainable').append($newBuilding);
 
+    		// create jQuery objects from appropriate building dom pieces, store references
     		currentBuilding.dom = {
     			$container:  		$newBuilding,
     			$name: 				$newBuilding.children('.name'),
@@ -287,26 +290,24 @@ var Game = {
     			$availableUpgrades: $newBuilding.children('.availableUpgrades')
     		}
 
+    		// draw the current building
     		currentBuilding.Draw();
+    		// update the Metrics div
     		this.MetricsDiv();
     	}
     },
 
     Draw:   function(){
+    	// Draw each building
     	for(var i = 0; i < this.buildings.length; i++){
     		this.buildings[i].Draw();
     	}
+    	// Draw the metrics div
     	this.MetricsDiv();
     },
 
     MetricsDiv: function(){
-    	/*
-    	budget: 100000, //This is the budget amount in $, default 1000000
-		timeSurvived: 0, //This is the starting time remaining in Months, default 12
-		satisfaction: 50, //This is the starting satisfaction (in %), default 100
-		waterWasteRate: 800, //The starting water waste rate in gal/mo, default 0
-		waterPlantCapacity: 1000 // The capacity of the water filtration plant in gallons, default 1000.
-		*/
+    	// Draw the metrics div, it informs the user how well they are doing / current statistics
 		Game.dom.$metrics.html(
 			"Money: " + Game.metrics.budget + "<br />" + 
 			"Satisfaction: " + Game.metrics.satisfaction + "<br />" + 
@@ -317,6 +318,7 @@ var Game = {
     },
 
     Update:    function(){
+    	// Perform a turn transition
         for(var i = 0; i < this.buildings.length; i++){
         	if( this.buildings[i].unlocked ){
         		this.buildings[i].Update(); // begin the updating process
@@ -325,6 +327,7 @@ var Game = {
         Game.metrics.timeSurvived++; // somehow handle time survived, come back to this
         Game.MetricsDiv();
         Game.Draw();
+        console.log("Next turn...");
     }
 };
 
