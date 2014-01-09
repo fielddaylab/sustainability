@@ -14,6 +14,13 @@
         #buildingTemplate{
             display: none;
         }
+        #messageCenter{
+            max-height: 100px;
+            max-width: 400px;
+            border: 1px solid black;
+            background-color: #EEEEEE;
+            overflow: scroll;
+        }
         .Building div{
             display: block;
             min-width: 100%;
@@ -34,6 +41,12 @@
             width: 100%;
             color: black;
         }
+        .locked{
+            opacity: 0.25;
+        }
+        .unlocked{
+            opacity: 1.0;
+        }
     </style>
 </head>
 
@@ -45,6 +58,8 @@
         <div id="metrics"></div>
     </div>
     <button onclick="Game.Update()">Next Turn</button>
+    <div id="messageCenter">
+    </div>
 
     <!-- below this are template dom elements, used to build dom w/ javascript -->
     <div id="buildingTemplate" class="Building">

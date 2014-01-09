@@ -1,3 +1,8 @@
+console.log = function(string){
+	var newElement = $("<div style='display:none; border-bottom: 1px dotted #333333;'>" + string + "</div>");
+	Game.dom.$messageCenter.prepend(newElement);
+	newElement.slideDown();
+}
 var settings = {
 	initial: {
 		budget: 100000, //This is the budget amount in $, default 1000000
@@ -34,23 +39,30 @@ function Building(obj){
 }
 Building.prototype = {
 	BuyUpgrade: function(newUpgrade){
+		if( ! this.unlocked ){
+			// present warning saying we cannot act on a locked building
+			console.log("Cannot perform actions on a locked building");
+			return false;
+		}
 		if(this.HasUpgrade(newUpgrade)){
 			// present some warning saying we already have it?
 			console.log("You already own this upgrade for this building");
+			return false;
+		}
+		// time to perform the buying action
+		if(Game.metrics.budget < newUpgrade.cost){
+			// inform user they don't have enough money to buy this
+			console.log("Buying '" + newUpgrade.name + "' would put you in debt by $" + (Game.metrics.budget - newUpgrade.cost * -1) );
+			return false;
 		} else {
-			// time to perform the buying action
-			if(Game.metrics.budget < newUpgrade.cost){
-				// inform user they don't have enough money to buy this
-				console.log("Not enough money!");
-			} else {
-				// REALLY BUY IT THIS TIME
-				// perform one-time metric changes
-				Game.metrics.budget -= newUpgrade.cost;
-				Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;
-				Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;
-				this.upgrades.push(newUpgrade);	 	// add upgrade to building's list of upgrades
-				Game.Draw();
-			}
+			// REALLY BUY IT THIS TIME
+			// perform one-time metric changes
+			Game.metrics.budget -= newUpgrade.cost;
+			Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;
+			Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;
+			this.upgrades.push(newUpgrade);	 	// add upgrade to building's list of upgrades
+			Game.Draw();
+			return true;
 		}
 	},
 	HasUpgrade: function(upgradeToCheck){
@@ -60,6 +72,10 @@ Building.prototype = {
 			}
 		}
 		return false;
+	},
+	Unlock: function(){
+		this.unlocked = true;
+		this.Draw();
 	},
 	CombinedStats: function(){
 		var stats = {
@@ -75,8 +91,23 @@ Building.prototype = {
 		}
 		return stats;
 	},
+	StyleContainerDiv: function(){
+		if( this.unlocked ){
+			this.dom.$container.addClass('unlocked');
+			this.dom.$container.removeClass('locked');
+		} else {
+			this.dom.$container.removeClass('unlocked');
+			this.dom.$container.addClass('locked');
+		}
+		this.dom.$container.addClass
+	},
 	SetNameDiv: function(){
-		this.dom.$name.html(this.name);
+		var nameString = this.name;
+		var buildingIndex = Game.buildings.indexOf(this);
+		if( ! this.unlocked ){
+			nameString += "<button onclick='Game.buildings[" + buildingIndex + "].Unlock()'>Unlock</button>";
+		}
+		this.dom.$name.html(nameString);
 	},
 	SetImageDiv: function(){
 		this.dom.$image.html("<img src='" + this.imagePath + "' />");
@@ -114,6 +145,7 @@ Building.prototype = {
 		this.dom.$availableUpgrades.html(heading + available.join("<br />"));
 	},
 	Draw: function(){
+		this.StyleContainerDiv();
 		this.SetNameDiv();
 		this.SetImageDiv();
 		this.SetStatsDiv();
@@ -181,7 +213,7 @@ var upgradeArray = [
 var buildingArray = [
 	new Building({
 		name: "School of Human Ecology",
-		unlocked: false,
+		unlocked: true,
 		upgrades: [],
 		effectMultiplier: 1,
 		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
@@ -201,7 +233,7 @@ var buildingArray = [
 		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
 	}),
 	new Building({
-		name: "Wisconsin Institutes for Discovery",
+		name: "WID",
 		unlocked: false,
 		upgrades: [],
 		effectMultiplier: 1,
@@ -222,7 +254,8 @@ var Game = {
     buildings: buildingArray,
     metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
     dom: {
-    	$metrics: $('#metrics')
+    	$metrics: $('#metrics'),
+    	$messageCenter: $('#messageCenter')
     },
 
     // public functions
@@ -277,9 +310,9 @@ var Game = {
 
     Update:    function(){
         for(var i = 0; i < this.buildings.length; i++){
-        	//if( this.buildings[i].unlocked ){
+        	if( this.buildings[i].unlocked ){
         		this.buildings[i].Update(); // begin the updating process
-        	//}
+        	}
         }
         Game.metrics.timeSurvived++; // somehow handle time survived, come back to this
         Game.MetricsDiv();
