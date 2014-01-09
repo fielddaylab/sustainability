@@ -259,12 +259,15 @@ var buildingArray = [
 
 var Game = {
     // public variables
+    modals: [],
     possibleUpgrades: upgradeArray,
     buildings: buildingArray,
     metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
     dom: {
     	$metrics: $('#metrics'),
-    	$messageCenter: $('#messageCenter')
+    	$messageCenter: $('#messageCenter'),
+    	$modalTemplate: $('#modalTemplate'),
+    	$gameContainer: $('#sustainable')
     },
 
     // public functions
@@ -278,7 +281,7 @@ var Game = {
     		var currentBuilding = Game.buildings[i];
     		$newBuilding = $('#buildingTemplate').clone();
     		$newBuilding.attr('id', currentBuilding.name);
-    		$('#sustainable').append($newBuilding);
+    		////////$('#sustainable').append($newBuilding);
 
     		// create jQuery objects from appropriate building dom pieces, store references
     		currentBuilding.dom = {
@@ -293,8 +296,15 @@ var Game = {
     		// draw the current building
     		currentBuilding.Draw();
     		// update the Metrics div
-    		this.MetricsDiv();
+    		////////this.MetricsDiv();
     	}
+    },
+
+    Modal: 	function(content){
+    	$newModal = Game.dom.$modalTemplate.clone();
+    	$newModal.attr('id', 'figure-it-out-later');
+    	$newModal.append(content);
+    	Game.dom.$gameContainer.append($newModal);
     },
 
     Draw:   function(){
