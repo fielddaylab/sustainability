@@ -1,5 +1,11 @@
-console.log = function(string){
-	var newElement = $("<div style='display:none; border-bottom: 1px dotted #333333;'>" + string + "</div>");
+console.log = function(string, level){
+	var bgColor;
+	if(level !== undefined && level === 'warn'){
+		bgColor = "#FFAAAA";
+	} else {
+		bgColor = "#EEEEEE";
+	}
+	var newElement = $("<div style='display:none; border-bottom: 1px dotted #333333; background-color: " + bgColor + ";'>" + string + "</div>");
 	Game.dom.$messageCenter.prepend(newElement);
 	newElement.slideDown();
 }
@@ -41,18 +47,18 @@ Building.prototype = {
 	BuyUpgrade: function(newUpgrade){
 		if( ! this.unlocked ){
 			// present warning saying we cannot act on a locked building
-			console.log("Cannot perform actions on a locked building");
+			console.log("This building is locked, you cannot purchase this.", 'warn');
 			return false;
 		}
 		if(this.HasUpgrade(newUpgrade)){
 			// present some warning saying we already have it?
-			console.log("You already own this upgrade for this building");
+			console.log("You already own '" + newUpgrade.name + "' for this building.", 'warn');
 			return false;
 		}
 		// time to perform the buying action
 		if(Game.metrics.budget < newUpgrade.cost){
 			// inform user they don't have enough money to buy this
-			console.log("Buying '" + newUpgrade.name + "' would put you in debt by $" + (Game.metrics.budget - newUpgrade.cost * -1) );
+			console.log("Buying '" + newUpgrade.name + "' would put you in debt by $" + (Game.metrics.budget - newUpgrade.cost * -1), 'warn');
 			return false;
 		} else {
 			// REALLY BUY IT THIS TIME
@@ -61,6 +67,7 @@ Building.prototype = {
 			Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;
 			Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;
 			this.upgrades.push(newUpgrade);	 	// add upgrade to building's list of upgrades
+			console.log("Purchased '" + newUpgrade.name + "' for $" + newUpgrade.cost + ".");
 			Game.Draw();
 			return true;
 		}
@@ -76,6 +83,7 @@ Building.prototype = {
 	Unlock: function(){
 		this.unlocked = true;
 		this.Draw();
+		console.log("Unlocked '" + this.name + ".'")
 	},
 	CombinedStats: function(){
 		var stats = {
