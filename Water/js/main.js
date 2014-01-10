@@ -179,7 +179,7 @@ Building.prototype = {
 				var clickToPurchase = "<span class='" 
 					+ ( (Game.metrics.budget >= currentUpgrade.cost) ? 'canPurchase' : 'tooExpensive') 
 					+ "' onclick='Game.Modal(Game.possibleUpgrades[" + upgradeIndex + "].UpgradeDiv(Game.buildings[" + buildingIndex + "]));'>" 
-					+ currentUpgrade.name + ((Game.metrics.budget >= currentUpgrade.cost) ? "<button style='float:right;'>Buy</button>" : "") 
+					+ currentUpgrade.name 
 					+ "</span>";
 				available.push(clickToPurchase);
 			}
