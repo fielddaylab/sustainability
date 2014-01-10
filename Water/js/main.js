@@ -27,6 +27,7 @@ function Upgrade(obj){
 	this.waterDelta = 			obj.waterDelta;			// how it effects runoff
 	this.satisfactionDelta = 	obj.satisfactionDelta;	// satisfaction effect
 	this.count = 				obj.count;
+	this.unlocked = 			obj.unlocked;			// is it currently locked?
 }
 
 function Building(obj){
@@ -40,14 +41,22 @@ function Building(obj){
 		$image: 			null,
 		$stats: 			null,
 		$purchasedUpgrades: null,
-		$availableUpgrades: null
+		$availableUpgrades: null,
+		$buttons: 			null
 	}
 }
 Building.prototype = {
+	BuildingIndex: function(){
+		return Game.buildings.indexOf(this);
+	},
 	BuyUpgrade: function(newUpgrade){
 		if(this.HasUpgrade(newUpgrade)){
 			// present some warning saying we already have it?
 			console.log("You already own '" + newUpgrade.name + "' for this building.", 'warn');
+			return false;
+		}
+		if( ! newUpgrade.unlocked ){
+			console.log("The upgrade '" + newUpgrade.name + "' is still locked.");
 			return false;
 		}
 		// time to perform the buying action
@@ -93,7 +102,7 @@ Building.prototype = {
 		// blank for now
 	},
 	SetNameDiv: function(){		// resets the Name Div
-		var nameString = this.name;
+		var nameString = '<b>' + this.name + '<b />';
 		this.dom.$name.html(nameString);
 	},
 	SetImageDiv: function(){	// resets the Image Div
@@ -102,7 +111,7 @@ Building.prototype = {
 	SetStatsDiv: function(){	// resets the Stats Div
 		var stats = this.CombinedStats();
 		this.dom.$stats.html(
-			"Building Statistics-----" + "<br />" +
+			"<b>Building Statistics:</b>" + "<br />" +
 			"Water Usage: " + stats.waterDelta + "<br />" +
 			"Maintenance: $" + stats.moneyDelta + "<br />" +
 			"Satisfaction: " + stats.satisfactionDelta + "<br />" +
@@ -111,7 +120,7 @@ Building.prototype = {
 	},
 	SetPurchasedUpgradesDiv: function(){	// resets the Purchased Upgrades Div
 		var purchased = [];
-		var heading = "Purchased Upgrades -----" + "<br />";
+		var heading = "Purchased Upgrades:" + "<br />";
 		for(var i = 0; i < this.upgrades.length; i++){
 			purchased.push(this.upgrades[i].name);
 		}
@@ -119,17 +128,28 @@ Building.prototype = {
 	},
 	SetAvailableUpgradesDiv: function(){	// resets the Available Upgrades Div
 		var available = [];
-		var heading = "Available Upgrades -----" + "<br />";
+		var heading = "Available Upgrades:" + "<br />";
 		for(var i = 0; i < Game.possibleUpgrades.length; i++){
 			var currentUpgrade = Game.possibleUpgrades[i];
-			if( ! this.HasUpgrade(currentUpgrade) ){
-				var buildingIndex = Game.buildings.indexOf(this);
+			if( ! this.HasUpgrade(currentUpgrade) && currentUpgrade.unlocked ){
+				var buildingIndex = this.BuildingIndex();
 				var upgradeIndex = Game.possibleUpgrades.indexOf(currentUpgrade);
-				var clickToPurchase = "<span class='" + ( (Game.metrics.budget >= currentUpgrade.cost) ? 'canPurchase' : 'tooExpensive') + "' onclick='Game.buildings[" + buildingIndex + "].BuyUpgrade(Game.possibleUpgrades[" + upgradeIndex + "]);'>" + currentUpgrade.name + ((Game.metrics.budget >= currentUpgrade.cost) ? "<button style='float:right;'>Buy</button>" : "") + "</span>";
+				var clickToPurchase = "<span class='" 
+					+ ( (Game.metrics.budget >= currentUpgrade.cost) ? 'canPurchase' : 'tooExpensive') 
+					+ "' onclick='Game.buildings[" + buildingIndex + "].BuyUpgrade(Game.possibleUpgrades[" + upgradeIndex + "]);'>" 
+					+ currentUpgrade.name + ((Game.metrics.budget >= currentUpgrade.cost) ? "<button style='float:right;'>Buy</button>" : "") 
+					+ "</span>";
 				available.push(clickToPurchase);
 			}
 		}
 		this.dom.$availableUpgrades.html(heading + available.join("<br />"));
+	},
+	SetButtonsDiv: function(){
+		var buildingIndex = this.BuildingIndex();
+		var buttons = "<button class='upgradeButton' onclick='Game.Modal(Game.buildings[" 
+			+ buildingIndex + "].dom.$purchasedUpgrades)'>Purchased Upgrades</button><button class='upgradeButton' onclick='Game.Modal(Game.buildings[" 
+			+ buildingIndex + "].dom.$availableUpgrades)'>Buy More Upgrades</button>";
+		this.dom.$buttons.html(buttons);
 	},
 	Draw: function(){	// redraws a building's container and all of its contents appropriately
 		this.StyleContainerDiv();
@@ -138,6 +158,7 @@ Building.prototype = {
 		this.SetStatsDiv();
 		this.SetPurchasedUpgradesDiv();
 		this.SetAvailableUpgradesDiv();
+		this.SetButtonsDiv();
 	},
 	Update: function(){ // essentially performs a 'next turn,' applies all stats as needed
 		var stats = this.CombinedStats();
@@ -148,7 +169,7 @@ Building.prototype = {
 // array of possible upgrades
 var upgradeArray = [
 	new Upgrade({
-		unlocked: false,
+		unlocked: true,
 		name: "Porous Pavement",
 		cost: 10000,
 		moneyDelta: -100,
@@ -159,7 +180,7 @@ var upgradeArray = [
 
 	// Dual flush toilet
 	new Upgrade({ 
-		unlocked: false,
+		unlocked: true,
 		name: "Dual Flush Toilet",
 		cost: 10000,
 		moneyDelta: 0,
@@ -268,7 +289,8 @@ var Game = {
     			$image: 			$newBuilding.children('.image'),
     			$stats: 			$newBuilding.children('.stats'),
     			$purchasedUpgrades: $newBuilding.children('.purchasedUpgrades'),
-    			$availableUpgrades: $newBuilding.children('.availableUpgrades')
+    			$availableUpgrades: $newBuilding.children('.availableUpgrades'),
+    			$buttons: 			$newBuilding.children('.buttons')
     		}
 
     		// draw the current building
@@ -290,7 +312,6 @@ var Game = {
     	for(var i = 0; i < this.buildings.length; i++){
     		this.buildings[i].Draw();
     	}
-
     	// Draw the metrics div
     	this.MetricsDiv();
     },
@@ -302,7 +323,7 @@ var Game = {
 			"Satisfaction: " + Game.metrics.satisfaction + "<br />" + 
 			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" + 
 			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + "<br />" +
-			"Seasons Survived: " + Game.metrics.timeSurvived
+			"Quarters Survived: " + Game.metrics.timeSurvived
 		);
     },
 

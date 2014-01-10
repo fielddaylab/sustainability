@@ -34,8 +34,6 @@
             vertical-align: top;
             display: block;
             background-color: #A5BEEF;
-           
-            border-right: 1px dashed #000000;
         }
         #buildingTemplate{
             display: none;
@@ -54,7 +52,6 @@
             min-height: 25px;
             background-color: #222222;
             color: #FFFFFF;
-            border-bottom: 1px dashed #CCCCCC;
         }
         .canPurchase{
             display: inline-block;
@@ -91,6 +88,34 @@
         #modalTemplate{
             display: none;
         }
+        .upgradeButton{
+            width: 40%;
+            min-height: 40px;
+            margin-left: 5%;
+            margin-right: 4%;
+            padding: 0px;
+        }
+        .Building > .purchasedUpgrades{
+            display: none;
+        }
+        .Building > .availableUpgrades{
+            display: none;
+        }
+        .modal > .purchasedUpgrades{
+            display: block;
+        }
+        .modal > .availableUpgrades{
+            display: block;
+        }
+        .purchasedUpgrades{
+            padding: 10px;
+            padding-top: 20px;
+        }
+        .availableUpgrades{
+            padding: 10px;
+            padding-top: 20px;
+        }
+
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
@@ -102,26 +127,17 @@
     <div id="sustainable">
         <img src="img/map.jpg" usemap="#map"/>
         <map id="map" name="map">
-            <area alt="green"   onclick="Game.Modal(Game.buildings[0].dom.$container);" title="" href="#" shape="poly" coords="25,59,18,52,16,36,36,25,43,29,43,50" />
-            <area alt="yellow"  onclick="Game.Modal(Game.buildings[1].dom.$container);" title="" href="#" shape="poly" coords="116,83,69,48,83,34,134,68" />
-            <area alt="blue"    onclick="Game.Modal(Game.buildings[2].dom.$container);" title="" href="#" shape="poly" coords="116,117,149,141,170,116,126,98" />
-            <area alt="red"     onclick="Game.Modal(Game.buildings[3].dom.$container);" title="" href="#" shape="poly" coords="210,188,183,170,189,136,210,124,237,147,239,168" />
-            <area alt="purple"  onclick="Game.Modal(Game.buildings[4].dom.$container);" title="" href="#" shape="poly" coords="276,129,256,114,256,102,276,93,300,111" />
-
-        <!-- Ricky's area tags below: -->
-            <!--<area alt="green" title="" href="#" shape="poly" coords="50,27,46,62,13,62,9,22" />-->
-            <!--<area alt="yellow" title="" href="#" shape="poly" coords="69,28,73,51,122,88,130,56" />-->
-            <!--<area alt="blue" title="" href="#" shape="poly" coords="123,98,168,108,162,139,116,124" />-->
-            <!--<area alt="red" title="" href="#" shape="poly" coords="182,127,178,188,241,189,239,135" />-->
-            <!--<area alt="purple" title="" href="#" shape="poly" coords="251,89,299,91,298,130,251,122" />-->
-        <!--End Ricky's area tags -->
-
-
+            <area alt="green"   onclick="Game.Modal(Game.buildings[0].dom.$container);" title="" href="#" shape="poly" coords="50,27,46,62,13,62,9,22" />
+            <area alt="yellow"  onclick="Game.Modal(Game.buildings[1].dom.$container);" title="" href="#" shape="poly" coords="69,28,73,51,122,88,130,56" />
+            <area alt="blue"    onclick="Game.Modal(Game.buildings[2].dom.$container);" title="" href="#" shape="poly" coords="123,98,168,108,162,139,116,124" />
+            <area alt="red"     onclick="Game.Modal(Game.buildings[3].dom.$container);" title="" href="#" shape="poly" coords="182,127,178,188,241,189,239,135" />
+            <area alt="purple"  onclick="Game.Modal(Game.buildings[4].dom.$container);" title="" href="#" shape="poly" coords="251,89,299,91,298,130,251,122" />
         </map>
         <div id="metrics"></div>
+        <button onclick="Game.Update()">Next Turn</button>
     </div>
     <!--
-    <button onclick="Game.Update()">Next Turn</button>
+    
     <div id="messageCenter">
     </div>
     -->
@@ -133,6 +149,7 @@
         <div class="image"></div>
         <div class="name"></div>
         <div class="stats"></div>
+        <div class="buttons"></div>
         <div class="purchasedUpgrades"></div>
         <div class="availableUpgrades"></div>
     </div>
