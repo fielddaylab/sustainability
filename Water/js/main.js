@@ -13,9 +13,10 @@ console.log = function(string, level){
 var settings = {
 	initial: {
 		budget: 100000, 			// This is the budget amount in $, default 1000000
-		timeSurvived: 0, 			// This is the starting time remaining in Months, default 12
-		satisfaction: 50, 			// This is the starting satisfaction (in %), default 100
-		waterWasteRate: 800, 		// The starting water waste rate in gal/mo, default 0
+		timeSurvived: 0, 			// This is the starting time in Seasons, default 0
+		satisfaction: 50, 			// This is the starting satisfaction (in %), default 50
+		waterWasteRate: 800, 		// The starting water waste rate in gal/season, default 800
+        waterRunoffRate: 800,       // The starting water runoff rate in gal/season, default 800
 		waterPlantCapacity: 1000 	// The capacity of the water filtration plant in gallons, default 1000.
 	}
 };
@@ -218,7 +219,7 @@ var upgradeArray = [
 		waterDelta: -200,
 		satisfactionDelta: 0,
 		count: 0,
-		image: ""
+		image: "http://upload.wikimedia.org/wikipedia/commons/8/8f/Permeable_paver_demonstration.jpg"
 	}),
 
 	// Dual flush toilet
@@ -388,6 +389,7 @@ var Game = {
 			"Satisfaction: " + Game.metrics.satisfaction + "<br />" + 
 			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" + 
 			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + "<br />" +
+            "Current Total Water Runoff Rate: " + Game.metrics.waterRunoffRate + "<br />" +
 			"Quarters Survived: " + Game.metrics.timeSurvived
 		);
     },

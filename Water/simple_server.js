@@ -4,7 +4,7 @@ var app = express()
   , server = http.createServer(app)
   , io = require('socket.io').listen(server, { log: true });
 
-server.listen(80);
+server.listen(8080);
 
 app.use("/js", express.static(__dirname + '/js'));
 app.use("/img", express.static(__dirname + '/img'));
