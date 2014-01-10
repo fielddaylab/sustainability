@@ -17,26 +17,24 @@
             margin: 0px;
         }
         .modal{
-            display:block;
+            display: block;
             box-sizing: border-box;
             width: 290px;
             height: 410px;
-            padding: 10px;
             position: absolute;
             top: 15px;
             left: 15px;
             border: 3px solid #000000;
-            border-radius: 25px;
+            border-radius: 15px;
             background-color: #888888;
-
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         .Building{
             vertical-align: top;
             display: block;
             background-color: #A5BEEF;
-            width: 250px;
-            //min-height: 300px;
-            height: 350px;
+           
             border-right: 1px dashed #000000;
         }
         #buildingTemplate{
@@ -82,9 +80,10 @@
             border-radius: 20px;
             background-color: #000000;
             color: #FFFFFF;
-            position: absolute;
-            right: -5px;
-            top: -5px;
+            position: fixed;
+            z-index: 9001;
+            right: 15px;
+            top: 15px;
             padding-top: 0px;
             text-align: center;
             font-size: 35px;
@@ -121,15 +120,15 @@
 
     <!-- below this are template dom elements, used to build dom w/ javascript -->
     <div id="buildingTemplate" class="Building">
-        <div class="name"></div>
         <div class="image"></div>
+        <div class="name"></div>
         <div class="stats"></div>
         <div class="purchasedUpgrades"></div>
         <div class="availableUpgrades"></div>
     </div>
 
     <div id="modalTemplate" class="modal">
-    <div class="close" onclick="$(this).parent('.modal').remove()">X</div>
+        <div class="close" onclick="$(this).parent('.modal').remove()">X</div>
     </div>
 
     <script src="js/main.js">

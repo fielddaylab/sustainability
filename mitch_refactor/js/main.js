@@ -32,7 +32,6 @@ function Upgrade(obj){
 function Building(obj){
 	this.name = 			obj.name;					// name of building
 	this.imagePath = 		obj.imagePath;				// image path, used for building display
-	this.unlocked = 		obj.unlocked;				// locked/unlocked
 	this.upgrades = 		obj.upgrades;				// array containing upgrades
 	this.effectMultiplier = obj.effectMultiplier;		// multiplier all effects are multi'd by
 	this.dom = {
@@ -46,11 +45,6 @@ function Building(obj){
 }
 Building.prototype = {
 	BuyUpgrade: function(newUpgrade){
-		if( ! this.unlocked ){
-			// present warning saying we cannot act on a locked building
-			console.log("This building is locked, you cannot purchase this.", 'warn');
-			return false;
-		}
 		if(this.HasUpgrade(newUpgrade)){
 			// present some warning saying we already have it?
 			console.log("You already own '" + newUpgrade.name + "' for this building.", 'warn');
@@ -81,11 +75,6 @@ Building.prototype = {
 		}
 		return false;
 	},
-	Unlock: function(){		// unlocks building, initiates a redraw
-		this.unlocked = true;
-		this.Draw();
-		console.log("Unlocked '" + this.name + ".'")
-	},
 	CombinedStats: function(){	// combines all stats effects from all upgrades a building has
 		var stats = {
 			waterDelta: 		0,
@@ -101,21 +90,10 @@ Building.prototype = {
 		return stats;
 	},
 	StyleContainerDiv: function(){ 	// styles the building container accordingly w/ classes
-		if( this.unlocked ){
-			this.dom.$container.addClass('unlocked');
-			this.dom.$container.removeClass('locked');
-		} else {
-			this.dom.$container.removeClass('unlocked');
-			this.dom.$container.addClass('locked');
-		}
-		this.dom.$container.addClass
+		// blank for now
 	},
 	SetNameDiv: function(){		// resets the Name Div
 		var nameString = this.name;
-		var buildingIndex = Game.buildings.indexOf(this);
-		if( ! this.unlocked ){
-			nameString += "<button onclick='Game.buildings[" + buildingIndex + "].Unlock()'>Unlock</button>";
-		}
 		this.dom.$name.html(nameString);
 	},
 	SetImageDiv: function(){	// resets the Image Div
@@ -170,6 +148,7 @@ Building.prototype = {
 // array of possible upgrades
 var upgradeArray = [
 	new Upgrade({
+		unlocked: false,
 		name: "Porous Pavement",
 		cost: 10000,
 		moneyDelta: -100,
@@ -180,6 +159,7 @@ var upgradeArray = [
 
 	// Dual flush toilet
 	new Upgrade({ 
+		unlocked: false,
 		name: "Dual Flush Toilet",
 		cost: 10000,
 		moneyDelta: 0,
@@ -190,6 +170,7 @@ var upgradeArray = [
 
 	// Faucet sensors
 	new Upgrade({ 
+		unlocked: false,
 		name: "Faucet Sensors",
 		cost: 10000,
 		moneyDelta: -1500,
@@ -200,6 +181,7 @@ var upgradeArray = [
 
 	// Green roof
 	new Upgrade({ 
+		unlocked: false,
 		name: "Green Roof",
 		cost: 20000,
 		moneyDelta: -2500,
@@ -210,6 +192,7 @@ var upgradeArray = [
 
 	// 
 	new Upgrade({ 
+		unlocked: false,
 		name: "Cistern",
 		cost: 10000,
 		moneyDelta: -2500,
@@ -222,38 +205,33 @@ var upgradeArray = [
 var buildingArray = [
 	new Building({
 		name: "School of Human Ecology",
-		unlocked: true,
 		upgrades: [],
 		effectMultiplier: 1,
-		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
+		imagePath: "img/sohi.jpg"
 	}),
 	new Building({
 		name: "Education Building",
-		unlocked: false,
 		upgrades: [],
 		effectMultiplier: 1,
-		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
+		imagePath: "img/education.jpg"
 	}),
 	new Building({
 		name: "Science Hall",
-		unlocked: false,
 		upgrades: [],
 		effectMultiplier: 1,
-		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
+		imagePath: "img/science.jpg"
 	}),
 	new Building({
 		name: "WID",
-		unlocked: false,
 		upgrades: [],
 		effectMultiplier: 1,
-		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
+		imagePath: "img/wid.jpg"
 	}),
 	new Building({
 		name: "UW Hospital",
-		unlocked: false,
 		upgrades: [],
 		effectMultiplier: 1 ,
-		imagePath: "http://media-cache-ec0.pinimg.com/avatars/uwmadison_1332811284_30.jpg"
+		imagePath: "img/hospital.jpg"
 	})
 ];
 
@@ -330,9 +308,7 @@ var Game = {
     Update:    function(){
     	// Perform a turn transition
         for(var i = 0; i < this.buildings.length; i++){
-        	if( this.buildings[i].unlocked ){
-        		this.buildings[i].Update(); // begin the updating process
-        	}
+        	this.buildings[i].Update(); // begin the updating process
         }
         Game.metrics.timeSurvived++; // somehow handle time survived, come back to this
         Game.MetricsDiv();
