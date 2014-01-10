@@ -88,6 +88,12 @@
         #modalTemplate{
             display: none;
         }
+        #upgradeTemplate{
+            display: none;
+        }
+        .viewUpgrade{
+
+        }
         .upgradeButton{
             width: 40%;
             min-height: 40px;
@@ -105,6 +111,9 @@
             display: block;
         }
         .modal > .availableUpgrades{
+            display: block;
+        }
+        .modal > .viewUpgrade{
             display: block;
         }
         .purchasedUpgrades{
@@ -156,6 +165,13 @@
 
     <div id="modalTemplate" class="modal">
         <div class="close" onclick="$(this).parent('.modal').remove()">X</div>
+    </div>
+
+    <div id="upgradeTemplate" class="viewUpgrade">
+        <div class="image">fakeimage</div>
+        <div class="name">fakename</div>
+        <div class="stats">fakestats</div>
+        <div class="buttons">fakebutton1 fakebutton2</div>
     </div>
 
     <script src="js/main.js">

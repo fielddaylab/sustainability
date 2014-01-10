@@ -28,6 +28,48 @@ function Upgrade(obj){
 	this.satisfactionDelta = 	obj.satisfactionDelta;	// satisfaction effect
 	this.count = 				obj.count;
 	this.unlocked = 			obj.unlocked;			// is it currently locked?
+	this.image = 				obj.image;
+	this.dom = {
+		$name: 				null,
+		$image: 			null,
+		$stats: 			null,
+		$buttons: 			null
+	}
+}
+Upgrade.prototype = {
+	UpgradeIndex: function(){
+		return Game.possibleUpgrades.indexOf(this);
+	},
+	SetNameDiv: function(){		// resets the Name Div
+		var nameString = '<b>' + this.name + '<b />';
+		this.dom.$name.html(nameString);
+	},
+	SetImageDiv: function(){	// resets the Image Div
+		this.dom.$image.html("<img src='" + this.imagePath + "' />");
+	},
+	SetStatsDiv: function(){	// resets the Stats Div
+		this.dom.$stats.html(
+			"<b>Building Statistics:</b>" + "<br />" +
+			"Water Usage: " + this.waterDelta + "<br />" +
+			"Maintenance: $" + this.moneyDelta + "<br />" +
+			"Satisfaction: " + this.satisfactionDelta
+		);
+	},
+	SetButtonsDiv: function(currBuilding){
+		var clickToPurchase = "<span class='" 
+			+ ( (Game.metrics.budget >= this.cost) ? 'canPurchase' : 'tooExpensive') 
+			+ "' onclick='Game.buildings[" + currBuilding.BuildingIndex() + "].BuyUpgrade(Game.possibleUpgrades[" + this.UpgradeIndex() + "]);$(this).parents(\".modal\").remove();'>" 
+			+ this.name + ((Game.metrics.budget >= this.cost) ? "<button style='float:right;'>Buy</button>" : "") 
+			+ "</span>";
+		this.dom.$buttons.html(clickToPurchase);
+	},
+	UpgradeDiv: function(currBuilding){	// redraws a building's container and all of its contents appropriately;
+		this.SetNameDiv();
+		this.SetImageDiv();
+		this.SetStatsDiv();
+		this.SetButtonsDiv(currBuilding);
+		return this.dom.$container;
+	},
 }
 
 function Building(obj){
@@ -136,7 +178,7 @@ Building.prototype = {
 				var upgradeIndex = Game.possibleUpgrades.indexOf(currentUpgrade);
 				var clickToPurchase = "<span class='" 
 					+ ( (Game.metrics.budget >= currentUpgrade.cost) ? 'canPurchase' : 'tooExpensive') 
-					+ "' onclick='Game.buildings[" + buildingIndex + "].BuyUpgrade(Game.possibleUpgrades[" + upgradeIndex + "]);'>" 
+					+ "' onclick='Game.Modal(Game.possibleUpgrades[" + upgradeIndex + "].UpgradeDiv(Game.buildings[" + buildingIndex + "]));'>" 
 					+ currentUpgrade.name + ((Game.metrics.budget >= currentUpgrade.cost) ? "<button style='float:right;'>Buy</button>" : "") 
 					+ "</span>";
 				available.push(clickToPurchase);
@@ -175,7 +217,8 @@ var upgradeArray = [
 		moneyDelta: -100,
 		waterDelta: -200,
 		satisfactionDelta: 0,
-		count: 0
+		count: 0,
+		image: ""
 	}),
 
 	// Dual flush toilet
@@ -186,7 +229,8 @@ var upgradeArray = [
 		moneyDelta: 0,
 		waterDelta: -200,
 		satisfactionDelta: 3,	// dual-flush toilets make me very satisfied
-		count: 0
+		count: 0,
+		image: ""
 	}),
 
 	// Faucet sensors
@@ -197,7 +241,8 @@ var upgradeArray = [
 		moneyDelta: -1500,
 		waterDelta: -100,
 		satisfactionDelta: 0,
-		count: 0
+		count: 0,
+		image: ""
 	}),
 
 	// Green roof
@@ -208,7 +253,8 @@ var upgradeArray = [
 		moneyDelta: -2500,
 		waterDelta: 0,
 		satisfactionDelta: 50,
-		count: 0
+		count: 0,
+		image: ""
 	}),
 
 	// 
@@ -219,7 +265,8 @@ var upgradeArray = [
 		moneyDelta: -2500,
 		waterDelta: -200,
 		satisfactionDelta: 0,
-		count: 0
+		count: 0,
+		image: ""
 	})
 ];
 
@@ -266,7 +313,8 @@ var Game = {
     	$metrics: $('#metrics'),
     	$messageCenter: $('#messageCenter'),
     	$modalTemplate: $('#modalTemplate'),
-    	$gameContainer: $('#sustainable')
+    	$gameContainer: $('#sustainable'),
+    	$upgradeTemplate: $('#upgradeTemplate')
     },
 
     // public functions
@@ -276,11 +324,10 @@ var Game = {
     	// create building DOM elements
     	for(var i = 0; i < Game.buildings.length; i++){
 
-    		// copy the building template DOM, add it to game div (#sustainable)
+    		// copy the building template DOM, store it away
     		var currentBuilding = Game.buildings[i];
     		$newBuilding = $('#buildingTemplate').clone();
     		$newBuilding.attr('id', currentBuilding.name);
-    		////////$('#sustainable').append($newBuilding);
 
     		// create jQuery objects from appropriate building dom pieces, store references
     		currentBuilding.dom = {
@@ -297,6 +344,24 @@ var Game = {
     		currentBuilding.Draw();
     		// update the Metrics div
     		////////this.MetricsDiv();
+    	}
+
+    	// create Upgrade dom elements
+    	for(var i = 0; i < Game.possibleUpgrades.length; i++){
+
+    		// copy the upgrade template DOM, store it away
+    		var currentUpgrade = Game.possibleUpgrades[i];
+    		$newUpgrade = $('#buildingTemplate').clone();
+    		$newUpgrade.attr('id', currentUpgrade.name);
+
+    		// create jQuery objects from appropriate building dom pieces, store references
+    		currentUpgrade.dom = {
+    			$container: 		$newUpgrade,
+    			$name: 				$newUpgrade.children('.name'),
+    			$image: 			$newUpgrade.children('.image'),
+    			$stats: 			$newUpgrade.children('.stats'),
+    			$buttons: 			$newUpgrade.children('.buttons')
+    		}
     	}
     },
 
