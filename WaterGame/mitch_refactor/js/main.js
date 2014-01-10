@@ -290,6 +290,7 @@ var Game = {
     	for(var i = 0; i < this.buildings.length; i++){
     		this.buildings[i].Draw();
     	}
+
     	// Draw the metrics div
     	this.MetricsDiv();
     },
