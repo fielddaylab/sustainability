@@ -191,13 +191,13 @@ Building.prototype = {
 		this.dom.$availableUpgrades.html(heading + available.join("<br />"));
 	},
 	SetButtonsDiv: function(){
-		var buildingIndex = this.BuildingIndex();
-		var buttons =
-            //"<button class='upgradeButton' onclick='Game.Modal(Game.buildings["
-            //+ buildingIndex + "].dom.$purchasedUpgrades)'>Purchased Upgrades</button>
-            "<button class='upgradeButton' onclick='Game.Modal(Game.buildings["
-			+ buildingIndex + "].dom.$availableUpgrades)'>Buy More Upgrades</button>";
-		this.dom.$buttons.html(buttons);
+        var $that = this; //current building
+
+        var $button = $('<button>').text('Buy More Upgrades');
+        $button.bind('click', function(){
+            Game.Modal($that.dom.$availableUpgrades)
+        });
+		this.dom.$buttons.html($button);
 	},
 
     SetUpgradeIconsDiv: function(){
