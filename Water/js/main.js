@@ -310,7 +310,7 @@ var buildingArray = [
 		name: "Microbial Sciences",
 		upgrades: [],
 		effectMultiplier: 1,
-		imagePath: "img/science.jpg" //needs new/correct image
+		imagePath: "img/microbialSciences.jpg"
 	}),
 	new Building({
 		name: "WID",
