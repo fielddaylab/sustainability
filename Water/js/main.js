@@ -295,7 +295,7 @@ var upgradeArray = [
 
 var buildingArray = [
 	new Building({
-		name: "School of Human Ecology",
+		name: "Nancy Nicholas Hall",
 		upgrades: [],
 		effectMultiplier: 1,
 		imagePath: "img/sohi.jpg"
@@ -307,10 +307,10 @@ var buildingArray = [
 		imagePath: "img/education.jpg"
 	}),
 	new Building({
-		name: "Science Hall",
+		name: "Microbial Sciences",
 		upgrades: [],
 		effectMultiplier: 1,
-		imagePath: "img/science.jpg"
+		imagePath: "img/science.jpg" //needs new/correct image
 	}),
 	new Building({
 		name: "WID",
@@ -319,10 +319,10 @@ var buildingArray = [
 		imagePath: "img/wid.jpg"
 	}),
 	new Building({
-		name: "UW Hospital",
+		name: "Student Activity Center",
 		upgrades: [],
 		effectMultiplier: 1 ,
-		imagePath: "img/hospital.jpg"
+		imagePath: "img/sac.jpg"
 	})
 ];
 
