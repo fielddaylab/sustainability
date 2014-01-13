@@ -46,7 +46,7 @@ Upgrade.prototype = {
 		this.dom.$name.html(nameString);
 	},
 	SetImageDiv: function(){	// resets the Image Div
-		this.dom.$image.html("<img src='" + this.imagePath + "' />");
+		this.dom.$image.html("<img src='" + this.image + "'width='100', height='100' />");
 	},
 	SetStatsDiv: function(){	// resets the Stats Div
 		this.dom.$stats.html(
@@ -352,7 +352,7 @@ var Game = {
 
     		// copy the upgrade template DOM, store it away
     		var currentUpgrade = Game.possibleUpgrades[i];
-    		$newUpgrade = $('#buildingTemplate').clone();
+    		var $newUpgrade = $('#upgradeTemplate').clone();
     		$newUpgrade.attr('id', currentUpgrade.name);
 
     		// create jQuery objects from appropriate building dom pieces, store references
