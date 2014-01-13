@@ -52,7 +52,7 @@ Upgrade.prototype = {
 		this.dom.$stats.html(
 			"<b>Building Statistics:</b>" + "<br />" +
 			"Water Usage: " + this.waterDelta + "<br />" +
-			"Maintenance: $" + this.moneyDelta + "<br />" +
+//			"Maintenance: $" + this.moneyDelta + "<br />" +
 			"Satisfaction: " + this.satisfactionDelta
 		);
 	},
@@ -136,7 +136,7 @@ Building.prototype = {
 		for(var i = 0; i < this.upgrades.length; i++){
 			var currentUpgrade = this.upgrades[i];
 			stats.waterDelta += currentUpgrade.waterDelta * this.effectMultiplier;
-			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier;
+//			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier;
 			stats.satisfactionDelta += currentUpgrade.satisfactionDelta * this.effectMultiplier;
 		}
 		return stats;
@@ -156,7 +156,7 @@ Building.prototype = {
 		this.dom.$stats.html(
 			"<b>Building Statistics:</b>" + "<br />" +
 			"Water Usage: " + stats.waterDelta + "<br />" +
-			"Maintenance: $" + stats.moneyDelta + "<br />" +
+//			"Maintenance: $" + stats.moneyDelta + "<br />" +
 			"Satisfaction: " + stats.satisfactionDelta + "<br />" +
 			"Multiplier: " + this.effectMultiplier
 		);
@@ -310,6 +310,11 @@ var Game = {
     possibleUpgrades: upgradeArray,
     buildings: buildingArray,
     metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
+
+    targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
+        budget: 100001
+    },
+
     dom: {
     	$metrics: $('#metrics'),
     	$messageCenter: $('#messageCenter'),
@@ -319,6 +324,19 @@ var Game = {
     },
 
     // public functions
+    CheckLoss:       function(){
+        if(Game.metrics.budget < Game.targetGoals.budget ){
+            console.log("Lost due to money going negative.");
+//            alert("You have lost the game due to not meeting the budget goal of " + Game.targetGoals.budget);
+//            Game.Reset();
+        }
+
+    },
+
+    Reset:          function(){
+      Game.metrics = settings.initial; //reset all of the metrics
+    },
+
     Initialize:     function(){
     	// create the DOM elements necessary
 
@@ -327,7 +345,7 @@ var Game = {
 
     		// copy the building template DOM, store it away
     		var currentBuilding = Game.buildings[i];
-    		$newBuilding = $('#buildingTemplate').clone();
+    		var $newBuilding = $('#buildingTemplate').clone();
     		$newBuilding.attr('id', currentBuilding.name);
 
     		// create jQuery objects from appropriate building dom pieces, store references
@@ -400,6 +418,7 @@ var Game = {
         	this.buildings[i].Update(); // begin the updating process
         }
         Game.metrics.timeSurvived++; // somehow handle time survived, come back to this
+        Game.CheckLoss(); //See if you lose or not!
         Game.MetricsDiv();
         Game.Draw();
         console.log("Next turn...");
