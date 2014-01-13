@@ -46,7 +46,7 @@ Upgrade.prototype = {
 		this.dom.$name.html(nameString);
 	},
 	SetImageDiv: function(){	// resets the Image Div
-		this.dom.$image.html("<img src='" + this.image + "'width='100', height='100' />");
+		this.dom.$image.html("<img src='" + this.image + "'width='285', height='250' />");
 	},
 	SetStatsDiv: function(){	// resets the Stats Div
 		this.dom.$stats.html(
@@ -231,7 +231,7 @@ var upgradeArray = [
 		waterDelta: -200,
 		satisfactionDelta: 3,	// dual-flush toilets make me very satisfied
 		count: 0,
-		image: ""
+		image: "http://www.leaveitbetter.com/files/8112/7896/1078/HydroRight.gif"
 	}),
 
 	// Faucet sensors
