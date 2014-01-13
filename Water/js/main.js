@@ -30,12 +30,14 @@ function Upgrade(obj){
 	this.count = 				obj.count;
 	this.unlocked = 			obj.unlocked;			// is it currently locked?
 	this.image = 				obj.image;
+    this.icon =                 obj.icon; //experimental; icon
 	this.dom = {
 		$name: 				null,
 		$image: 			null,
 		$stats: 			null,
 		$buttons: 			null
 	}
+
 }
 Upgrade.prototype = {
 	UpgradeIndex: function(){
@@ -85,7 +87,8 @@ function Building(obj){
 		$stats: 			null,
 		$purchasedUpgrades: null,
 		$availableUpgrades: null,
-		$buttons: 			null
+		$buttons: 			null,
+        $upgradeIcons:      null
 	}
 }
 Building.prototype = {
@@ -189,11 +192,24 @@ Building.prototype = {
 	},
 	SetButtonsDiv: function(){
 		var buildingIndex = this.BuildingIndex();
-		var buttons = "<button class='upgradeButton' onclick='Game.Modal(Game.buildings[" 
-			+ buildingIndex + "].dom.$purchasedUpgrades)'>Purchased Upgrades</button><button class='upgradeButton' onclick='Game.Modal(Game.buildings[" 
+		var buttons =
+            //"<button class='upgradeButton' onclick='Game.Modal(Game.buildings["
+            //+ buildingIndex + "].dom.$purchasedUpgrades)'>Purchased Upgrades</button>
+            "<button class='upgradeButton' onclick='Game.Modal(Game.buildings["
 			+ buildingIndex + "].dom.$availableUpgrades)'>Buy More Upgrades</button>";
 		this.dom.$buttons.html(buttons);
 	},
+
+    SetUpgradeIconsDiv: function(){
+        var heading = "Purchased Upgrades: ";
+        for(var i = 0; i < this.upgrades.length; i++){
+            console.log(this.upgrades[i]);
+            console.log(this.upgrades[i].icon);
+            heading += "<img src='" + this.upgrades[i].icon + "' width ='25px' height='25px'> </img>";
+        }
+        this.dom.$upgradeIcons.html(heading + " ");
+    },
+
 	Draw: function(){	// redraws a building's container and all of its contents appropriately
 		this.StyleContainerDiv();
 		this.SetNameDiv();
@@ -202,6 +218,7 @@ Building.prototype = {
 		this.SetPurchasedUpgradesDiv();
 		this.SetAvailableUpgradesDiv();
 		this.SetButtonsDiv();
+        this.SetUpgradeIconsDiv(); //experimental
 	},
 	Update: function(){ // essentially performs a 'next turn,' applies all stats as needed
 		var stats = this.CombinedStats();
@@ -220,7 +237,7 @@ var upgradeArray = [
 		satisfactionDelta: 0,
 		count: 0,
 		image: "http://upload.wikimedia.org/wikipedia/commons/8/8f/Permeable_paver_demonstration.jpg",
-        icon: ""
+        icon: "img/porousAsphaltIcon.jpg"
 	}),
 
 	// Dual flush toilet
@@ -233,7 +250,7 @@ var upgradeArray = [
 		satisfactionDelta: 3,	// dual-flush toilets make me very satisfied
 		count: 0,
 		image: "http://www.leaveitbetter.com/files/8112/7896/1078/HydroRight.gif",
-        icon: ""
+        icon: "img/dualFlushIcon.jpg"
 	}),
 
 	// Faucet sensors
@@ -361,7 +378,8 @@ var Game = {
     			$stats: 			$newBuilding.children('.stats'),
     			$purchasedUpgrades: $newBuilding.children('.purchasedUpgrades'),
     			$availableUpgrades: $newBuilding.children('.availableUpgrades'),
-    			$buttons: 			$newBuilding.children('.buttons')
+    			$buttons: 			$newBuilding.children('.buttons'),
+                $upgradeIcons:      $newBuilding.children('.upgradeIcons') //experimental
     		}
 
     		// draw the current building
