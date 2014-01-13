@@ -219,7 +219,8 @@ var upgradeArray = [
 		waterDelta: -200,
 		satisfactionDelta: 0,
 		count: 0,
-		image: "http://upload.wikimedia.org/wikipedia/commons/8/8f/Permeable_paver_demonstration.jpg"
+		image: "http://upload.wikimedia.org/wikipedia/commons/8/8f/Permeable_paver_demonstration.jpg",
+        icon: ""
 	}),
 
 	// Dual flush toilet
@@ -231,7 +232,8 @@ var upgradeArray = [
 		waterDelta: -200,
 		satisfactionDelta: 3,	// dual-flush toilets make me very satisfied
 		count: 0,
-		image: "http://www.leaveitbetter.com/files/8112/7896/1078/HydroRight.gif"
+		image: "http://www.leaveitbetter.com/files/8112/7896/1078/HydroRight.gif",
+        icon: ""
 	}),
 
 	// Faucet sensors
@@ -243,7 +245,8 @@ var upgradeArray = [
 		waterDelta: -100,
 		satisfactionDelta: 0,
 		count: 0,
-		image: ""
+		image: "",
+        icon: ""
 	}),
 
 	// Green roof
@@ -255,7 +258,8 @@ var upgradeArray = [
 		waterDelta: 0,
 		satisfactionDelta: 50,
 		count: 0,
-		image: ""
+		image: "",
+        icon: ""
 	}),
 
 	// 
@@ -267,7 +271,8 @@ var upgradeArray = [
 		waterDelta: -200,
 		satisfactionDelta: 0,
 		count: 0,
-		image: ""
+		image: "",
+        icon: ""
 	})
 ];
 
