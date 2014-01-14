@@ -359,7 +359,7 @@ var Game = {
 
     Reset:          function(){
       Game.metrics = jQuery.extend(true, {}, settings.initial); //DEEP COPY OF INITIAL SETTINGS WITHOUT OVERWRITING THEM
-      Game.initialize();
+      Game.Initialize();
       Game.Draw();
     },
 
