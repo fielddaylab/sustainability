@@ -2,8 +2,8 @@
  * Created by xaoyang on 12/12/13.
  */
 (function (window){
-    function GarbageBin(GarbageBinType, imgGarbageBin, screen_width, screen_height, x_pos, y_pos){
-        this.initialize(GarbageBinType, imgGarbageBin, screen_width, screen_width, x_pos, y_pos);
+    function GarbageBin(GarbageBinType, imgGarbageBin, x, y){
+        this.initialize(GarbageBinType, imgGarbageBin, x, y);
     }
     
     GarbageBin.prototype = new createjs.Sprite();
@@ -21,7 +21,7 @@
 	GarbageBin.boundingBox; 
 
     // initialization
-    GarbageBin.prototype.initialize = function (GarbageBinType, imgGarbageBin, screen_width, screen_height, x_pos, y_pos){
+    GarbageBin.prototype.initialize = function (GarbageBinType, imgGarbageBin, x, y){
         console.log("GarbageBin object initialized");
         console.log("GarbageBin type: " +  GarbageBinType);
         console.log("GarbageBin img src: " + imgGarbageBin.src);
@@ -46,12 +46,10 @@
         this.type = GarbageBinType;
         
         this.direction = 1;
-        this.screen_width = screen_width;
-        this.screen_height = screen_height;
 		
 		// default starting position
-		this.x = x_pos;
-		this.y = y_pos;
+		this.x = x;
+		this.y = y;
 		
 		// get image size
 		this.width = imgGarbageBin.width;
@@ -64,11 +62,14 @@
         this.currentFrame = 0;
     
     	// create the bounding box for the object
+        
     	this.boundingBox = new createjs.Shape();
     	this.radius = Math.sqrt((this.width/2 * this.width/2) + (this.height/2 * this.height/2));
     	this.radius = this.radius * .9;
     	this.boundingBox.graphics.beginStroke("blue").ss(5,0,1).drawCircle(this.x, this.y, this.radius);
     	stage.addChild(this.boundingBox);
+        this.boundingBox.visible = false;
+        
     }
 
     GarbageBin.prototype.tick = function() {
@@ -77,6 +78,9 @@
 	
 	GarbageBin.prototype.on("rollover", function(evt) {
 		evt.target.alpha = .5;
+        evt.target.scaleX = 1.2;
+        evt.target.scaleY = 1.2;
+        evt.target.boundingBox.visible = true;
 		//console.log(evt.target.type);
 		//stage.addChild(evt.target.boundingBox);
 	});
@@ -84,6 +88,9 @@
 	
 	GarbageBin.prototype.on("rollout", function(evt) {
 		evt.target.alpha = 1;
+        evt.target.scaleX = 1;
+        evt.target.scaleY = 1;
+        evt.target.boundingBox.visible = false;
 		//stage.removeChild(evt.target.boundingBox);
 	});
 

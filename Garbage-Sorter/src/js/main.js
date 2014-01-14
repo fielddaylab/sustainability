@@ -14,6 +14,7 @@ var scoreText;
 var timerText;
 var pointText;
 var pointInt = 0;
+var fpsLabel;
 
 // timer stuff
 var currentCountDown;
@@ -28,22 +29,12 @@ var INSTANCE_COUNT = 100;
 var START_TIME = 45000; //ms
 var WARNING_TIME = 20000; //ms
 var GAME_ON = true;
+var SETTING = 'easy';
 
 // checks to see if mobile
 var isMobile;
 var window_width;
 var window_height;
-
-
-// SET UP SETTINGS CLASS
-var no_type_map = {
-	0 : "compost",
-	1 : "landfill",
-	2 : "landfill",
-	3 : "reuse", 
-	4 : "recycle", 
-	5 : "recycle", 
-};
 
 // uses date.now() to set up timer
 function createCountDown(timeRemaining) {
@@ -63,8 +54,14 @@ function convertMStoS(num, p){
 function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
-	canvas.width = window.innerWidth * .985 ;
-	canvas.height= window.innerHeight * .9 ;	// need to display buttons at bottom
+	//canvas.width = window.innerWidth * .985 ;
+	//canvas.height= window.innerHeight * .9 ;	// need to display buttons at bottom
+
+	var w = 640;
+	var h = 1136;
+
+	canvas.width = w * .985 ;
+	canvas.height= h * .9 ;	// need to display buttons at bottom
 
 }
 
@@ -79,7 +76,7 @@ function init(){
     stage = new createjs.Stage(canvas);
     screen_width = canvas.width;
     screen_height= canvas.height;
-    
+
     // enable mouse/touch events
 	stage.enableMouseOver(10);
 	createjs.Touch.enable(stage);
@@ -89,7 +86,7 @@ function init(){
     contentManager.StartDownload();
 
     // testing out the level class
-    level = new Level(stage, contentManager, 'complex', screen_width, screen_height);
+    level = new Level(stage, contentManager, screen_width, screen_height);
 }
 
 function reset(){
@@ -104,19 +101,25 @@ function reset(){
     console.log("Game has been reset");
 }
 
-function speedUp(){
-	level.SpeedUp();
+function easy(){
+	reset();
+	SETTING = 'easy';
+	init();
 }
 
-function speedDown(){
-	level.SpeedDown();
+function normal(){
+	reset();
+	SETTING = 'normal';
+	init();
+}
+
+function hard(){
+	reset();
+	SETTING = 'hard';
+	init();
 }
 
 function setText() {
-
-    titleText = new createjs.Text("Garbage Sorter", "bold 36px Arial", "#ffffff");
-    titleText.x = 10;
-    titleText.y = 10;
 
     timerText = new createjs.Text("Time Remaining: ", "bold 20px Arial", "#ffffff");
     timerText.x = 15;
@@ -133,20 +136,41 @@ function setText() {
 	pointText = new createjs.Text(pointInt, "bold 20px Arial", "#ffffff");
 	pointText.x = screen_width - 105;
 	pointText.y = 15;
+
+	fpsLabel = new createjs.Text("-- fps", "bold 20px Arial", "#FFF");
+    fpsLabel.x = 15;
+    fpsLabel.y = 70;
 }
+
+function drawLines(num){
+
+	var x = canvas.width / (num + 1);
+	var y = canvas.height;
+
+	var g = [];
+
+	for(var i = 0; i < num; i ++){
+		g.push(new createjs.Shape());
+		g[i].graphics.setStrokeStyle(3).beginStroke("blue").moveTo(x+(x * i),0).lineTo(x+(x*i),y);
+		stage.addChild(g[i]);
+	}
+
+}
+
 
 function startGame(){
     console.log("Game has started");
 
 	setText();
 
-    stage.addChild(titleText);
+	//drawLines(3);
     stage.addChild(timerText);
     stage.addChild(timeText);
     stage.addChild(scoreText);
 	stage.addChild(pointText);
+	stage.addChild(fpsLabel);
 	
-	level.StartLevel();
+	level.StartLevel(SETTING);
 
 	// start timer
 	currentCountDown = createCountDown(START_TIME); 
@@ -172,5 +196,6 @@ function tick(){
 		// quick fix, update later
 		pointInt += level.Update();
 		pointText.text = pointInt;
+		fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
 	}
 }
