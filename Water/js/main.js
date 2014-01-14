@@ -331,7 +331,8 @@ var Game = {
     modals: [],
     possibleUpgrades: upgradeArray,
     buildings: buildingArray,
-    metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
+//  metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
+    metrics: jQuery.extend({}, settings.initial), //This will shallow-copy the settings.initial object without passing by reference.
 
     targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
         budget: 100001
@@ -349,14 +350,17 @@ var Game = {
     CheckLoss:       function(){
         if(Game.metrics.budget < Game.targetGoals.budget ){
             console.log("Lost due to money going negative.");
-//            alert("You have lost the game due to not meeting the budget goal of " + Game.targetGoals.budget);
-//            Game.Reset();
+            alert("You have lost the game due to not meeting the budget goal of " + Game.targetGoals.budget +
+            "\n You survived for " + --Game.metrics.timeSurvived + " quarters!");
+            Game.Reset();
         }
 
     },
 
     Reset:          function(){
-      Game.metrics = settings.initial; //reset all of the metrics
+      Game.metrics = jQuery.extend(true, {}, settings.initial); //DEEP COPY OF INITIAL SETTINGS WITHOUT OVERWRITING THEM
+      Game.initialize();
+      Game.Draw();
     },
 
     Initialize:     function(){
@@ -441,9 +445,9 @@ var Game = {
         	this.buildings[i].Update(); // begin the updating process
         }
         Game.metrics.timeSurvived++; // somehow handle time survived, come back to this
-        Game.CheckLoss(); //See if you lose or not!
         Game.MetricsDiv();
         Game.Draw();
+        Game.CheckLoss(); //See if you lose or not!
         console.log("Next turn...");
     }
 };
