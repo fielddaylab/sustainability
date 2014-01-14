@@ -55,12 +55,16 @@
 		this.width = imgGarbageBin.width;
 		this.height = imgGarbageBin.height;
 		
+        // keep track of content
+        this.contentCountCorrect = 0;
+        this.contentCountWrong = 0;
+
         //velocity
         this.vX = 1;
         this.vY = 0;
         // starting directly at the first frame of the walk_h sequence
         this.currentFrame = 0;
-    
+        
     	// create the bounding box for the object
         
     	this.boundingBox = new createjs.Shape();

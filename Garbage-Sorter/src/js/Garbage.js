@@ -4,8 +4,8 @@
  */
  
 (function (window){
-    function Garbage(garbageType, imgGarbage, sW, sH, x, y){
-        this.initialize(garbageType, imgGarbage, sW, sH, x, y);
+    function Garbage(garbageType, imgGarbage, x, y){
+        this.initialize(garbageType, imgGarbage, x, y);
     }
     
     Garbage.prototype = new createjs.Sprite();
@@ -24,7 +24,7 @@
     Garbage.prototype.Sprite_intialize = Garbage.prototype.initialize;
 
     // initialization
-    Garbage.prototype.initialize = function (garbageType, imgGarbage, sW, sH, x, y){
+    Garbage.prototype.initialize = function (garbageType, imgGarbage, x, y){
 
        	this.width = imgGarbage.width;
        	this.height = imgGarbage.height;
@@ -48,16 +48,16 @@
 		// garbage type
         this.type = garbageType;
         this.direction = 1;
-
-        this.sWidth = sW;
-        this.sheight = sH;
 		
 		// default starting position
+        this.initX = x; 
+        this.initY = y;
+
 		this.x = x;
 		this.y = y;
-		this.movement = true;
 
         this.remove = false;
+        this.collision = false;
 
         // can scale image
         this.scaleX = .9;
@@ -79,28 +79,23 @@
        	       
     }
 
-    Garbage.prototype.tick = function(speed) {
-        
-        /*
-        if(this.movement){
-            this.x += this.vX * (this.direction * speed);
-        }
-        */
-		
-		this.boundingBox.x = this.x;
-		this.boundingBox.y = this.y;
+    Garbage.prototype.tick = function() {
+
+        this.boundingBox.x = this.x;
+        this.boundingBox.y = this.y;
     }
 	
 	Garbage.prototype.on("pressmove", function(evt) {
 
-        // if user slects then no movement
-        evt.target.movement = false;
-
 		evt.target.x = evt.stageX;
 		evt.target.y = evt.stageY;
-
         evt.target.pressed = true;
-        
+
+        /* Not sure if tick or pressmove better?
+        evt.target.boundingBox.x =  evt.target.x;
+        evt.target.boundingBox.y =  evt.target.y;
+        */
+
         if(isMobile){
             evt.target.boundingBox.visible = true;
         }
@@ -108,9 +103,14 @@
 
     Garbage.prototype.on("pressup", function(evt) {
 
-
         evt.target.pressed = false;
         evt.target.boundingBox.visible = true;
+
+        // snaps back if not being removed
+        if(!evt.target.collision){
+            evt.target.x = evt.target.initX;
+            evt.target.y = evt.target.initY;
+        }
 
         if(isMobile){
              evt.target.boundingBox.visible = false;

@@ -30,6 +30,7 @@ var START_TIME = 45000; //ms
 var WARNING_TIME = 20000; //ms
 var GAME_ON = true;
 var SETTING = 'easy';
+var ENDGAME = false;
 
 // checks to see if mobile
 var isMobile;
@@ -96,6 +97,7 @@ function reset(){
     
     pointInt = 0;
     GAME_ON = true;
+    ENDGAME = false;
     ITEM_SPEED = 1;
     currentCountDown = createCountDown(START_TIME); 
     console.log("Game has been reset");
@@ -174,16 +176,87 @@ function startGame(){
 
 	// start timer
 	currentCountDown = createCountDown(START_TIME); 
-		
+	
     stage.update();
     createjs.Ticker.addEventListener("tick", tick);
     createjs.Ticker.setFPS(60);
 }
 
+function endGame(){
+	
+	
+	if(!ENDGAME){
+		var w = canvas.width;
+		var h = canvas.height;
+
+		var endOverlay = new createjs.Shape();
+		endOverlay.graphics.beginFill('green').drawRoundRect(w*.12, h*.12, w *.76, h *.66, 10);
+		endOverlay.alpha = .8;
+		stage.addChild(endOverlay);
+
+		var overlay = new createjs.Shape();
+		overlay.graphics.beginFill('#AAAAAA').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
+		overlay.alpha = 1;
+		stage.addChild(overlay);
+
+		//end text
+		var stageText = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
+		stageText.text = "Stage: " + level.stageLevel;
+		stageText.x = w * .17;
+		stageText.y = h * .17;
+
+		var stagePoint = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
+		stagePoint.text = "Score: " + pointInt;
+		stagePoint.x = w * .17;
+		stagePoint.y = h * .21;
+
+		var recycleText = new createjs.Text("--", "bold 36px Arial", "green"); 
+		recycleText.text = "Recycled Items";
+		recycleText.x = w * .17;
+		recycleText.y = h * .30;
+
+		stage.addChild(stageText);
+		stage.addChild(stagePoint);
+		stage.addChild(recycleText);
+
+		var tmp = null;
+		var itemsText = [];
+		var incorrectCount = 0;
+		for(var i = 0; i < level.levelBins.length; i++){
+			tmp = new createjs.Text("--", "bold 30px Arial", "#ffffff"); 
+			tmp.text = level.levelBins[i] + ": " + level.garbageBin[i].contentCountCorrect;
+			tmp.x = w * .18;
+			tmp.y = h * (.35 + (.03 *i));
+			
+			itemsText.push(tmp);
+			stage.addChild(itemsText[i]);
+			incorrectCount += level.garbageBin[i].contentCountWrong;
+		}
+
+		var wrongText = new createjs.Text("--", "bold 30px Arial", "red"); 
+		wrongText.text = "incorrectly recycled: " + incorrectCount;
+		wrongText.x = w * .18;
+		wrongText.y = h * (.35 + (.03 * level.levelBins.length));
+
+		stage.addChild(wrongText);
+
+		var button = new createjs.Shape();
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.6,w*.4,h*.1,10);
+		stage.addChild(button);
+
+		var buttonText = new createjs.Text("QUIT", "bold 30px Arial", "green");
+		buttonText.x = w*.44;
+		buttonText.y = h*.62;
+		stage.addChild(buttonText);
+
+    	ENDGAME = true;
+    }
+
+}
+
 function tick(){
 
 	if(GAME_ON){
-
 		timeText.text = convertMStoS(currentCountDown()) + " seconds";  
 		if(convertMStoS(currentCountDown()) < 0 || convertMStoS(currentCountDown()) == 0){
 			timeText.text = "0.0 seconds";
@@ -197,5 +270,9 @@ function tick(){
 		pointInt += level.Update();
 		pointText.text = pointInt;
 		fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
+	}
+	else{
+		endGame();
+		stage.update();    
 	}
 }
