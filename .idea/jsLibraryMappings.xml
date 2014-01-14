@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/Water/js/main.js" libraries="{Node.js Globals, Node.js v0.10.24 Core Modules, jQuery-2.0.0}" />
-    <file url="file://$PROJECT_DIR$/Water/simple_server.js" libraries="{Node.js Globals, Node.js v0.10.24 Core Modules, jQuery-2.0.0}" />
-  </component>
-</project>
-

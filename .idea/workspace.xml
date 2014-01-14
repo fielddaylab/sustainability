@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a608ec38-7e90-484f-8475-af00db2401e8" name="Default" comment="" />
+    <ignored path="sustainability.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="sustainability" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Water/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="181" column="20" selection-start="5328" selection-end="5328" vertical-scroll-proportion="-13.541667" vertical-offset="2390" max-vertical-offset="2895">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Water/js/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="345" column="32" selection-start="11536" selection-end="11536" vertical-scroll-proportion="-0.24048096" vertical-offset="5295" max-vertical-offset="7455">
+              <folding>
+                <marker date="1389728574000" expanded="true" signature="302:369" placeholder="..." />
+                <marker date="1389728574000" expanded="true" signature="2911:2923" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simple_server.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Water/simple_server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Ricky54326" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="TableChanges" />
+      </map>
+    </option>
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/js/upgrades.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/tableMain.js" />
+        <option value="$PROJECT_DIR$/tables.html" />
+        <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/mitch_refactor/index.html" />
+        <option value="$PROJECT_DIR$/mitch_refactor/js/main.js" />
+        <option value="$PROJECT_DIR$/Water/simple_server.js" />
+        <option value="$PROJECT_DIR$/Water/index.html" />
+        <option value="$PROJECT_DIR$/Water/js/main.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
+    <option name="width" value="1440" />
+    <option name="height" value="874" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Water" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sustainability" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Water" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="preferences.sourceCode.Dart" />
+    <property name="FullScreen" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Water/simple_server.js" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/WaterGame" />
+      <recent name="$PROJECT_DIR$/WaterGame/old" />
+    </key>
+  </component>
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="Moments ago" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/index.html</PATH>
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with tree conflicts" />
+          <option name="myStatusName" value="Merged with tree conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with property conflicts" />
+          <option name="myStatusName" value="Will be merged with property conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Switched" />
+          <option name="myStatusName" value="Switched" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SWITCHED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
+  <component name="RunManager" selected="Node.js.Water Game mini-server (for local testing)">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="name" value="Dart" />
+      <option name="saveOutputToFile" value="false" />
+      <option name="showConsoleOnStdErr" value="false" />
+      <option name="showConsoleOnStdOut" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
+      <setting name="configLocationType" value="CONFIG_FILE" />
+      <setting name="settingsFile" value="" />
+      <setting name="serverType" value="INTERNAL" />
+      <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Water Game mini-server (for local testing)" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="simple_server.js" working-dir="$PROJECT_DIR$/Water">
+      <browser start="false" url="" with-js-debugger="false" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.Water Game mini-server (for local testing)" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a608ec38-7e90-484f-8475-af00db2401e8" name="Default" comment="" />
+      <created>1388299729699</created>
+      <updated>1388299729699</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Working on this new branch to make the Table version of the game.">
+      <created>1388300314248</created>
+      <updated>1388300314248</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Merged the two index pages, removed all errors that I could see, now I just have to actually make the table get updated rather than the bars from earlier.">
+      <created>1388301488846</created>
+      <updated>1388301488846</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Updated the upgrade costs to actually fit with the new budget model ($10,000 starting + $10,000 per quarter/season).">
+      <created>1388302080786</created>
+      <updated>1388302080786</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changed all references of &quot;month&quot; to &quot;season&quot;; updated rainfall from 0-10&quot; per season to 0-25&quot; per season as that's more realistic for a season. This is arbitrary and can be changed anytime.">
+      <created>1388302258495</created>
+      <updated>1388302258495</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changed all references of &quot;month&quot; to &quot;season&quot;; updated rainfall from 0-10&quot; per season to 0-25&quot; per season as that's more realistic for a season. This is arbitrary and can be changed anytime.">
+      <created>1388303675139</created>
+      <updated>1388303675139</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Split the WIP table logic and the somewhat-working old logic into two separate files: index.html (+ main.js) and tables.html (+ tableMain.js) rather than one main file (index.html).">
+      <created>1389200545309</created>
+      <updated>1389200545309</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Changed area tag coords to be a bit wider for each building, hopefully making them easier to touch.">
+      <created>1389375018729</created>
+      <updated>1389375018729</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Moved folder structure around per David's request to merge the Water Game and Garbage Sorter projects into one project.">
+      <created>1389378069790</created>
+      <updated>1389378069790</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Put Mitch's refactor as the root, and the old/bad version in the old/ folder, just in case we need to reference it for any reason at some point.">
+      <created>1389380426911</created>
+      <updated>1389380426911</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added water runoff rate to display, as well as update upon refresh. Changed port to 8080 for the mini webserver.">
+      <created>1389395002898</created>
+      <updated>1389395002898</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Fixed a bug that caused images not to display for upgrades, working on making Upgrades get the correct class upon cloning from the template.">
+      <created>1389633045728</created>
+      <updated>1389633045728</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Continued work on the same bug. Now, the images display at the correct width in the Upgrade modal.">
+      <created>1389633309458</created>
+      <updated>1389633309458</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Commented out all instances of Maintenance cost, as per David's suggestion. I left the code, however, so it can be easily re-enabled if need be.">
+      <created>1389643411249</created>
+      <updated>1389643411249</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added icons field to each of the Upgrades, working towards displaying icons for each building's upgrades.">
+      <created>1389644820268</created>
+      <updated>1389644820268</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added basic implementation of the icons showing in lieu of upgrade names for buildings in Modals. Works, but doesn't look the best (yet ;) )">
+      <created>1389646401754</created>
+      <updated>1389646401754</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Adding images so that this actually works on the dev server as well as locally.">
+      <created>1389647244415</created>
+      <updated>1389647244415</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Renamed buildings to their correct names, replaced SAC image with correct image of SAC. Working on other images as well.">
+      <created>1389648030888</created>
+      <updated>1389648030888</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Renamed buildings to their correct names, replaced SAC image with correct image of SAC as well as Microbial Sciences.">
+      <created>1389648264831</created>
+      <updated>1389648264831</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Cleaned up a bit of code to avoid unnecessary string manipulation. jQuery to the rescue!">
+      <created>1389653462534</created>
+      <updated>1389653462534</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Testing a couple of changes to see how git works with Xao.">
+      <created>1389717171164</created>
+      <updated>1389717171164</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Trying to work on Game logic. Stuck on a bug with rendering, at the moment.">
+      <created>1389727306568</created>
+      <updated>1389727306568</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Added basic &quot;Game loop&quot; with logic. Currently you can only fail from meeting the (currently unreasonable, intentionally) budget goal, and will fail every time. Working on the other factors as well.">
+      <created>1389727452394</created>
+      <updated>1389727452394</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Added working, failable targets as well as a working game loop. The only problem is that the buildings' stats are not tweaked to actually play the game &quot;Reasonably&quot; quite yet. We'll get there.">
+      <created>1389728609471</created>
+      <updated>1389728609471</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="1440" height="874" extended-state="7" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24305555" sideWeight="0.67058825" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32919255" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32298136" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USERS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <MESSAGE value="Working on this new branch to make the Table version of the game." />
+    <MESSAGE value="Merged the two index pages, removed all errors that I could see, now I just have to actually make the table get updated rather than the bars from earlier." />
+    <MESSAGE value="Updated the upgrade costs to actually fit with the new budget model ($10,000 starting + $10,000 per quarter/season)." />
+    <MESSAGE value="Changed all references of &quot;month&quot; to &quot;season&quot;; updated rainfall from 0-10&quot; per season to 0-25&quot; per season as that's more realistic for a season. This is arbitrary and can be changed anytime." />
+    <MESSAGE value="Split the WIP table logic and the somewhat-working old logic into two separate files: index.html (+ main.js) and tables.html (+ tableMain.js) rather than one main file (index.html)." />
+    <MESSAGE value="Changed area tag coords to be a bit wider for each building, hopefully making them easier to touch." />
+    <MESSAGE value="Moved folder structure around per David's request to merge the Water Game and Garbage Sorter projects into one project." />
+    <MESSAGE value="Put Mitch's refactor as the root, and the old/bad version in the old/ folder, just in case we need to reference it for any reason at some point." />
+    <MESSAGE value="Added water runoff rate to display, as well as update upon refresh. Changed port to 8080 for the mini webserver." />
+    <MESSAGE value="Fixed a bug that caused images not to display for upgrades, working on making Upgrades get the correct class upon cloning from the template." />
+    <MESSAGE value="Continued work on the same bug. Now, the images display at the correct width in the Upgrade modal." />
+    <MESSAGE value="Commented out all instances of Maintenance cost, as per David's suggestion. I left the code, however, so it can be easily re-enabled if need be." />
+    <MESSAGE value="Added icons field to each of the Upgrades, working towards displaying icons for each building's upgrades." />
+    <MESSAGE value="Added basic implementation of the icons showing in lieu of upgrade names for buildings in Modals. Works, but doesn't look the best (yet ;) )" />
+    <MESSAGE value="Adding images so that this actually works on the dev server as well as locally." />
+    <MESSAGE value="Renamed buildings to their correct names, replaced SAC image with correct image of SAC. Working on other images as well." />
+    <MESSAGE value="Renamed buildings to their correct names, replaced SAC image with correct image of SAC as well as Microbial Sciences." />
+    <MESSAGE value="Cleaned up a bit of code to avoid unnecessary string manipulation. jQuery to the rescue!" />
+    <MESSAGE value="Testing a couple of changes to see how git works with Xao." />
+    <MESSAGE value="Trying to work on Game logic. Stuck on a bug with rendering, at the moment." />
+    <MESSAGE value="Added basic &quot;Game loop&quot; with logic. Currently you can only fail from meeting the (currently unreasonable, intentionally) budget goal, and will fail every time. Working on the other factors as well." />
+    <MESSAGE value="Added working, failable targets as well as a working game loop. The only problem is that the buildings' stats are not tweaked to actually play the game &quot;Reasonably&quot; quite yet. We'll get there." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added working, failable targets as well as a working game loop. The only problem is that the buildings' stats are not tweaked to actually play the game &quot;Reasonably&quot; quite yet. We'll get there." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Water/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="165" column="42" selection-start="4841" selection-end="4841" vertical-scroll-proportion="0.0" vertical-offset="2045" max-vertical-offset="2880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="392" column="61" selection-start="13252" selection-end="13252" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4890">
+          <folding>
+            <marker date="1389728574000" expanded="true" signature="302:369" placeholder="..." />
+            <marker date="1389728574000" expanded="true" signature="2911:2923" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/simple_server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="18" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="9" selection-start="3046" selection-end="3046" vertical-scroll-proportion="0.0" vertical-offset="1574" max-vertical-offset="2640">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="86" selection-start="741" selection-end="741" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="5235">
+          <folding>
+            <marker date="1389728574000" expanded="true" signature="302:369" placeholder="..." />
+            <marker date="1389728574000" expanded="true" signature="2911:2923" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/img/map.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/simple_server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="20" selection-start="5328" selection-end="5328" vertical-scroll-proportion="-13.541667" vertical-offset="2390" max-vertical-offset="2895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Water/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="345" column="32" selection-start="11536" selection-end="11536" vertical-scroll-proportion="-0.24048096" vertical-offset="5295" max-vertical-offset="7455">
+          <folding>
+            <marker date="1389728574000" expanded="true" signature="302:369" placeholder="..." />
+            <marker date="1389728574000" expanded="true" signature="2911:2923" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+
