@@ -21,7 +21,7 @@ var settings = {
 	},
 
     targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
-        budget: 80000,
+        budget: 100001,
         satisfaction: 30,
         waterWasteRate: 500,
         waterRunoffRate: 500
@@ -352,36 +352,37 @@ var Game = {
 
     // public functions
     CheckLoss:       function(){
-        var lossMessage = "";
+        var lossMessage = " You have lost the game due to:<br/>";
         var failed = false;
 
         if(Game.metrics.budget < Game.targetGoals.budget ){
             console.log("Lost due to money going below threshold.");
-            lossMessage += "You have lost the game due to not meeting the budget goal of " + Game.targetGoals.budget + "\n";
+            lossMessage += "-not meeting the budget goal of " + Game.targetGoals.budget + "<br/>";
             failed = true;
         }
 
         if(Game.metrics.satisfaction < Game.targetGoals.satisfaction){
             console.log("Lost due to satisfaction going below threshold.");
-            lossMessage += "You have lost the game due to not meeting the satisfaction goal of " + Game.targetGoals.satisfaction + "\n";
+            lossMessage += "-not meeting the satisfaction goal of " + Game.targetGoals.satisfaction + "<br>";
             failed = true;
         }
 
         if(Game.metrics.waterWasteRate > Game.targetGoals.waterWasteRate){
             console.log("Lost due to water waste rate being above maximum threshold.");
-            lossMessage += "You have lost the game due to not being below the water waste rate goal of " + Game.targetGoals.waterWasteRate + "\n";
+            lossMessage += "-not being below the water waste rate goal of " + Game.targetGoals.waterWasteRate + "<br>";
             failed = true;
         }
 
         if(Game.metrics.waterRunoffRate > Game.targetGoals.waterRunoffRate){
             console.log("Lost due to water runoff rate being above maximum threshold.");
-            lossMessage += "You have lost the game due to not being below the water runoff rate goal of " + Game.targetGoals.waterRunoffRate + "\n";
+            lossMessage += "-not being below the water runoff rate goal of " + Game.targetGoals.waterRunoffRate + "<br>";
             failed = true;
         }
 
         if(failed){
             lossMessage += "You survived for " + Game.metrics.timeSurvived + " quarters!";
-            alert(lossMessage); //Should become a Modal eventually.
+            //alert(lossMessage); //Should become a Modal eventually.
+            Game.Modal(lossMessage);
             Game.Reset();
         }
 
@@ -466,11 +467,11 @@ var Game = {
     MetricsDiv: function(){
     	// Draw the metrics div, it informs the user how well they are doing / current statistics
 		Game.dom.$metrics.html(
-			"Money: " + Game.metrics.budget + "<br />" + 
-			"Satisfaction: " + Game.metrics.satisfaction + "<br />" + 
-			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" + 
-			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + "<br />" +
-            "Current Total Water Runoff Rate: " + Game.metrics.waterRunoffRate + "<br />" +
+			"Money: " + Game.metrics.budget + " (Goal: >" + Game.targetGoals.budget + ")<br />" +
+			"Satisfaction: " + Game.metrics.satisfaction + " (Goal: >" + Game.targetGoals.satisfaction + ")<br />" +
+			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" +
+			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + " (Goal: <" + Game.targetGoals.waterWasteRate + ")<br />" +
+            "Current Water Runoff Rate: " + Game.metrics.waterRunoffRate + " (Goal: <" + Game.targetGoals.waterRunoffRate + ")<br />" +
 			"Quarters Survived: " + Game.metrics.timeSurvived
 		);
     },
