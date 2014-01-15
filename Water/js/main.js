@@ -18,7 +18,14 @@ var settings = {
 		waterWasteRate: 800, 		// The starting water waste rate in gal/season, default 800
         waterRunoffRate: 800,       // The starting water runoff rate in gal/season, default 800
 		waterPlantCapacity: 1000 	// The capacity of the water filtration plant in gallons, default 1000.
-	}
+	},
+
+    targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
+        budget: 100001,
+        satisfaction: 30,
+        waterWasteRate: 500,
+        waterRunoffRate: 500
+    }
 };
 
 function Upgrade(obj){
@@ -331,11 +338,9 @@ var Game = {
     modals: [],
     possibleUpgrades: upgradeArray,
     buildings: buildingArray,
-    metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
-
-    targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
-        budget: 100001
-    },
+//  metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
+    metrics: jQuery.extend({}, settings.initial), //This will shallow-copy the settings.initial object without passing by reference.
+    targetGoals: jQuery.extend({}, settings.targetGoals), //shallow-copy of the initial target goals, so we can change them w/o modfiying original
 
     dom: {
     	$metrics: $('#metrics'),
@@ -347,16 +352,52 @@ var Game = {
 
     // public functions
     CheckLoss:       function(){
+        var lossMessage = " You have lost the game due to:<br/>";
+        var failed = false;
+
         if(Game.metrics.budget < Game.targetGoals.budget ){
-            console.log("Lost due to money going negative.");
-//            alert("You have lost the game due to not meeting the budget goal of " + Game.targetGoals.budget);
-//            Game.Reset();
+            console.log("Lost due to money going below threshold.");
+            lossMessage += "-not meeting the budget goal of " + Game.targetGoals.budget + "<br/>";
+            failed = true;
         }
+
+        if(Game.metrics.satisfaction < Game.targetGoals.satisfaction){
+            console.log("Lost due to satisfaction going below threshold.");
+            lossMessage += "-not meeting the satisfaction goal of " + Game.targetGoals.satisfaction + "<br>";
+            failed = true;
+        }
+
+        if(Game.metrics.waterWasteRate > Game.targetGoals.waterWasteRate){
+            console.log("Lost due to water waste rate being above maximum threshold.");
+            lossMessage += "-not being below the water waste rate goal of " + Game.targetGoals.waterWasteRate + "<br>";
+            failed = true;
+        }
+
+        if(Game.metrics.waterRunoffRate > Game.targetGoals.waterRunoffRate){
+            console.log("Lost due to water runoff rate being above maximum threshold.");
+            lossMessage += "-not being below the water runoff rate goal of " + Game.targetGoals.waterRunoffRate + "<br>";
+            failed = true;
+        }
+
+        if(failed){
+            lossMessage += "You survived for " + Game.metrics.timeSurvived + " quarters!";
+            //alert(lossMessage); //Should become a Modal eventually.
+            Game.Modal(lossMessage);
+            Game.Reset();
+        }
+
+        else{
+            Game.metrics.timeSurvived++;
+            return; //Did not fail! Should be a success modal here as well eventually.
+        }
+
 
     },
 
     Reset:          function(){
-      Game.metrics = settings.initial; //reset all of the metrics
+      Game.metrics = jQuery.extend(true, {}, settings.initial); //DEEP COPY OF INITIAL SETTINGS WITHOUT OVERWRITING THEM
+      Game.Initialize();
+      Game.Draw();
     },
 
     Initialize:     function(){
@@ -426,11 +467,11 @@ var Game = {
     MetricsDiv: function(){
     	// Draw the metrics div, it informs the user how well they are doing / current statistics
 		Game.dom.$metrics.html(
-			"Money: " + Game.metrics.budget + "<br />" + 
-			"Satisfaction: " + Game.metrics.satisfaction + "<br />" + 
-			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" + 
-			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + "<br />" +
-            "Current Total Water Runoff Rate: " + Game.metrics.waterRunoffRate + "<br />" +
+			"Money: " + Game.metrics.budget + " (Goal: >" + Game.targetGoals.budget + ")<br />" +
+			"Satisfaction: " + Game.metrics.satisfaction + " (Goal: >" + Game.targetGoals.satisfaction + ")<br />" +
+			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" +
+			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + " (Goal: <" + Game.targetGoals.waterWasteRate + ")<br />" +
+            "Current Water Runoff Rate: " + Game.metrics.waterRunoffRate + " (Goal: <" + Game.targetGoals.waterRunoffRate + ")<br />" +
 			"Quarters Survived: " + Game.metrics.timeSurvived
 		);
     },
@@ -440,10 +481,9 @@ var Game = {
         for(var i = 0; i < this.buildings.length; i++){
         	this.buildings[i].Update(); // begin the updating process
         }
-        Game.metrics.timeSurvived++; // somehow handle time survived, come back to this
-        Game.CheckLoss(); //See if you lose or not!
         Game.MetricsDiv();
         Game.Draw();
+        Game.CheckLoss(); //See if you lose or not (will increment timeSurvived as well if you survived)
         console.log("Next turn...");
     }
 };
