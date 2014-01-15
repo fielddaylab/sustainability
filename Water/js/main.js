@@ -225,7 +225,7 @@ Building.prototype = {
 		this.SetPurchasedUpgradesDiv();
 		this.SetAvailableUpgradesDiv();
 		this.SetButtonsDiv();
-        this.SetUpgradeIconsDiv(); //experimental
+        this.SetUpgradeIconsDiv();
 	},
 	Update: function(){ // essentially performs a 'next turn,' applies all stats as needed
 		var stats = this.CombinedStats();
@@ -340,7 +340,7 @@ var Game = {
     buildings: buildingArray,
 //  metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
     metrics: jQuery.extend({}, settings.initial), //This will shallow-copy the settings.initial object without passing by reference.
-    targetGoals: jQuery.extend({}, settings.targetGoals), //shallow-copy of the initial target goals, so we can change them w/o modfiying original
+    targetGoals: jQuery.extend({}, settings.targetGoals), //shallow-copy of the initial target goals, so we can change them w/o modifying original
 
     dom: {
     	$metrics: $('#metrics'),
@@ -395,6 +395,8 @@ var Game = {
     },
 
     Reset:          function(){
+      //need a way to reset building upgrades
+
       Game.metrics = jQuery.extend(true, {}, settings.initial); //DEEP COPY OF INITIAL SETTINGS WITHOUT OVERWRITING THEM
       Game.Initialize();
       Game.Draw();
@@ -448,9 +450,10 @@ var Game = {
     	}
     },
 
-    Modal: 	function(content){
-    	$newModal = Game.dom.$modalTemplate.clone();
-    	$newModal.attr('id', 'figure-it-out-later');
+    Modal: 	function(content, id){
+        id = id || 'figure-it-out-later';
+    	var $newModal = Game.dom.$modalTemplate.clone();
+    	$newModal.attr('id', id);
     	$newModal.append(content);
     	Game.dom.$gameContainer.append($newModal);
     },
@@ -481,9 +484,10 @@ var Game = {
         for(var i = 0; i < this.buildings.length; i++){
         	this.buildings[i].Update(); // begin the updating process
         }
+
+        Game.CheckLoss(); //See if you lose or not (will increment timeSurvived as well if you survived)
         Game.MetricsDiv();
         Game.Draw();
-        Game.CheckLoss(); //See if you lose or not (will increment timeSurvived as well if you survived)
         console.log("Next turn...");
     }
 };
