@@ -125,6 +125,25 @@ Building.prototype = {
 			Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;		// runoff effect
 			this.upgrades.push(newUpgrade);	 			// add upgrade to building's list of upgrades
 			console.log("Purchased '" + newUpgrade.name + "' for $" + newUpgrade.cost + ".");
+
+            //Adding some toast stuff here
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "positionClass": "toast-top-left",
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success("Purchased " + newUpgrade.name + " for $" + newUpgrade.cost + ".");
+            //End of toast stuff
+
 			Game.Draw();
 			return true;
 		}
