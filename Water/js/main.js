@@ -21,7 +21,7 @@ var settings = {
 	},
 
     targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
-        budget: 100001,
+        budget: 80000,
         satisfaction: 30,
         waterWasteRate: 500,
         waterRunoffRate: 500
