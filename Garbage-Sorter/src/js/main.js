@@ -26,7 +26,7 @@ var landfill;
 var compost;
 
 var INSTANCE_COUNT = 100;
-var START_TIME = 45000; //ms
+var START_TIME = 35000; //ms
 var WARNING_TIME = 20000; //ms
 var GAME_ON = true;
 var SETTING = 'easy';
@@ -36,6 +36,8 @@ var ENDGAME = false;
 var isMobile;
 var window_width;
 var window_height;
+
+var container;
 
 // uses date.now() to set up timer
 function createCountDown(timeRemaining) {
@@ -66,7 +68,15 @@ function handleCanvas(){
 
 }
 
+var topScore = 0;
 function init(){
+
+	if(localStorage.getItem('topScore')){
+		topScore = localStorage.getItem('topScore');
+	}
+	else{
+		topScore = 0;
+	}
 
 	isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/); 
 
@@ -189,15 +199,21 @@ function endGame(){
 		var w = canvas.width;
 		var h = canvas.height;
 
+		var container = new createjs.Container();
+		container.x = 10;
+    	container.y = 10;
+    	container.setBounds(w * .10,h * .10, w * .78, h *.68);
+    	container.mouseEnabled = true;
+
 		var endOverlay = new createjs.Shape();
 		endOverlay.graphics.beginFill('green').drawRoundRect(w*.12, h*.12, w *.76, h *.66, 10);
 		endOverlay.alpha = .8;
-		stage.addChild(endOverlay);
+		container.addChild(endOverlay);
 
 		var overlay = new createjs.Shape();
 		overlay.graphics.beginFill('#AAAAAA').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
 		overlay.alpha = 1;
-		stage.addChild(overlay);
+		container.addChild(overlay);
 
 		//end text
 		var stageText = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
@@ -215,9 +231,9 @@ function endGame(){
 		recycleText.x = w * .17;
 		recycleText.y = h * .30;
 
-		stage.addChild(stageText);
-		stage.addChild(stagePoint);
-		stage.addChild(recycleText);
+		container.addChild(stageText);
+		container.addChild(stagePoint);
+		container.addChild(recycleText);
 
 		var tmp = null;
 		var itemsText = [];
@@ -229,7 +245,7 @@ function endGame(){
 			tmp.y = h * (.35 + (.03 *i));
 			
 			itemsText.push(tmp);
-			stage.addChild(itemsText[i]);
+			container.addChild(itemsText[i]);
 			incorrectCount += level.garbageBin[i].contentCountWrong;
 		}
 
@@ -238,19 +254,60 @@ function endGame(){
 		wrongText.x = w * .18;
 		wrongText.y = h * (.35 + (.03 * level.levelBins.length));
 
-		stage.addChild(wrongText);
+		container.addChild(wrongText);
 
 		var button = new createjs.Shape();
 		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.6,w*.4,h*.1,10);
-		stage.addChild(button);
+		container.addChild(button);
 
-		var buttonText = new createjs.Text("QUIT", "bold 30px Arial", "green");
+		button.addEventListener("rollover", function(evt){
+			evt.target.alpha = .5;
+		});
+
+		button.addEventListener("rollout", function(evt){
+			evt.target.alpha = 1;
+		});
+
+		button.addEventListener("click", function(evt){
+			if(buttonText.text === "Quit"){
+
+				if(pointInt > topScore){
+					localStorage.setItem('topScore', pointInt);
+				}
+
+				reset();
+			}
+
+			stageText.text = "Top Score:"
+			stageText.x += (w*.20);
+
+			container.removeChild(recycleText);
+			container.removeChild(wrongText);
+
+			if(pointInt > topScore){
+				stagePoint.text = pointInt;
+			}
+			else{
+				stagePoint.text = topScore;
+			}
+			stagePoint.x += (w*.3);
+
+			for (var i = 0; i < level.levelBins.length; i++){
+				container.removeChild(itemsText[i]);
+			};
+
+			buttonText.text = "Quit";
+		})
+
+		var buttonText = new createjs.Text("NEXT", "bold 30px Arial", "green");
 		buttonText.x = w*.44;
 		buttonText.y = h*.62;
-		stage.addChild(buttonText);
-
+		container.addChild(buttonText);
+		
+		stage.addChild(container);
     	ENDGAME = true;
     }
+	
 
 }
 
