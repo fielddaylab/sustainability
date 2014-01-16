@@ -146,7 +146,7 @@ Building.prototype = {
 		for(var i = 0; i < this.upgrades.length; i++){
 			var currentUpgrade = this.upgrades[i];
 			stats.waterDelta += currentUpgrade.waterDelta * this.effectMultiplier;
-//			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier;
+//			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier; //temp. disabled maintenance costs
 			stats.satisfactionDelta += currentUpgrade.satisfactionDelta * this.effectMultiplier;
 		}
 		return stats;
@@ -301,36 +301,40 @@ var upgradeArray = [
 ];
 
 var buildingArray = [
+    new Building({
+        name: "Microbial Sciences",
+        upgrades: [],
+        effectMultiplier: 1,
+        imagePath: "img/microbialSciences.jpg"
+    }),
 	new Building({
 		name: "Nancy Nicholas Hall",
 		upgrades: [],
 		effectMultiplier: 1,
 		imagePath: "img/sohi.jpg"
 	}),
-	new Building({
-		name: "Education Building",
-		upgrades: [],
-		effectMultiplier: 1,
-		imagePath: "img/education.jpg"
-	}),
-	new Building({
-		name: "Microbial Sciences",
-		upgrades: [],
-		effectMultiplier: 1,
-		imagePath: "img/microbialSciences.jpg"
-	}),
-	new Building({
-		name: "WID",
-		upgrades: [],
-		effectMultiplier: 1,
-		imagePath: "img/wid.jpg"
-	}),
-	new Building({
-		name: "Student Activity Center",
-		upgrades: [],
-		effectMultiplier: 1 ,
-		imagePath: "img/sac.jpg"
-	})
+
+    new Building({
+        name: "WID",
+        upgrades: [],
+        effectMultiplier: 1,
+        imagePath: "img/wid.jpg"
+    }),
+
+    new Building({
+        name: "Student Activity Center",
+        upgrades: [],
+        effectMultiplier: 1 ,
+        imagePath: "img/sac.jpg"
+    }),
+
+    new Building({
+        name: "Education Building",
+        upgrades: [],
+        effectMultiplier: 1,
+        imagePath: "img/education.jpg"
+    })
+
 ];
 
 var Game = {
