@@ -7,10 +7,6 @@
     }
     
     GarbageBin.prototype = new createjs.Sprite();
-    
-    //public properties
-    GarbageBin.prototype.bounds = 0;   // visual radius size
-    GarbageBin.prototype.hit = 0;  // average radial disparity
 
     // constructor:
     GarbageBin.prototype.Sprite_intialize = GarbageBin.prototype.initialize;
@@ -44,7 +40,6 @@
 		
 		// GarbageBin type
         this.type = GarbageBinType;
-        
         this.direction = 1;
 		
 		// default starting position
@@ -66,7 +61,6 @@
         this.currentFrame = 0;
         
     	// create the bounding box for the object
-        
     	this.boundingBox = new createjs.Shape();
     	this.radius = Math.sqrt((this.width/2 * this.width/2) + (this.height/2 * this.height/2));
     	this.radius = this.radius * .9;
@@ -85,8 +79,6 @@
         evt.target.scaleX = 1.2;
         evt.target.scaleY = 1.2;
         evt.target.boundingBox.visible = true;
-		//console.log(evt.target.type);
-		//stage.addChild(evt.target.boundingBox);
 	});
 	
 	

@@ -9,22 +9,6 @@ var contentManager;
 var screen_width;
 var screen_height;
 
-var titleText;
-var scoreText;
-var timerText;
-var pointText;
-var pointInt = 0;
-var fpsLabel;
-
-// timer stuff
-var currentCountDown;
-
-var garbage;
-var recycle;
-var reuse;
-var landfill;
-var compost;
-
 var INSTANCE_COUNT = 100;
 var START_TIME = 35000; //ms
 var WARNING_TIME = 20000; //ms
@@ -132,23 +116,7 @@ function hard(){
 }
 
 function setText() {
-
-    timerText = new createjs.Text("Time Remaining: ", "bold 20px Arial", "#ffffff");
-    timerText.x = 15;
-    timerText.y = 45;
 	
-	timeText = new createjs.Text( convertMStoS(START_TIME) + " s", "bold 20px Arial", "#ffffff");
-	timeText.x = 180;
-	timeText.y = 45;
-		
-	scoreText = new createjs.Text("SCORE:", "bold 20px Arial", "#ffffff");
-	scoreText.x = screen_width - 200;
-	scoreText.y = 15;
-	
-	pointText = new createjs.Text(pointInt, "bold 20px Arial", "#ffffff");
-	pointText.x = screen_width - 105;
-	pointText.y = 15;
-
 	fpsLabel = new createjs.Text("-- fps", "bold 20px Arial", "#FFF");
     fpsLabel.x = 15;
     fpsLabel.y = 70;
@@ -169,23 +137,42 @@ function drawLines(num){
 
 }
 
+var src;            // the audio src we are trying to play
+var src2;
+var soundInstance;  // the soundInstance returned by Sound when we create or play a src
+
+function sound() {
+
+    // Create a single item to load.
+    var assetsPath = "assets/";
+    src2 = "src/sound/18-machinae_supremacy-lord_krutors_dominion.ogg";
+    src = "src/sound/GemCollected.ogg";
+    // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
+
+	createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
+    createjs.Sound.addEventListener("fileload", playSound); // add an event listener for when load is completed
+    createjs.Sound.registerSound(src);  // register sound, which preloads by default
+    createjs.Sound.registerSound(src2);  // register sound, which preloads by default
+
+    //stage.addEventListener("stagemousedown", clickCanvas);
+}
+
+function getSound(event){
+	createjs.Sound.play(src);
+}
+
+function playSound(event) {
+	console.log("sound loaded");
+	soundInstance = createjs.Sound.play(src2);  // start playing the sound we just loaded, storing the playing instance
+}
+
 
 function startGame(){
-    console.log("Game has started");
 
 	setText();
-
-	//drawLines(3);
-    stage.addChild(timerText);
-    stage.addChild(timeText);
-    stage.addChild(scoreText);
-	stage.addChild(pointText);
 	stage.addChild(fpsLabel);
 	
 	level.StartLevel(SETTING);
-
-	// start timer
-	currentCountDown = createCountDown(START_TIME); 
 	
     stage.update();
     createjs.Ticker.addEventListener("tick", tick);
@@ -313,23 +300,8 @@ function endGame(){
 
 function tick(){
 
-	if(GAME_ON){
-		timeText.text = convertMStoS(currentCountDown()) + " seconds";  
-		if(convertMStoS(currentCountDown()) < 0 || convertMStoS(currentCountDown()) == 0){
-			timeText.text = "0.0 seconds";
-			GAME_ON = !GAME_ON;
-		}
-		if(convertMStoS(currentCountDown()) < convertMStoS(WARNING_TIME)){
-			timeText.color = "red";
-		}
-
-		// quick fix, update later
-		pointInt += level.Update();
-		pointText.text = pointInt;
+		level.Update();
 		fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
-	}
-	else{
-		endGame();
-		stage.update();    
-	}
+		//endGame();
+		stage.update();
 }

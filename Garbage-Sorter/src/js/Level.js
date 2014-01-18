@@ -2,7 +2,7 @@
 
 (function (window){
 
-
+	// constructor
 	function Level(stage, contentManager, gameWidth, gameHeight){
 
 		this.levelStage = stage;
@@ -12,6 +12,9 @@
 		this.levelHeight = gameHeight;
 
 		this.levelSpeed = 1;
+		this.levelScore = 0;
+		this.levelDefaultTime = 10000;
+		this.warningtime = this.levelDefaultTime * .2;
 		this.longestCorrect = 0;
 
 		// objects
@@ -27,9 +30,11 @@
 	Level.prototype.StartLevel = function(stageLevel) {
 
 		// assigns level if one has not been chosen already
+		this.levelOn = true;
 		stageLevel = typeof stageLevel !== 'undefined' ? stageLevel : 'easy';
 
 		this.stageLevel = stageLevel;
+		this.timeRemain = createCountDown(this.levelDefaultTime); 
 
 		if(stageLevel === "easy"){
 			this.levelBins = ['landfill', 'recycle'];
@@ -49,7 +54,7 @@
 
 		this.LoadGarbage();
 		this.LoadBins();
-		this.setText();
+		this.setBackgroundText();
 	};
 
 
@@ -108,47 +113,34 @@
 		}
 	};
 
-	Level.prototype.setText = function(level) {
+	Level.prototype.setBackgroundText = function(level) {
 		
-		this.titleText = new createjs.Text("Garbage Sorter", "bold 36px Arial", "#ffffff");
-    	this.titleText.x = 10;
-    	this.titleText.y = 10;
+		this.txtTitle = new createjs.Text("Garbage Sorter", "bold 36px Arial", "#ffffff");
+    	this.txtTitle.x = this.txtTitle.y = 10;
 
-    	//this.correctText = new createjs.Text("+100", "bold 36px Arial", "green");
-    	//this.correctText.visible = false;
-    	//this.correctText.x = 100;
-    	//this.correctText.y = 100;
+    	this.txtTimerTitle = new createjs.Text("Time Remaining: ", "bold 20px Arial", "#ffffff");
+    	this.txtTimerTitle.x = 15;
+    	this.txtTimerTitle.y = 45;
 
-    	//this.wrongText = new createjs.Text("-50", "bold 36px Arial", "red");
-    	//this.wrongText.visible = false;
-    	//this.wrongText.x = 200;
-    	//this.wrongText.y = 200;
-
-    	/*
-	    this.timerText = new createjs.Text("Time Remaining: ", "bold 20px Arial", "#ffffff");
-	    this.timerText.x = 15;
-	    this.timerText.y = 45;
+		this.txtTimeRemain = new createjs.Text( convertMStoS(this.levelDefaultTime) + " s", "bold 20px Arial", "#ffffff");
+		this.txtTimeRemain.x = 180;
+		this.txtTimeRemain.y = 45;
 		
-		this.timeText = new createjs.Text( convertMStoS(START_TIME) + " s", "bold 20px Arial", "#ffffff");
-		this.timeText.x = 180;
-		this.timeText.y = 45;
-			
-		this.scoreText = new createjs.Text("SCORE:", "bold 20px Arial", "#ffffff");
-		this.scoreText.x = screen_width - 200;
-		this.scoreText.y = 15;
 		
-		this.pointText = new createjs.Text(pointInt, "bold 20px Arial", "#ffffff");
-		this.pointText.x = screen_width - 105;
-		this.pointText.y = 15;
-		*/
+		this.txtScoreTitle = new createjs.Text("SCORE:", "bold 20px Arial", "#ffffff");
+		this.txtScoreTitle.x = screen_width - 200;
+		this.txtScoreTitle.y = 15;
+		
+		this.txtScore = new createjs.Text(this.levelScore, "bold 20px Arial", "#ffffff");
+		this.txtScore.x = screen_width - 105;
+		this.txtScore.y = 15;
 
 		// put these objects into the level text container
-		this.levelText.push(this.titleText);
-		this.levelText.push(this.wrongText);
-		//this.levelText.push(this.timerText);
-		//this.levelText.push(this.timeText);
-		//this.levelText.push(this.scoreText);
-		//this.levelText.push(this.pointText);
+		this.levelText.push(this.txtTitle);
+		this.levelText.push(this.txtTimerTitle);
+		this.levelText.push(this.txtTimeRemain);
+		this.levelText.push(this.txtScoreTitle);
+		this.levelText.push(this.txtScore);
 
 		for(var i = 0; i < this.levelText.length; i++){
 			this.levelStage.addChild(this.levelText[i]);
@@ -164,17 +156,16 @@
 	//
 	Level.prototype.updateScore = function(sameType, objB) {
 		
-		var pt = 0;
 		var txt = null;
 		var cmtTxt = null;
 		if(sameType){
 			this.longestCorrect++;
 			txt = new createjs.Text("+100", "bold 36px Arial", "green");
-    		pt = 100;
+    		this.levelScore += 100;
 
     		if(this.longestCorrect % 5 == 0 && (this.longestCorrect > 0)){
     			txt.text = "+200"
-    			pt = 200;
+    			this.levelScore += 200;
 
     			cmtTxt = new createjs.Text("Great job!", "bold 36px Arial", "green");
     			cmtTxt.x = objB.x - 50;
@@ -187,9 +178,10 @@
 		else{
 			this.longestCorrect = 0;
 			txt = new createjs.Text("-50", "bold 36px Arial", "red");
-			pt = -50;
+			this.levelScore += -50;
 		}
 
+		getSound();
 
 		txt.visible = true;
 		txt.x = objB.x - 50;
@@ -197,10 +189,10 @@
     	
     	this.levelStage.addChild(txt);
     	this.feedBackText.push(txt);
-
-    	return pt;
 	};
 
+
+	// returns true if objA, and objB are hitting one another
 	Level.prototype.checkCollision = function(objA, objB){
 		var xD = objA.x - objB.x;
 		var yD = objA.y - objB.y;
@@ -219,96 +211,107 @@
 		if(!objA.pressed)
 		{
 			if(objA.type === objB.type){
-				point += this.updateScore(true, objB);
+				this.updateScore(true, objB);
 				objB.contentCountCorrect++;
 			}
 			else{
-				point += this.updateScore(false, objB);
+				this.updateScore(false, objB);
 				objB.contentCountWrong++;
 			}
 
 			objA.remove = true;
 		}
-
-		return point;
 	};
 
 	// Updates 
 	Level.prototype.Update = function() {
 
-		var point = 0;
-		var tmpObj = null;
-		var hit = false;
-		var collision = {};
-		var min_dist = Number.MAX_VALUE;
-		for(var i = 0; i < this.garbage.length; i++)
-		{
-			this.garbage[i].tick();
-			for(var j = 0; j < this.garbageBin.length; j++){
+		if(this.levelOn){
+			var point = 0;
+			var tmpObj = null;
+			var hit = false;
+			var collision = {};
+			var min_dist = Number.MAX_VALUE;
 
-				collision = this.checkCollision(this.garbage[i], this.garbageBin[j]);
-				if(collision.hit && (min_dist > collision.dist)){
-					min_dist = collision.dist;
-					tmpObj = this.garbageBin[j];
-					this.garbage[i].collision = hit = true;	// the item has hit something
+			for(var i = 0; i < this.garbage.length; i++)
+			{
+				this.garbage[i].tick();
+				for(var j = 0; j < this.garbageBin.length; j++){
+
+					collision = this.checkCollision(this.garbage[i], this.garbageBin[j]);
+					if(collision.hit && (min_dist > collision.dist)){
+						min_dist = collision.dist;
+						tmpObj = this.garbageBin[j];
+						this.garbage[i].collision = hit = true;	// the item has hit something
+					}
+				}
+
+				// an object has both a hit and a remove property
+				// if hit is true, that means that the object
+				// is in collision with a bin.
+				// A remove means that the object has collision and the user
+				// has released the object via pressup. 
+
+				// if an object was in collision with a bin but no longer
+				if(!hit){
+					this.garbage[i].collision = false;
+				}
+				else{
+					// there has been a collision
+					//if(min_dist !== Number.MAX_VALUE){
+					this.handleCollision(this.garbage[i], tmpObj);
+				}
+
+				if(this.garbage[i].remove){
+					this.levelStage.removeChild(this.garbage[i].boundingBox);
+					this.levelStage.removeChild(this.garbage[i]);
+					this.garbage.splice(i, 1);
+				}
+
+				hit = false;
+				min_dist = Number.MAX_VALUE;
+			}
+
+			// IN the future, should make relative
+			for( var i = 0; i < this.feedBackText.length ; i++){
+				this.feedBackText[i].y -= 1;
+				this.feedBackText[i].alpha -= .015;
+
+				// if no longer visible, remove the text
+				if(this.feedBackText[i].alpha < .1){
+					this.levelStage.removeChild(this.feedBackText[i]);
+					this.feedBackText.splice(i, 1);
 				}
 			}
 
-			// an object has both a hit and a remove property
-			// if hit is true, that means that the object
-			// is in collision with a bin.
-			// A remove means that the object has collision and the user
-			// has released the object via pressup. 
+			// checks to see if there are any garbage left
+			// clears the bins, reloads the garbage, then reloads the bins
+			if(this.garbage.length === 0){
+				for(var i = 0; i < this.garbageBin.length; i++){
+					this.levelStage.removeChild(this.garbageBin[i]);
+				}
 
-			// if an object was in collision with a bin but no longer
-			if(!hit){
-				this.garbage[i].collision = false;
-			}
-			else{
-				// there has been a collision
-				//if(min_dist !== Number.MAX_VALUE){
-				point += this.handleCollision(this.garbage[i], tmpObj);
+				this.LoadGarbage();
+
+				for(var i = 0; i < this.garbageBin.length; i++){
+					this.levelStage.addChild(this.garbageBin[i]);
+				}
 			}
 
-			if(this.garbage[i].remove){
-				this.levelStage.removeChild(this.garbage[i].boundingBox);
-				this.levelStage.removeChild(this.garbage[i]);
-				this.garbage.splice(i, 1);
+			// check the time
+			this.txtTimeRemain.text = convertMStoS(this.timeRemain()) + " seconds";  
+			if(convertMStoS(this.timeRemain()) < 0 || convertMStoS(this.timeRemain()) == 0){
+				this.txtTimeRemain.text = "0.0 seconds";
+				this.levelOn = false;
 			}
+			if(convertMStoS(this.timeRemain()) < convertMStoS(this.warningtime)){
+				this.txtTimeRemain.color = "red";
+			}
+			this.txtScore.text = this.levelScore;
 
-			hit = false;
-			min_dist = Number.MAX_VALUE;
+			// calls update to the stage
+			this.levelStage.update();
 		}
-
-		// IN the future, should make relative
-		for( var i = 0; i < this.feedBackText.length ; i++){
-			this.feedBackText[i].y -= 1;
-			this.feedBackText[i].alpha -= .015;
-
-			// if no longer visible, remove the text
-			if(this.feedBackText[i].alpha < .1){
-				this.levelStage.removeChild(this.feedBackText[i]);
-				this.feedBackText.splice(i, 1);
-			}
-		}
-
-		// checks to see if there are any garbage left
-		// clears the bins, reloads the garbage, then reloads the bins
-		if(this.garbage.length === 0){
-			for(var i = 0; i < this.garbageBin.length; i++){
-				this.levelStage.removeChild(this.garbageBin[i]);
-			}
-
-			this.LoadGarbage();
-
-			for(var i = 0; i < this.garbageBin.length; i++){
-				this.levelStage.addChild(this.garbageBin[i]);
-			}
-		}
-
-		// calls update to the stage
-		this.levelStage.update();
-		return point;
 	};
 
 	window.Level = Level;

@@ -9,10 +9,6 @@
     }
     
     Garbage.prototype = new createjs.Sprite();
-    
-    //public properties [not really sure what they do]
-    Garbage.prototype.bounds = 0;   // visual radius size
-    Garbage.prototype.hit = 0;  // average radial disparity
 
 	Garbage.width;
 	Garbage.height;
