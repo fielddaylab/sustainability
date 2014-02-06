@@ -30,6 +30,22 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+
+        .introModal{
+            display: block;
+            box-sizing: border-box;
+            width: 320px;
+            height: 420px;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            border: 3px solid #000000;
+            border-radius: 15px;
+            background-color: #888888;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
         .Building{
             vertical-align: top;
             display: block;
@@ -168,12 +184,19 @@
         <div class="close" onclick="$(this).parent('.modal').remove()">X</div>
     </div>
 
+    <div id="introModalTemplate" class="introModal">
+        <div class="close" onclick="$(this).parent('.introModal').remove()">X</div>
+    </div>
+
     <div id="upgradeTemplate" class="viewUpgrade">
         <div class="image">fakeimage</div>
         <div class="name">fakename</div>
         <div class="stats">fakestats</div>
         <div class="buttons">fakebutton1 fakebutton2</div>
     </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.min.css">
 
     <script src="js/main.js">
     </script>

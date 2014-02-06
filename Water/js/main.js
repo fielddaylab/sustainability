@@ -1,29 +1,29 @@
 // redefine console.log to work for our message center
-console.log = function(string, level){
-	var bgColor;
-	if(level !== undefined && level === 'warn'){
-		bgColor = "#FFAAAA";	// red-ish color - warning
-	} else {
-		bgColor = "#EEEEEE";	// default normal background
-	}
-	var newElement = $("<div style='display:none; border-bottom: 1px dotted #333333; background-color: " + bgColor + ";'>" + string + "</div>");
-	Game.dom.$messageCenter.prepend(newElement);
-	newElement.slideDown();
-}
+//console.log = function(string, level){
+//	var bgColor;
+//	if(level !== undefined && level === 'warn'){
+//		bgColor = "#FFAAAA";	// red-ish color - warning
+//	} else {
+//		bgColor = "#EEEEEE";	// default normal background
+//	}
+//	var newElement = $("<div style='display:none; border-bottom: 1px dotted #333333; background-color: " + bgColor + ";'>" + string + "</div>");
+//	Game.dom.$messageCenter.prepend(newElement);
+//	newElement.slideDown();
+//}
+
 var settings = {
 	initial: {
 		budget: 100000, 			// This is the budget amount in $, default 1000000
 		timeSurvived: 0, 			// This is the starting time in Seasons, default 0
 		satisfaction: 50, 			// This is the starting satisfaction (in %), default 50
-		waterWasteRate: 800, 		// The starting water waste rate in gal/season, default 800
-        waterRunoffRate: 800,       // The starting water runoff rate in gal/season, default 800
-		waterPlantCapacity: 1000 	// The capacity of the water filtration plant in gallons, default 1000.
+		waterUsage: 800, 		// The starting water usage rate in gal/season, default 800
+        waterRunoffRate: 800       // The starting water runoff rate in gal/season, default 800
 	},
 
     targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
-        budget: 100001,
+        budget: 80000,
         satisfaction: 30,
-        waterWasteRate: 500,
+        waterUsage: 500,
         waterRunoffRate: 500
     }
 };
@@ -79,7 +79,7 @@ Upgrade.prototype = {
 		this.SetStatsDiv();
 		this.SetButtonsDiv(currBuilding);
 		return this.dom.$container;
-	},
+	}
 }
 
 function Building(obj){
@@ -122,9 +122,28 @@ Building.prototype = {
 			// perform one-time metric changes
 			Game.metrics.budget -= newUpgrade.cost;		// subtract initial cost of item from budget
 			Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;	// satisfaction effect
-			Game.metrics.waterWasteRate += newUpgrade.waterDelta * this.effectMultiplier;		// runoff effect
+			Game.metrics.waterUsage += newUpgrade.waterDelta * this.effectMultiplier;		// runoff effect
 			this.upgrades.push(newUpgrade);	 			// add upgrade to building's list of upgrades
 			console.log("Purchased '" + newUpgrade.name + "' for $" + newUpgrade.cost + ".");
+
+            //Adding some toast stuff here
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "positionClass": "toast-top-left",
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success("Purchased " + newUpgrade.name + " for $" + newUpgrade.cost + ".");
+            //End of toast stuff
+
 			Game.Draw();
 			return true;
 		}
@@ -141,12 +160,12 @@ Building.prototype = {
 		var stats = {
 			waterDelta: 		0,
 			moneyDelta: 		0,
-			satisfactionDelta: 	0,
+			satisfactionDelta: 	0
 		}
 		for(var i = 0; i < this.upgrades.length; i++){
 			var currentUpgrade = this.upgrades[i];
 			stats.waterDelta += currentUpgrade.waterDelta * this.effectMultiplier;
-//			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier;
+//			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier; //temp. disabled maintenance costs
 			stats.satisfactionDelta += currentUpgrade.satisfactionDelta * this.effectMultiplier;
 		}
 		return stats;
@@ -301,36 +320,40 @@ var upgradeArray = [
 ];
 
 var buildingArray = [
+    new Building({
+        name: "Microbial Sciences",
+        upgrades: [],
+        effectMultiplier: 1,
+        imagePath: "img/microbialSciences.jpg"
+    }),
 	new Building({
 		name: "Nancy Nicholas Hall",
 		upgrades: [],
 		effectMultiplier: 1,
 		imagePath: "img/sohi.jpg"
 	}),
-	new Building({
-		name: "Education Building",
-		upgrades: [],
-		effectMultiplier: 1,
-		imagePath: "img/education.jpg"
-	}),
-	new Building({
-		name: "Microbial Sciences",
-		upgrades: [],
-		effectMultiplier: 1,
-		imagePath: "img/microbialSciences.jpg"
-	}),
-	new Building({
-		name: "WID",
-		upgrades: [],
-		effectMultiplier: 1,
-		imagePath: "img/wid.jpg"
-	}),
-	new Building({
-		name: "Student Activity Center",
-		upgrades: [],
-		effectMultiplier: 1 ,
-		imagePath: "img/sac.jpg"
-	})
+
+    new Building({
+        name: "WID",
+        upgrades: [],
+        effectMultiplier: 1,
+        imagePath: "img/wid.jpg"
+    }),
+
+    new Building({
+        name: "Student Activity Center",
+        upgrades: [],
+        effectMultiplier: 1 ,
+        imagePath: "img/sac.jpg"
+    }),
+
+    new Building({
+        name: "Education Building",
+        upgrades: [],
+        effectMultiplier: 1,
+        imagePath: "img/education.jpg"
+    })
+
 ];
 
 var Game = {
@@ -338,7 +361,7 @@ var Game = {
     modals: [],
     possibleUpgrades: upgradeArray,
     buildings: buildingArray,
-//  metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterWasteRate, waterPlantCapacity
+//  metrics: settings.initial, // gives us variables budget, timeSurvived, satisfaction, waterUsage, waterPlantCapacity
     metrics: jQuery.extend({}, settings.initial), //This will shallow-copy the settings.initial object without passing by reference.
     targetGoals: jQuery.extend({}, settings.targetGoals), //shallow-copy of the initial target goals, so we can change them w/o modifying original
 
@@ -347,7 +370,8 @@ var Game = {
     	$messageCenter: $('#messageCenter'),
     	$modalTemplate: $('#modalTemplate'),
     	$gameContainer: $('#sustainable'),
-    	$upgradeTemplate: $('#upgradeTemplate')
+    	$upgradeTemplate: $('#upgradeTemplate'),
+        $introModalTemplate: $("#introModalTemplate")
     },
 
     // public functions
@@ -367,9 +391,9 @@ var Game = {
             failed = true;
         }
 
-        if(Game.metrics.waterWasteRate > Game.targetGoals.waterWasteRate){
-            console.log("Lost due to water waste rate being above maximum threshold.");
-            lossMessage += "-not being below the water waste rate goal of " + Game.targetGoals.waterWasteRate + "<br>";
+        if(Game.metrics.waterUsage > Game.targetGoals.waterUsage){
+            console.log("Lost due to water usage rate being above maximum threshold.");
+            lossMessage += "-not being below the water usage rate goal of " + Game.targetGoals.waterUsage + "<br>";
             failed = true;
         }
 
@@ -394,6 +418,23 @@ var Game = {
 
     },
 
+    DisplayIntro:   function(){
+        //Game.Modal("Intro3");
+
+        Game.Modal("Intro3");
+        Game.Modal("Intro2");
+
+        //Intro 3
+        var id = id || 'figure-it-out-later';
+        var $newModal = Game.dom.$introModalTemplate.clone();
+        $newModal.attr('id', id);
+        $newModal.append("Intro1");
+        Game.dom.$gameContainer.append($newModal);
+        //End Intro 3
+
+        console.log("Intro displayed.");
+    },
+
     Reset:          function(){
       //need a way to reset building upgrades
 
@@ -403,6 +444,7 @@ var Game = {
     },
 
     Initialize:     function(){
+
     	// create the DOM elements necessary
 
     	// create building DOM elements
@@ -448,6 +490,8 @@ var Game = {
     			$buttons: 			$newUpgrade.children('.buttons')
     		}
     	}
+
+        Game.DisplayIntro(); //Display our opening cutscene once everything is loaded
     },
 
     Modal: 	function(content, id){
@@ -472,9 +516,8 @@ var Game = {
 		Game.dom.$metrics.html(
 			"Money: " + Game.metrics.budget + " (Goal: >" + Game.targetGoals.budget + ")<br />" +
 			"Satisfaction: " + Game.metrics.satisfaction + " (Goal: >" + Game.targetGoals.satisfaction + ")<br />" +
-			"Water Treatment Capacity: " + Game.metrics.waterPlantCapacity + "<br />" +
-			"Current Water Waste Rate: " + Game.metrics.waterWasteRate + " (Goal: <" + Game.targetGoals.waterWasteRate + ")<br />" +
-            "Current Water Runoff Rate: " + Game.metrics.waterRunoffRate + " (Goal: <" + Game.targetGoals.waterRunoffRate + ")<br />" +
+			"Usage: " + Game.metrics.waterUsage + " (Goal: <" + Game.targetGoals.waterUsage + ")<br />" +
+            "Runoff: " + Game.metrics.waterRunoffRate + " (Goal: <" + Game.targetGoals.waterRunoffRate + ")<br />" +
 			"Quarters Survived: " + Game.metrics.timeSurvived
 		);
     },
@@ -492,5 +535,5 @@ var Game = {
     }
 };
 
-Game.Initialize(); 
+//Game.Initialize();
 
