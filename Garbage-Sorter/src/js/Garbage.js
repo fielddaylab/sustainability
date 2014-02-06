@@ -4,8 +4,8 @@
  */
  
 (function (window){
-    function Garbage(garbageType, imgGarbage, x, y){
-        this.initialize(garbageType, imgGarbage, x, y);
+    function Garbage(garbageType, imgGarbage, x, y, gh, gw){
+        this.initialize(garbageType, imgGarbage, x, y, gh, gw);
     }
     
     Garbage.prototype = new createjs.Sprite();
@@ -20,7 +20,7 @@
     Garbage.prototype.Sprite_intialize = Garbage.prototype.initialize;
 
     // initialization
-    Garbage.prototype.initialize = function (garbageType, imgGarbage, x, y){
+    Garbage.prototype.initialize = function (garbageType, imgGarbage, x, y, gh, gw){
 
        	this.width = imgGarbage.width;
        	this.height = imgGarbage.height;
@@ -49,11 +49,15 @@
         this.initX = x; 
         this.initY = y;
 
+        this.gh = gh;
+        this.gw = gw;
+
 		this.x = x;
 		this.y = y;
 
         this.remove = false;
         this.collision = false;
+        this.dumped = false;
 
         // can scale image
         this.scaleX = .9;
@@ -75,10 +79,27 @@
        	       
     }
 
-    Garbage.prototype.tick = function() {
+    Garbage.prototype.tick = function(rate) {
 
         this.boundingBox.x = this.x;
         this.boundingBox.y = this.y;
+
+        this.y += rate;
+        this.initY = this.y;
+        
+        if(this.y > (this.gh * .8))
+        {
+            this.alpha -= .015;
+            this.scaleX -= .01;
+            this.scaleY -= .01;
+        }
+
+        if(this.alpha < .10){
+            playThud();
+
+            this.dumped = true;
+            this.remove = true;
+        }
     }
 	
 	Garbage.prototype.on("pressmove", function(evt) {

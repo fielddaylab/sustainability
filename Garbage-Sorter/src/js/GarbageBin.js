@@ -91,4 +91,4 @@
 	});
 
     window.GarbageBin = GarbageBin;
-}(window))
+}(window));

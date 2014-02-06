@@ -1,8 +1,6 @@
 // This class will be responsible for the layers
 
 (function (window){
-
-	// constructor
 	function Level(stage, contentManager, gameWidth, gameHeight){
 
 		this.levelStage = stage;
@@ -13,13 +11,16 @@
 
 		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 10000;
+		this.levelDefaultTime = 45000;
 		this.warningtime = this.levelDefaultTime * .2;
 		this.longestCorrect = 0;
+
+		this.landfillsQ = null;
 
 		// objects
 		this.garbage = [];
 		this.garbageBin = [];
+		this.conveyorBelt = [];
 
 		this.levelBins = [];
 		this.levelText = [];
@@ -51,18 +52,19 @@
 			this.levelSpeed = 6;
 		}
 
-
-		this.LoadGarbage();
-		this.LoadBins();
+		this.loadLandfillBar();
+		this.loadConveyor();
+		this.loadGarbage();
+		this.loadBins();
 		this.setBackgroundText();
 	};
 
 
 	//	Loads the garbage bins onto the screen based on the level
-	Level.prototype.LoadBins = function() {
+	Level.prototype.loadBins = function() {
 
 		var xPos;								// x location of the object
-		var yPos;								// y location of the object
+		var yPos = 0;								// y location of the object
 		var yOff; 								// y offset
 		var binCount = this.levelBins.length;
 
@@ -79,8 +81,13 @@
 				j = 0;
 			}
 
-			yPos = yOff + ( yOff * j );
-			this.garbageBin.push(new GarbageBin(this.levelBins[i], contentManager.GetBin(this.levelBins[i]), xPos, yPos));
+			var tmpBin = contentManager.GetBin(this.levelBins[i]);
+
+			console.log(tmpBin.height);
+			yPos += 100 + tmpBin.height;
+			console.log("xpos: " + xPos);
+			console.log("ypos: " + yPos);
+			this.garbageBin.push(new GarbageBin(this.levelBins[i], tmpBin, xPos, yPos));
 
 			// adds the child to the stage
 			this.levelStage.addChild(this.garbageBin[i]);
@@ -90,50 +97,111 @@
 	};
 
 	// Loads the garbage and places it on the screen. 
-	Level.prototype.LoadGarbage = function() {
+	Level.prototype.loadGarbage = function() {
 
-		var garbageCount = 5;
+		var garbageCount = 105;
 
-		var yPos;			// y location for object
+		var yPos = 0;			// y location for object
 		var xPos = 50;		// x location for object
-		var yOff = this.levelHeight / garbageCount;	// the y offset for the item
+		//var yOff = this.levelHeight / garbageCount;	// the y offset for the item
+		var yOff = 20;
 
 		var randomGarbage = {};
+
+		yPos = this.levelHeight;
 
 		// places the garbage bin based on the number of bins 
 		for(var i = 0; i < garbageCount; i++)
 		{	
 			// calculates the y position, grabs a random object
-			yPos = yOff + 40 + (yOff * .7 * i);
+			//yPos = yOff + 40 + (yOff * .7 * i);
+			
 			randomGarbage = this.levelContentManager.GetGarbage(this.levelBins);	
-			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos, yPos));
+			
+			yPos -= randomGarbage.img.height + yOff;
+			//
+
+			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos + (Math.random() * 50), yPos, this.levelHeight,this.levelWidth));
 
 			// adds the child to the stage
 			this.levelStage.addChild(this.garbage[i]);
 		}
 	};
 
+	Level.prototype.loadConveyor = function(){
+
+		var tmp;
+		var yPos = this.levelHeight * .8;
+		var tileHeight = 150;
+		for(var i = 0; i < 10; i++){
+
+			tmp = new createjs.Shape();
+			tmp.graphics.beginFill('#666699').drawRoundRect(5,0, 200, tileHeight, 10);
+			yPos -= tileHeight + 5;
+			tmp.y = yPos;
+			this.conveyorBelt.push(tmp);
+
+			this.levelStage.addChild(this.conveyorBelt[i]);
+		}
+
+
+		// var tmp = new createjs.Shape();
+		// tmp.graphics.beginFill('#666699').drawRoundRect(5,200, 200, tileHeight, 10);
+		// this.levelStage.addChild(tmp);
+	};
+
+
+	Level.prototype.loadLandfillBar = function(){
+		var initY = this.levelHeight * .85;
+		console.log(initY);
+		var line = new createjs.Shape();
+		line.graphics.setStrokeStyle(3).beginStroke("red").moveTo(-10, initY);
+
+		var xpos = 0;
+		for(var i = 0; i < this.levelWidth; i+=100){
+			line.graphics.lineTo(i, (initY + (Math.random() * 15)));
+		}
+
+		line.graphics.lineTo(this.levelWidth, initY);
+
+		this.landfillsQ = new createjs.Shape();
+		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.15, 1);
+		this.levelStage.addChild(this.landfillsQ);
+
+		this.levelStage.addChild(line);
+	}
+
+	//update
+	Level.prototype.updateLandfillBar = function(){
+		console.log('here in update');
+		this.landfillsQ.y -= 10;
+	}
+
 	Level.prototype.setBackgroundText = function(level) {
 		
-		this.txtTitle = new createjs.Text("Garbage Sorter", "bold 36px Arial", "#ffffff");
+		var stageLayer = new createjs.Shape();
+		stageLayer.graphics.beginFill('green').drawRoundRect(0, 0, this.levelWidth, 90, 10);
+		this.levelStage.addChild(stageLayer);
+
+		this.txtTitle = new createjs.Text("Stage", "bold 36px Arial", "#ffffff");
     	this.txtTitle.x = this.txtTitle.y = 10;
 
-    	this.txtTimerTitle = new createjs.Text("Time Remaining: ", "bold 20px Arial", "#ffffff");
+    	this.txtTimerTitle = new createjs.Text("Time: ", "bold 20px Arial", "#ffffff");
     	this.txtTimerTitle.x = 15;
-    	this.txtTimerTitle.y = 45;
+    	this.txtTimerTitle.y = 55;
 
 		this.txtTimeRemain = new createjs.Text( convertMStoS(this.levelDefaultTime) + " s", "bold 20px Arial", "#ffffff");
-		this.txtTimeRemain.x = 180;
-		this.txtTimeRemain.y = 45;
+		this.txtTimeRemain.x = 75;
+		this.txtTimeRemain.y = 55;
 		
 		
 		this.txtScoreTitle = new createjs.Text("SCORE:", "bold 20px Arial", "#ffffff");
 		this.txtScoreTitle.x = screen_width - 200;
-		this.txtScoreTitle.y = 15;
+		this.txtScoreTitle.y = 55;
 		
 		this.txtScore = new createjs.Text(this.levelScore, "bold 20px Arial", "#ffffff");
 		this.txtScore.x = screen_width - 105;
-		this.txtScore.y = 15;
+		this.txtScore.y = 55;
 
 		// put these objects into the level text container
 		this.levelText.push(this.txtTitle);
@@ -146,7 +214,7 @@
 			this.levelStage.addChild(this.levelText[i]);
 		}
 
-	}
+	};
 
 	Level.prototype.setBackground = function() {
 		// NOT implemented at the moment
@@ -200,7 +268,7 @@
 		var dist = Math.sqrt(xD * xD + yD * yD);
 
 		return {hit: dist < objA.radius + objB.radius, dist: dist};
-	}
+	};
 
 
 	// Given two objects that have collided, checks to see
@@ -223,6 +291,8 @@
 		}
 	};
 
+	var RATE = 1.5;
+	var tile_min_dist = Number.MAX_VALUE;
 	// Updates 
 	Level.prototype.Update = function() {
 
@@ -233,9 +303,26 @@
 			var collision = {};
 			var min_dist = Number.MAX_VALUE;
 
+			// goes through the conveyor belt
+			for(var i = 0; i < this.conveyorBelt.length; i++){
+				this.conveyorBelt[i].y += RATE;
+
+				if(this.conveyorBelt[i].y < tile_min_dist){
+					tile_min_dist = this.conveyorBelt[i].y;
+				}
+
+				if(this.conveyorBelt[i].y > this.levelHeight * .73){
+					this.conveyorBelt[i].alpha -= .02;
+					if(this.conveyorBelt[i].alpha < .1){
+						this.conveyorBelt[i].alpha = 1;
+						this.conveyorBelt[i].y = tile_min_dist - 5;
+					}
+				}
+			}
+
 			for(var i = 0; i < this.garbage.length; i++)
 			{
-				this.garbage[i].tick();
+				this.garbage[i].tick(RATE);
 				for(var j = 0; j < this.garbageBin.length; j++){
 
 					collision = this.checkCollision(this.garbage[i], this.garbageBin[j]);
@@ -260,6 +347,10 @@
 					// there has been a collision
 					//if(min_dist !== Number.MAX_VALUE){
 					this.handleCollision(this.garbage[i], tmpObj);
+				}
+
+				if(this.garbage[i].dumped){
+					this.updateLandfillBar();
 				}
 
 				if(this.garbage[i].remove){
@@ -291,7 +382,7 @@
 					this.levelStage.removeChild(this.garbageBin[i]);
 				}
 
-				this.LoadGarbage();
+				this.loadGarbage();
 
 				for(var i = 0; i < this.garbageBin.length; i++){
 					this.levelStage.addChild(this.garbageBin[i]);
@@ -303,16 +394,16 @@
 			if(convertMStoS(this.timeRemain()) < 0 || convertMStoS(this.timeRemain()) == 0){
 				this.txtTimeRemain.text = "0.0 seconds";
 				this.levelOn = false;
+				console.log("time is out");
 			}
 			if(convertMStoS(this.timeRemain()) < convertMStoS(this.warningtime)){
 				this.txtTimeRemain.color = "red";
 			}
 			this.txtScore.text = this.levelScore;
 
-			// calls update to the stage
-			this.levelStage.update();
 		}
+
 	};
 
 	window.Level = Level;
-}(window));
+}(window))
