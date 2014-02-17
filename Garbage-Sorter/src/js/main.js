@@ -88,7 +88,6 @@ function reset(){
     ONCE = true;
     ENDGAME = false;
     ITEM_SPEED = 1;
-    currentCountDown = createCountDown(START_TIME); 
     console.log("Game has been reset");
 }
 
@@ -137,9 +136,7 @@ function playSound(event) {
 function startGame(){
 
 	setText();
-	//stage.addChild(fpsLabel);
-	garbageGame.level.StartLevel(SETTING);
-	//garbageGame.intro();
+	garbageGame.level.start(SETTING);
 
     stage.update();
     createjs.Ticker.addEventListener("tick", tick);
@@ -151,5 +148,4 @@ function tick(){
 
 		garbageGame.updateGame();
 		fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
-		//stage.update();
 }

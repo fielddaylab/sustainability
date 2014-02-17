@@ -1,0 +1,68 @@
+.stages {
+	color: white;
+	margin: auto;
+	height: 200px;
+	width: 1000px;
+	padding: 10px;
+}
+
+#stage1 {
+	background-color: blue;
+	height: 200px;
+	width: 20%;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+}
+
+#stage2 {
+	background-color: orange;
+	height: 200px;
+	width: 20%;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+}
+
+#stage3 {
+	background-color: red;
+	height: 200px;
+	width: 20%;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+}
+
+#stage4 {
+	background-color: purple;
+	height: 200px;
+	width: 20%;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+}
+
+#stage5 {
+	background-color: green;
+	height: 200px;
+	width: 20%;
+	display: inline-block;
+	margin-top: 5px;
+	text-align: center;
+}
+
+#stage1:hover {
+	opacity: 0.5;
+}
+#stage2:hover {
+	opacity: 0.5;
+}
+#stage3:hover {
+	opacity: 0.5;
+}
+#stage4:hover {
+	opacity: 0.5;
+}
+#stage5:hover {
+	opacity: 0.5;
+}

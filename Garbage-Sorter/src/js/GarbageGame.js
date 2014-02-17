@@ -113,7 +113,7 @@
 	// updates the game
 	GarbageGame.prototype.updateGame = function() {
 
-		if(!this.level.levelOn){
+		if(this.levelEnd){
 			if(!this.feedbackDisplayed){
 				this.showScore();
 				this.feedbackDisplayed = !this.feedbackDisplayed;

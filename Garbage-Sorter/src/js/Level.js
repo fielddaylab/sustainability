@@ -9,11 +9,16 @@
 		this.levelWidth = gameWidth;
 		this.levelHeight = gameHeight;
 
+		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
 		this.levelDefaultTime = 45000;
 		this.warningtime = this.levelDefaultTime * .2;
 		this.longestCorrect = 0;
+
+		// 
+		this.levelStart = false;
+		this.levelEnd = false;
 
 		this.landfillsQ = null;
 
@@ -28,14 +33,12 @@
 	}
 
 	// Selects the level and generates the garbage, bins, and text
-	Level.prototype.StartLevel = function(stageLevel) {
+	Level.prototype.start = function(stageLevel) {
 
 		// assigns level if one has not been chosen already
-		this.levelOn = true;
 		stageLevel = typeof stageLevel !== 'undefined' ? stageLevel : 'easy';
 
 		this.stageLevel = stageLevel;
-		this.timeRemain = createCountDown(this.levelDefaultTime); 
 
 		if(stageLevel === "easy"){
 			this.levelBins = ['landfill', 'recycle'];
@@ -56,9 +59,46 @@
 		this.loadConveyor();
 		this.loadGarbage();
 		this.loadBins();
+		this.loadWait();
 		this.setBackgroundText();
+
+		
 	};
 
+	Level.prototype.loadWait = function(){
+		this.waitTime = createCountDown(4000);
+		this.startWait = new createjs.Text("---", "bold 72px Arial", "#000000");
+    	this.startWait.x = this.levelWidth / 2;
+    	this.startWait.y = this.levelHeight / 2;
+    	this.startWait.text = convertMStoS(this.waitTime());
+    	this.levelStage.addChild(this.startWait);
+	}
+
+	Level.prototype.waitStart = function(){
+
+		// include a timer that counts down
+		// when timer is zero, it'll set the level to on
+		var time = convertMStoS(this.waitTime());
+		time = parseFloat(time);
+
+		if(time > 1)
+		{
+    		this.startWait.text = time.toFixed(0);
+	    }
+    	else if(time === 1 || (time < 1 && time > 0))
+    	{
+    		this.startWait.text = "START";
+    		this.x = this.x - 150;
+    	}
+    	else{
+    		this.levelStage.removeChild(this.startWait);
+    		this.levelStart = true;
+
+    		// start the game timer
+    		this.timeRemain = createCountDown(this.levelDefaultTime); 
+    	}
+
+	}
 
 	//	Loads the garbage bins onto the screen based on the level
 	Level.prototype.loadBins = function() {
@@ -296,7 +336,7 @@
 	// Updates 
 	Level.prototype.Update = function() {
 
-		if(this.levelOn){
+		if(this.levelStart){
 			var point = 0;
 			var tmpObj = null;
 			var hit = false;
@@ -393,7 +433,7 @@
 			this.txtTimeRemain.text = convertMStoS(this.timeRemain()) + " seconds";  
 			if(convertMStoS(this.timeRemain()) < 0 || convertMStoS(this.timeRemain()) == 0){
 				this.txtTimeRemain.text = "0.0 seconds";
-				this.levelOn = false;
+				this.levelEnd = true;
 				console.log("time is out");
 			}
 			if(convertMStoS(this.timeRemain()) < convertMStoS(this.warningtime)){
@@ -401,6 +441,9 @@
 			}
 			this.txtScore.text = this.levelScore;
 
+		}
+		else{
+			this.waitStart();
 		}
 
 	};
