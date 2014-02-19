@@ -15,6 +15,7 @@
             overflow: hidden;
             outline: 5px solid red;
             margin: 0px;
+            background-color: yellow;
         }
         .modal{
             display: block;
@@ -101,6 +102,9 @@
             text-align: center;
             font-size: 35px;
         }
+        #introModalTemplate{
+            display: none;
+        }
         #modalTemplate{
             display: none;
         }
@@ -140,6 +144,51 @@
             padding: 10px;
             padding-top: 20px;
         }
+        .metric{
+            width: 100px;
+            height: 100px;
+            background-color: purple;
+            margin: 5px;
+            margin-bottom: 0px;
+            display: inline-block;
+            position: relative;
+            vertical-align: top;
+        }
+        .metricText{
+            width: 100px;
+            height: 20px;
+            margin: 5px;
+            margin-top: 0px;
+            background-color: red;
+            display: inline-block;
+        }
+        #NewMetrics{
+            padding: 0px;
+            height:200px; 
+            background-color: green; 
+            margin-left: 20px; 
+            margin-right: 20px;
+            margin-top: -10px;
+        }
+        #NextQuarter{
+            width: 150px;
+            height: 40px;
+            background-color: pink;
+        }
+        .Bar{
+            width: 100%;
+            height: 20%;
+            background-color: cyan;
+            position: absolute; 
+            bottom: 0;
+            margin: 0px;
+        }
+        .Cash{
+            width: 150px;
+            font-size: 16pt;
+            background-color: red;
+            margin: 5px;
+        }
 
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -158,8 +207,18 @@
             <area alt="red"     onclick="Game.Modal(Game.buildings[3].dom.$container);" title="" href="#" shape="poly" coords="182,127,178,188,241,189,239,135" />
             <area alt="purple"  onclick="Game.Modal(Game.buildings[4].dom.$container);" title="" href="#" shape="poly" coords="251,89,299,91,298,130,251,122" />
         </map>
-        <div id="metrics"></div>
-        <button onclick="Game.Update()">Next Turn</button>
+         <div id="NewMetrics">
+            <center>
+                <div class="Cash">Cash: $12,000</div>
+                <div class="metric runoff">
+                    <div class="Bar">runoffbar</div>
+                </div><div class="metric waste">
+                    <div class="Bar">wastebar</div>
+                </div>
+                <div class="metricText">Waste</div><div class="metricText">Runoff</div>
+                <div id="NextQuarter" onclick="Game.Update()">Next Quarter</div>
+            </center>
+        </div>
     </div>
     <!--
     
@@ -194,6 +253,8 @@
         <div class="stats">fakestats</div>
         <div class="buttons">fakebutton1 fakebutton2</div>
     </div>
+
+
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.min.css">
