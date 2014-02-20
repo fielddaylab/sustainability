@@ -32,6 +32,8 @@
 		this.gameOver = false;
 		this.feedbackDisplayed = false;
 
+		this.levelName = data;
+
 		//intro();
 		this.startLevel();
 	};
@@ -105,8 +107,7 @@
 
 	// level starts
 	GarbageGame.prototype.startLevel = function() {
-		console.log("in startLevel");
-		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight);
+		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight, this.levelName);
 		console.log(this.level);
 	};
 

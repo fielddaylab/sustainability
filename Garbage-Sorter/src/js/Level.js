@@ -1,13 +1,15 @@
 // This class will be responsible for the layers
 
 (function (window){
-	function Level(stage, contentManager, gameWidth, gameHeight){
+	function Level(stage, contentManager, gameWidth, gameHeight, stageName){
 
 		this.levelStage = stage;
 		this.levelContentManager = contentManager;
 
 		this.levelWidth = gameWidth;
 		this.levelHeight = gameHeight;
+
+		this.stageName = stageName; 
 
 		// keeps track of level stats
 		this.levelSpeed = 1;
@@ -223,7 +225,7 @@
 		stageLayer.graphics.beginFill('green').drawRoundRect(0, 0, this.levelWidth, 90, 10);
 		this.levelStage.addChild(stageLayer);
 
-		this.txtTitle = new createjs.Text("Stage", "bold 36px Arial", "#ffffff");
+		this.txtTitle = new createjs.Text(this.stageName, "bold 36px Arial", "#ffffff");
     	this.txtTitle.x = this.txtTitle.y = 10;
 
     	this.txtTimerTitle = new createjs.Text("Time: ", "bold 20px Arial", "#ffffff");

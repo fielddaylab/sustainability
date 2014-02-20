@@ -41,8 +41,26 @@ function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
 
-	canvas.width = window.innerWidth * .98;
-	canvas.height= window.innerHeight * .98;
+    // check the window inner height
+    if(window.innerHeight > 1136)
+    {
+        canvas.height = 1136
+    }
+    else{
+        canvas.height= window.innerHeight * .98;
+    }
+
+    // check the window outer height
+    if(window.innerWidth > 640)
+    {
+        canvas.width = 640
+    }
+    else{
+        canvas.width = window.innerHeight * .98;
+    }
+
+    console.log(canvas.height);
+    console.log(canvas.width);
 }
 
 var topScore = 0;
@@ -75,7 +93,15 @@ function init(){
     contentManager.SetDownloadCompleted(startGame);
     contentManager.StartDownload();
 
-    garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height);
+    // get info from url
+    var query = window.location.search;
+    if(query.substring(0,1) == '?'){
+        query = query.substring(1);
+    }
+
+    var stageName = query;
+
+    garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName);
     sound();
 }
 
