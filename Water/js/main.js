@@ -15,16 +15,14 @@ var settings = {
 	initial: {
 		budget: 100000, 			// This is the budget amount in $, default 1000000
 		timeSurvived: 0, 			// This is the starting time in Seasons, default 0
-		satisfaction: 50, 			// This is the starting satisfaction (in %), default 50
 		waterUsage: 800, 		// The starting water usage rate in gal/season, default 800
         waterRunoffRate: 800       // The starting water runoff rate in gal/season, default 800
 	},
 
     targetGoals: { //This will be our target goals per level, not sure how this will be impacted per level quite yet
         budget: 80000,
-        satisfaction: 30,
         waterUsage: 500,
-        waterRunoffRate: 500
+        waterRunoffRate: 400
     }
 };
 
@@ -32,8 +30,8 @@ function Upgrade(obj){
 	this.name = 				obj.name;				// name of the upgrade
 	this.cost = 				obj.cost;				// initial cost
 	this.moneyDelta = 			obj.moneyDelta;			// cost per turn
-	this.waterDelta = 			obj.waterDelta;			// how it effects runoff
-	this.satisfactionDelta = 	obj.satisfactionDelta;	// satisfaction effect
+	this.waterDelta = 			obj.waterDelta;			// how it effects waste
+	this.runoffDelta = 			obj.runoffDelta;		// how is runoff effected
 	this.count = 				obj.count;
 	this.unlocked = 			obj.unlocked;			// is it currently locked?
 	this.image = 				obj.image;
@@ -60,9 +58,7 @@ Upgrade.prototype = {
 	SetStatsDiv: function(){	// resets the Stats Div
 		this.dom.$stats.html(
 			"<b>Building Statistics:</b>" + "<br />" +
-			"Water Usage: " + this.waterDelta + "<br />" +
-//			"Maintenance: $" + this.moneyDelta + "<br />" +
-			"Satisfaction: " + this.satisfactionDelta
+			"Water Usage: " + this.waterDelta + "<br />"
 		);
 	},
 	SetButtonsDiv: function(currBuilding){
@@ -121,27 +117,28 @@ Building.prototype = {
 			// REALLY BUY IT THIS TIME
 			// perform one-time metric changes
 			Game.metrics.budget -= newUpgrade.cost;		// subtract initial cost of item from budget
-			Game.metrics.satisfaction += newUpgrade.satisfactionDelta * this.effectMultiplier;	// satisfaction effect
 			Game.metrics.waterUsage += newUpgrade.waterDelta * this.effectMultiplier;		// runoff effect
+			Game.metrics.waterRunoffRate += newUpgrade.runoffDelta * this.effectMultiplier;		// runoff effect
+			if(isNaN(Game.metrics.waterRunoffRate)) alert("Is nan");
 			this.upgrades.push(newUpgrade);	 			// add upgrade to building's list of upgrades
 			console.log("Purchased '" + newUpgrade.name + "' for $" + newUpgrade.cost + ".");
 
             //Adding some toast stuff here
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "positionClass": "toast-top-left",
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success("Purchased " + newUpgrade.name + " for $" + newUpgrade.cost + ".");
+            // toastr.options = {
+            //     "closeButton": false,
+            //     "debug": false,
+            //     "positionClass": "toast-top-left",
+            //     "onclick": null,
+            //     "showDuration": "300",
+            //     "hideDuration": "1000",
+            //     "timeOut": "5000",
+            //     "extendedTimeOut": "1000",
+            //     "showEasing": "swing",
+            //     "hideEasing": "linear",
+            //     "showMethod": "fadeIn",
+            //     "hideMethod": "fadeOut"
+            // }
+            // toastr.success("Purchased " + newUpgrade.name + " for $" + newUpgrade.cost + ".");
             //End of toast stuff
 
 			Game.Draw();
@@ -160,13 +157,13 @@ Building.prototype = {
 		var stats = {
 			waterDelta: 		0,
 			moneyDelta: 		0,
-			satisfactionDelta: 	0
+			runoffDelta: 		0
 		}
 		for(var i = 0; i < this.upgrades.length; i++){
 			var currentUpgrade = this.upgrades[i];
+			stats.runoffDelta += currentUpgrade.runoffDelta * this.effectMultiplier;
 			stats.waterDelta += currentUpgrade.waterDelta * this.effectMultiplier;
 //			stats.moneyDelta += currentUpgrade.moneyDelta * this.effectMultiplier; //temp. disabled maintenance costs
-			stats.satisfactionDelta += currentUpgrade.satisfactionDelta * this.effectMultiplier;
 		}
 		return stats;
 	},
@@ -185,8 +182,8 @@ Building.prototype = {
 		this.dom.$stats.html(
 			"<b>Building Statistics:</b>" + "<br />" +
 			"Water Usage: " + stats.waterDelta + "<br />" +
+			"Runoff Effect: " + stats.runoffDelta + "<br />" +
 //			"Maintenance: $" + stats.moneyDelta + "<br />" +
-			"Satisfaction: " + stats.satisfactionDelta + "<br />" +
 			"Multiplier: " + this.effectMultiplier
 		);
 	},
@@ -258,9 +255,9 @@ var upgradeArray = [
 		unlocked: true,
 		name: "Porous Pavement",
 		cost: 10000,
-		moneyDelta: -100,
-		waterDelta: -200,
-		satisfactionDelta: 0,
+		moneyDelta: 0,
+		runoffDelta: -200,
+		waterDelta: 0,
 		count: 0,
 		image: "http://upload.wikimedia.org/wikipedia/commons/8/8f/Permeable_paver_demonstration.jpg",
         icon: "img/porousAsphaltIcon.jpg"
@@ -272,8 +269,8 @@ var upgradeArray = [
 		name: "Dual Flush Toilet",
 		cost: 10000,
 		moneyDelta: 0,
+		runoffDelta: 0,
 		waterDelta: -200,
-		satisfactionDelta: 3,	// dual-flush toilets make me very satisfied
 		count: 0,
 		image: "http://www.leaveitbetter.com/files/8112/7896/1078/HydroRight.gif",
         icon: "img/dualFlushIcon.jpg"
@@ -284,9 +281,9 @@ var upgradeArray = [
 		unlocked: false,
 		name: "Faucet Sensors",
 		cost: 10000,
-		moneyDelta: -1500,
+		moneyDelta: 0,
+		runoffDelta: 0,
 		waterDelta: -100,
-		satisfactionDelta: 0,
 		count: 0,
 		image: "",
         icon: ""
@@ -298,8 +295,8 @@ var upgradeArray = [
 		name: "Green Roof",
 		cost: 20000,
 		moneyDelta: -2500,
+		runoffDelta: -200,
 		waterDelta: 0,
-		satisfactionDelta: 50,
 		count: 0,
 		image: "",
         icon: ""
@@ -310,9 +307,9 @@ var upgradeArray = [
 		unlocked: false,
 		name: "Cistern",
 		cost: 10000,
-		moneyDelta: -2500,
+		moneyDelta: 0,
+		runoffDelta: -200,
 		waterDelta: -200,
-		satisfactionDelta: 0,
 		count: 0,
 		image: "",
         icon: ""
@@ -366,7 +363,7 @@ var Game = {
     targetGoals: jQuery.extend({}, settings.targetGoals), //shallow-copy of the initial target goals, so we can change them w/o modifying original
 
     dom: {
-    	$metrics: $('#metrics'),
+    	$metrics: $('#NewMetrics'),
     	$messageCenter: $('#messageCenter'),
     	$modalTemplate: $('#modalTemplate'),
     	$gameContainer: $('#sustainable'),
@@ -385,12 +382,6 @@ var Game = {
             failed = true;
         }
 
-        if(Game.metrics.satisfaction < Game.targetGoals.satisfaction){
-            console.log("Lost due to satisfaction going below threshold.");
-            lossMessage += "-not meeting the satisfaction goal of " + Game.targetGoals.satisfaction + "<br>";
-            failed = true;
-        }
-
         if(Game.metrics.waterUsage > Game.targetGoals.waterUsage){
             console.log("Lost due to water usage rate being above maximum threshold.");
             lossMessage += "-not being below the water usage rate goal of " + Game.targetGoals.waterUsage + "<br>";
@@ -404,6 +395,7 @@ var Game = {
         }
 
         if(failed){
+        	console.log("Failure?");
             lossMessage += "You survived for " + Game.metrics.timeSurvived + " quarters!";
             //alert(lossMessage); //Should become a Modal eventually.
             Game.Modal(lossMessage);
@@ -420,7 +412,7 @@ var Game = {
 
     DisplayIntro:   function(){
         //Game.Modal("Intro3");
-
+        /*
         Game.Modal("Intro3");
         Game.Modal("Intro2");
 
@@ -433,6 +425,7 @@ var Game = {
         //End Intro 3
 
         console.log("Intro displayed.");
+        */
     },
 
     Reset:          function(){
@@ -495,6 +488,7 @@ var Game = {
     },
 
     Modal: 	function(content, id){
+    	console.log("Modal via modal function.");
         id = id || 'figure-it-out-later';
     	var $newModal = Game.dom.$modalTemplate.clone();
     	$newModal.attr('id', id);
@@ -512,14 +506,24 @@ var Game = {
     },
 
     MetricsDiv: function(){
+    	// FUTURE NOTE
+    	// another thing that should be done here is changing the background color of the bar (green, yellow, red) depending
+    	// on how close you are to the goal / if you're beating it
+    	console.log("Updating Metrics Div");
     	// Draw the metrics div, it informs the user how well they are doing / current statistics
-		Game.dom.$metrics.html(
-			"Money: " + Game.metrics.budget + " (Goal: >" + Game.targetGoals.budget + ")<br />" +
-			"Satisfaction: " + Game.metrics.satisfaction + " (Goal: >" + Game.targetGoals.satisfaction + ")<br />" +
-			"Usage: " + Game.metrics.waterUsage + " (Goal: <" + Game.targetGoals.waterUsage + ")<br />" +
-            "Runoff: " + Game.metrics.waterRunoffRate + " (Goal: <" + Game.targetGoals.waterRunoffRate + ")<br />" +
-			"Quarters Survived: " + Game.metrics.timeSurvived
-		);
+		Game.dom.$metrics.find(".Cash").text("$" + Game.metrics.budget);
+		var metric = Game.metrics.waterUsage;
+		if(metric < 0) metric = 0;
+		var height = Game.targetGoals.waterUsage / metric * 100;
+		height = Math.min(height, 100);
+		Game.dom.$metrics.find(".waste").children(".Bar").css('height', height + "px");
+
+		metric = Game.metrics.waterRunoffRate;
+		if(metric < 0) metric = 0;
+		height = Game.targetGoals.waterRunoffRate / metric * 100;
+		height = Math.min(height, 100);
+		Game.dom.$metrics.find(".runoff").children(".Bar").css('height', height + "px");
+
     },
 
     Update:    function(){
