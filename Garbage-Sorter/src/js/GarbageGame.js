@@ -45,26 +45,67 @@
 		intro.setBounds(w * .10,h * .10, w * .78, h *.68);
 		intro.mouseEnabled = true;
 
+		// background screen
 		var screenIntro = new createjs.Shape();
-		screenIntro.graphics.beginFill('green').drawRoundRect(0,0,w,h,10);
+		screenIntro.graphics.beginFill('#54B368').drawRoundRect(0,0,w,h,10);
 		intro.addChild(screenIntro);
 
+		// small screen in center
 		var overlay = new createjs.Shape();
-		overlay.graphics.beginFill('#FFFFFF').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
+		overlay.graphics.beginFill('green').drawRoundRect(w*.02, h*.02, w*.96, h*.96, 5);
 		overlay.alpha = 1;
 		intro.addChild(overlay);
 
-		//end text
+		// title text
 		var stageText = new createjs.Text("--", "bold 72px Arial", "#ffffff"); 
 		stageText.text = "Garbage-Sorter";
 		stageText.x = w * .05;
 		stageText.y = h * .05;
-
 		intro.addChild(stageText);
 
+		// small screen in center
+		var littleScreen = new createjs.Shape();
+		littleScreen.graphics.beginFill('#FFFFFF').drawRoundRect(w*.10, h*.15, w*.8, h*.40, 5);
+		littleScreen.alpha = 1;
+		intro.addChild(littleScreen);
+
+		var screenText = new createjs.Text("--", "bold 32px Arial", "#AAAAAA");
+		screenText.text = "IMAGE";
+		screenText.x = w * .4;
+		screenText.y = h * .35;
+		intro.addChild(screenText);
+
+		// text for the instructions
+		var instructionText = new createjs.Text("--", "bold 24px Arial", "#ffffff");
+		instructionText.text = "To play: drag garbage to their proper bins. ";
+		instructionText.x = w * .1;
+		instructionText.y = h * .57;
+		intro.addChild(instructionText);
+
+		var instructionText2 = new createjs.Text("--", "bold 24px Arial", "#ffffff");
+		instructionText2.text = "Be careful, don't let the garbage overflow. ";
+		instructionText2.x = w * .1;
+		instructionText2.y = h * .60;
+		intro.addChild(instructionText2);
+
+		// buttons
 		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.6,w*.4,h*.1,10);
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.7,w*.4,h*.08,10);
 		intro.addChild(button);
+
+		var buttonText = new createjs.Text("PLAY", "bold 30px Arial", "green");
+		buttonText.x = w*.44;
+		buttonText.y = h*.72;
+		intro.addChild(buttonText);
+
+		var button2 = new createjs.Shape();
+		button2.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.8,w*.4,h*.08,10);
+		intro.addChild(button2);
+
+		var buttonText2 = new createjs.Text("Top Scores", "bold 30px Arial", "green");
+		buttonText2.x = w*.38;
+		buttonText2.y = h*.82;
+		intro.addChild(buttonText2);
 
 		button.addEventListener("rollover", function(evt){
 			evt.target.alpha = .5;
@@ -83,13 +124,9 @@
 
 			// go to next step
 			self.intro = false;
+			playSound();
 			self.level.startWait();
 		})
-
-		var buttonText = new createjs.Text("PLAY", "bold 30px Arial", "green");
-		buttonText.x = w*.44;
-		buttonText.y = h*.62;
-		intro.addChild(buttonText);
 		
 		this.GarbageGameStage.addChild(intro);
 	};

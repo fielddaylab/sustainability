@@ -95,6 +95,7 @@ function init(){
     var query = window.location.search;
     if(query.substring(0,1) == '?'){
         query = query.substring(1);
+        console.log(query);
     }
 
     var stageName = query; 
@@ -138,7 +139,7 @@ function sound() {
     // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
 
 	createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
-    createjs.Sound.addEventListener("fileload", playSound); // add an event listener for when load is completed
+    //createjs.Sound.addEventListener("fileload", playSound); // add an event listener for when load is completed
     createjs.Sound.registerSound(src);  // register sound, which preloads by default
 }
 
