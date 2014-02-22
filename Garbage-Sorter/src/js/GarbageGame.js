@@ -131,31 +131,6 @@
 		this.GarbageGameStage.addChild(intro);
 	};
 
-	// level starts
-	GarbageGame.prototype.startLevel = function() {
-		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight, this.levelName);
-	};
-
-	// updates the game
-	GarbageGame.prototype.updateGame = function() {
-
-		if(this.levelEnd){
-			if(!this.feedbackDisplayed){
-				this.endScreen();
-				this.feedbackDisplayed = !this.feedbackDisplayed;
-			}
-		}
-		else if(this.intro){
-			// just wait....
-		}
-		else{
-			this.level.Update();
-		}
-
-		this.GarbageGameStage.update();
-
-	}; 
-
 	// display feedback
 	GarbageGame.prototype.endScreen = function() {
 		this.feedbackDisplayed = true;
@@ -171,11 +146,10 @@
 
 		var endOverlay = new createjs.Shape();
 		endOverlay.graphics.beginFill('green').drawRoundRect(w*.12, h*.12, w *.76, h *.66, 10);
-		endOverlay.alpha = .8;
 		container.addChild(endOverlay);
 
 		var overlay = new createjs.Shape();
-		overlay.graphics.beginFill('#AAAAAA').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
+		overlay.graphics.beginFill('#54B368').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
 		overlay.alpha = 1;
 		container.addChild(overlay);
 
@@ -232,25 +206,32 @@
 			evt.target.alpha = 1;
 		});
 
+		var self = this;
 		button.addEventListener("click", function(evt){
-			console.log("QUIT");
+			
+			// changes the button to quit, allows for 2 clicks
 			if(buttonText.text === "Quit"){
 
-				if(level.levelScore > topScore){
-					localStorage.setItem('topScore', this.level.levelScore);
+				if(self.level.levelScore > topScore){
+					localStorage.setItem('topScore', self.level.levelScore);
 				}
 
 				createjs.Sound.stop();
+				window.location = "index.html";
 			}
 
 			stageText.text = "Top Score:"
-			stageText.x += (w*.20);
-
 			container.removeChild(recycleText);
 			container.removeChild(wrongText);
 
+			var len = itemsText.length;
+			while (len--){
+				  container.removeChild(itemsText[len]);
+			}
+
 			buttonText.text = "Quit";
-		})
+
+		});
 
 		var buttonText = new createjs.Text("NEXT", "bold 30px Arial", "green");
 		buttonText.x = w*.44;
@@ -259,6 +240,31 @@
 		
 		this.GarbageGameStage.addChild(container);
 	}; 
+
+	// level starts
+	GarbageGame.prototype.startLevel = function() {
+		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight, this.levelName);
+	};
+
+	// updates the game
+	GarbageGame.prototype.updateGame = function() {
+
+		if(this.level.levelEnd){
+			if(!this.feedbackDisplayed){
+				this.endScreen();
+			}
+		}
+		else if(this.intro){
+			// just wait....
+		}
+		else{
+			this.level.Update();
+		}
+
+		this.GarbageGameStage.update();
+
+	}; 
+
 
 
 	window.GarbageGame = GarbageGame;
