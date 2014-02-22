@@ -14,7 +14,7 @@
 		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 2000;
+		this.levelDefaultTime = 45000;
 		this.warningtime = this.levelDefaultTime * .2;
 		this.longestCorrect = 0;
 
