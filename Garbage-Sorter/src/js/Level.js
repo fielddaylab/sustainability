@@ -42,31 +42,41 @@
 
 		this.stageLevel = stageLevel;
 
-		if(stageLevel === "easy"){
+		if(stageLevel === "Nancy"){
 			this.levelBins = ['landfill', 'recycle'];
 			this.levelSpeed = 1;
 		}
 
-		if(stageLevel === "normal"){
+		if(stageLevel === "uSouth"){
 			this.levelBins = ['landfill', 'recycle', 'compost'];
 			this.levelSpeed = 3;
 		}
 
-		if(stageLevel === "hard"){
-			this.levelBins = ['landfill', 'recycle', 'compost', 'reuse', 'electronics', 'chemical'];
-			this.levelSpeed = 6;
+		if(stageLevel === "Chemistry"){
+			this.levelBins = ['landfill', 'recycle', 'reuse','chemical'];
+			this.levelSpeed = 3;
 		}
 
+		if(stageLevel === "Grainger"){
+			this.levelBins = ['landfill', 'recycle', 'compost', 'reuse', 'electronics'];
+			this.levelSpeed = 3;
+		}
+
+		if(stageLevel === "WID"){
+			this.levelBins = ['landfill', 'recycle', 'compost', 'reuse'];
+			this.levelSpeed = 3;
+		}
+
+		// initialize the contents and places them on the stage
 		this.loadLandfillBar();
 		this.loadConveyor();
 		this.loadGarbage();
 		this.loadBins();
-		this.loadWait();
 		this.setBackgroundText();
 		
 	};
 
-	Level.prototype.loadWait = function(){
+	Level.prototype.startWait = function(){
 		this.waitTime = createCountDown(4000);
 		this.startWait = new createjs.Text("---", "bold 72px Arial", "#000000");
     	this.startWait.x = this.levelWidth / 2;

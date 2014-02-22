@@ -161,7 +161,6 @@ function startGame(){
 
 	garbageGame.startGame();
 
-    //
     stage.update();
     createjs.Ticker.addEventListener("tick", tick);
     createjs.Ticker.setFPS(60);

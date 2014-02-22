@@ -12,6 +12,8 @@
 		this.gameOver = false;
 		this.feedbackDisplayed = false;
 		this.levelName = data;
+
+		this.intro = false;
 	};
 
 
@@ -24,37 +26,39 @@
 	};
 
 	GarbageGame.prototype.startGame = function() {
-		//intro();
+		
+		// get the level started
 		this.startLevel();
-		this.level.startLevel(SETTING);
+		this.level.startLevel(this.levelName);
+		this.introScreen();
+
 	}
 
 	// display intro
 	GarbageGame.prototype.introScreen = function() {
+		this.intro = true;
+
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
 		var intro = new createjs.Container();
-		intro.x = 10;
-		intro.y = 10;
 		intro.setBounds(w * .10,h * .10, w * .78, h *.68);
 		intro.mouseEnabled = true;
 
-		var endOverlay = new createjs.Shape();
-		endOverlay.graphics.beginFill('green').drawRoundRect(w*.12, h*.12, w *.76, h *.66, 10);
-		endOverlay.alpha = .8;
-		intro.addChild(endOverlay);
+		var screenIntro = new createjs.Shape();
+		screenIntro.graphics.beginFill('green').drawRoundRect(0,0,w,h,10);
+		intro.addChild(screenIntro);
 
 		var overlay = new createjs.Shape();
-		overlay.graphics.beginFill('#AAAAAA').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
+		overlay.graphics.beginFill('#FFFFFF').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
 		overlay.alpha = 1;
 		intro.addChild(overlay);
 
 		//end text
-		var stageText = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
+		var stageText = new createjs.Text("--", "bold 72px Arial", "#ffffff"); 
 		stageText.text = "Garbage-Sorter";
-		stageText.x = w * .17;
-		stageText.y = h * .17;
+		stageText.x = w * .05;
+		stageText.y = h * .05;
 
 		intro.addChild(stageText);
 
@@ -70,11 +74,16 @@
 			evt.target.alpha = 1;
 		});
 
+		// not pretty
+		var self = this;
 		button.addEventListener("click", function(evt){
-			var SETTING = "hard";
+			// this => is the window
+			// make this, remove child intro
+			self.GarbageGameStage.removeChild(intro);
 
-			this.GarbageGameStage.removeChild(intro);
-			
+			// go to next step
+			self.intro = false;
+			self.level.startWait();
 		})
 
 		var buttonText = new createjs.Text("PLAY", "bold 30px Arial", "green");
@@ -98,6 +107,9 @@
 				this.endScreen();
 				this.feedbackDisplayed = !this.feedbackDisplayed;
 			}
+		}
+		else if(this.intro){
+			// just wait....
 		}
 		else{
 			this.level.Update();
