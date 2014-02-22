@@ -5,6 +5,7 @@
 
     <link rel="stylesheet" type="text/css" href="src/css/stylesheet.css">
     <script src="http://code.createjs.com/easeljs-0.7.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <!--<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>-->
     <script type="text/javascript" src="src/lib/createjs/utils/Proxy.js"></script>
@@ -26,11 +27,27 @@
 </head>
 <body onload="init()">
 
-    <div class="canvasHolder">
-        <canvas id="canvas" style="background-color:#DBDBDB" height="1000px" width="620px">
-            Your browser doesn't support canvas.
-        </canvas>
-    </div>
+    <div class="main-container">
 
+        <!-- This is the Intro screen 
+        <div class="introScreen">
+            <input class="StartButton" type="button" value="Start" />
+        </div>
+            THiS is the CLOSE SCREEN 
+        <div class="finishScreen" style="display:none">
+            <h1>Game Over</h1>
+            <p>Your score was: <span id="score"></span></p>
+            <input class="StartButton" type="button" value="Restart" />
+        </div>
+        -->
+
+        <!-- the canvas -->
+        <div class="canvasHolder">
+            <canvas id="canvas" style="background-color:#DBDBDB" height="1000px" width="620px">
+                Your browser doesn't support canvas.
+            </canvas>
+        </div>
+    </div>
+    
 </body>
 </html>

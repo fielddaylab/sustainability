@@ -21,7 +21,10 @@ var window_width;
 var window_height;
 
 var container;
+var topScore = 0;
+var GarbageGame;
 
+// create a timer class
 // uses date.now() to set up timer
 function createCountDown(timeRemaining) {
     var startTime = Date.now();
@@ -35,7 +38,6 @@ function convertMStoS(num, p){
 	p = typeof p !== 'undefined' ? p : 1;
 	return (num/ 1000).toFixed(p);
 }
-
 
 function handleCanvas(){
 
@@ -59,14 +61,20 @@ function handleCanvas(){
         canvas.width = window.innerHeight * .98;
     }
 
-    console.log(canvas.height);
-    console.log(canvas.width);
+    canvas = document.getElementById("canvas");
+    stage = new createjs.Stage(canvas);
+    screen_width = canvas.width;
+    screen_height= canvas.height;
+
 }
 
-var topScore = 0;
-var GarbageGame;
 function init(){
 
+    // adjusts canvas size
+    // sets up the stage
+    handleCanvas();   
+
+    // check local storage
 	if(localStorage.getItem('topScore')){
 		topScore = localStorage.getItem('topScore');
 	}
@@ -74,36 +82,34 @@ function init(){
 		topScore = 0;
 	}
 
-	handleCanvas();
+    // checks what type of device is accessing the game
+    isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/); 
+    if(isMobile){
+        createjs.Touch.enable(stage);
+    }
+    else{
+        stage.enableMouseOver(10);
+    }
 
-    canvas = document.getElementById("canvas");
-    stage = new createjs.Stage(canvas);
-    screen_width = canvas.width;
-    screen_height= canvas.height;
-
-	isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/); 
-	if(isMobile){
-		createjs.Touch.enable(stage);
-	}
-	else{
-		stage.enableMouseOver(10);
-	}
-
-    contentManager = new ContentManager();
-    contentManager.SetDownloadCompleted(startGame);
-    contentManager.StartDownload();
-
-    // get info from url
+    // checks url input
     var query = window.location.search;
     if(query.substring(0,1) == '?'){
         query = query.substring(1);
     }
 
-    var stageName = query;
+    var stageName = query; 
 
+    // initializes the content manager
+    contentManager = new ContentManager();
+    contentManager.SetDownloadCompleted(startGame);
+    contentManager.StartDownload();
+
+    // initializes the game
     garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName);
+    // initializes sound
     sound();
 }
+
 
 function reset(){
     stage.removeAllChildren();
@@ -117,17 +123,11 @@ function reset(){
     console.log("Game has been reset");
 }
 
-function setText() {
-	
-	fpsLabel = new createjs.Text("-- fps", "bold 20px Arial", "#FFF");
-    fpsLabel.x = 15;
-    fpsLabel.y = 70;
-}
-
 var src;            // the audio src we are trying to play
 var src2;
 var soundInstance;  // the soundInstance returned by Sound when we create or play a src
 
+// content handler should  handle this
 function sound() {
 
     // Create a single item to load.
@@ -140,11 +140,9 @@ function sound() {
 	createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
     createjs.Sound.addEventListener("fileload", playSound); // add an event listener for when load is completed
     createjs.Sound.registerSound(src);  // register sound, which preloads by default
-    //createjs.Sound.registerSound(src2);  // register sound, which preloads by default
-
-    //stage.addEventListener("stagemousedown", clickCanvas);
 }
 
+// game should handle this
 function playThud(event){
     createjs.Sound.play(src3);
 }
@@ -161,9 +159,9 @@ function playSound(event) {
 
 function startGame(){
 
-	setText();
-	garbageGame.level.start(SETTING);
+	garbageGame.startGame();
 
+    //
     stage.update();
     createjs.Ticker.addEventListener("tick", tick);
     createjs.Ticker.setFPS(60);
@@ -171,7 +169,5 @@ function startGame(){
 
 
 function tick(){
-
-		garbageGame.updateGame();
-		fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
+	garbageGame.updateGame();
 }

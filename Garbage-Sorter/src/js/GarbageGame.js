@@ -1,26 +1,6 @@
 // This is the main class of the Garbage-Sorter Game
 
 (function (window) {
-	/*
-	// global variables
-	var Canvas;
-	var Stage;
-	var Level;
-	var ContentManager;
-
-	// settings
-	var START_TIME = 35000; //ms
-	var WARNING_TIME = 20000; //ms
-	var GAME_ON = true;
-	var SETTING = 'easy';
-	var ENDGAME = false;
-
-	// checks to see if mobile
-	var isMobile;
-	var container;
-	<------- if have something before this then not a constructor
-	*/
-	// constructor for the game
 	function GarbageGame(stage, contentManager, gameWidth, gameHeight, data){
 
 		// set canvas
@@ -31,26 +11,26 @@
 		this.level = null;
 		this.gameOver = false;
 		this.feedbackDisplayed = false;
-
 		this.levelName = data;
-
-		//intro();
-		this.startLevel();
 	};
 
 
 	// adjust the canvas size to match the screen
 	GarbageGame.prototype.adjustCanvas = function(canvas) {
-
 	};
 
 	// load game assets
 	GarbageGame.prototype.loadAssets = function() {
-
 	};
 
+	GarbageGame.prototype.startGame = function() {
+		//intro();
+		this.startLevel();
+		this.level.startLevel(SETTING);
+	}
+
 	// display intro
-	GarbageGame.prototype.intro = function() {
+	GarbageGame.prototype.introScreen = function() {
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
@@ -108,7 +88,6 @@
 	// level starts
 	GarbageGame.prototype.startLevel = function() {
 		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight, this.levelName);
-		console.log(this.level);
 	};
 
 	// updates the game
@@ -116,10 +95,11 @@
 
 		if(this.levelEnd){
 			if(!this.feedbackDisplayed){
-				this.showScore();
+				this.endScreen();
 				this.feedbackDisplayed = !this.feedbackDisplayed;
 			}
-		}else{
+		}
+		else{
 			this.level.Update();
 		}
 
@@ -128,7 +108,7 @@
 	}; 
 
 	// display feedback
-	GarbageGame.prototype.showScore = function() {
+	GarbageGame.prototype.endScreen = function() {
 		this.feedbackDisplayed = true;
 
 		var w = this.gameWidth;
@@ -220,19 +200,6 @@
 			container.removeChild(recycleText);
 			container.removeChild(wrongText);
 
-			/*
-			if(level.levelScore > topScore){
-				stagePoint.text = this.level.levelScore;
-			}
-			else{
-				stagePoint.text = topScore;
-			}
-			stagePoint.x += (w*.3);
-
-			for (var i = 0; i < this.level.levelBins.length; i++){
-				container.removeChild(itemsText[i]);
-			};
-			*/
 			buttonText.text = "Quit";
 		})
 

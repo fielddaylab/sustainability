@@ -35,7 +35,7 @@
 	}
 
 	// Selects the level and generates the garbage, bins, and text
-	Level.prototype.start = function(stageLevel) {
+	Level.prototype.startLevel = function(stageLevel) {
 
 		// assigns level if one has not been chosen already
 		stageLevel = typeof stageLevel !== 'undefined' ? stageLevel : 'easy';
@@ -63,7 +63,6 @@
 		this.loadBins();
 		this.loadWait();
 		this.setBackgroundText();
-
 		
 	};
 
