@@ -98,6 +98,7 @@
 		buttonText.y = h*.72;
 		intro.addChild(buttonText);
 
+		/*
 		var button2 = new createjs.Shape();
 		button2.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.8,w*.4,h*.08,10);
 		intro.addChild(button2);
@@ -106,7 +107,8 @@
 		buttonText2.x = w*.38;
 		buttonText2.y = h*.82;
 		intro.addChild(buttonText2);
-
+		*/
+	
 		button.addEventListener("rollover", function(evt){
 			evt.target.alpha = .5;
 		});

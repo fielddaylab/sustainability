@@ -15,7 +15,7 @@
 		this.levelSpeed = 1;
 		this.levelScore = 0;
 		this.levelDefaultTime = 45000;
-		this.warningtime = this.levelDefaultTime * .2;
+		this.warningtime = convertMStoS(this.levelDefaultTime * .2);
 		this.longestCorrect = 0;
 
 		// 
@@ -79,9 +79,16 @@
 	Level.prototype.startWait = function(){
 		this.waitTime = createCountDown(4000);
 		this.startWait = new createjs.Text("---", "bold 72px Arial", "#000000");
-    	this.startWait.x = this.levelWidth / 2;
-    	this.startWait.y = this.levelHeight / 2;
+    	this.startWait.x = this.levelWidth / 2 - 10;
+    	this.startWait.y = this.levelHeight / 2 - 70;
     	this.startWait.text = convertMStoS(this.waitTime());
+
+    	// add an overlay
+    	this.startOverlay = new createjs.Shape();
+    	this.startOverlay.graphics.beginFill('#AAAAAA').drawRoundRect(0,0, this.levelWidth, this.levelHeight ,1);
+    	this.startOverlay.alpha = .5;
+
+    	this.levelStage.addChild(this.startOverlay);
     	this.levelStage.addChild(this.startWait);
 	}
 
@@ -99,10 +106,11 @@
     	else if(time === 1 || (time < 1 && time > 0))
     	{
     		this.startWait.text = "START";
-    		this.x = this.x - 150;
+    		this.startWait.x = this.levelWidth / 2 - 100;
     	}
     	else{
     		this.levelStage.removeChild(this.startWait);
+    		this.levelStage.removeChild(this.startOverlay);
     		this.levelStart = true;
 
     		// start the game timer
@@ -183,18 +191,22 @@
 
 		var tmp;
 		var yPos = this.levelHeight * .8;
+		var yOff = 10;
 		var tileHeight = 150;
 		for(var i = 0; i < 10; i++){
 
 			tmp = new createjs.Shape();
 			tmp.graphics.beginFill('#666699').drawRoundRect(5,0, 200, tileHeight, 10);
-			yPos -= tileHeight + 5;
+
+			yPos -= tileHeight + yOff;
 			tmp.y = yPos;
+			tmp.yBottom = yPos + tileHeight;
 			this.conveyorBelt.push(tmp);
 
 			this.levelStage.addChild(this.conveyorBelt[i]);
 		}
 
+		this.lastBeltTileY = yPos;
 
 		// var tmp = new createjs.Shape();
 		// tmp.graphics.beginFill('#666699').drawRoundRect(5,200, 200, tileHeight, 10);
@@ -203,8 +215,8 @@
 
 
 	Level.prototype.loadLandfillBar = function(){
+
 		var initY = this.levelHeight * .85;
-		console.log(initY);
 		var line = new createjs.Shape();
 		line.graphics.setStrokeStyle(3).beginStroke("red").moveTo(-10, initY);
 
@@ -219,39 +231,49 @@
 		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.15, 1);
 		this.levelStage.addChild(this.landfillsQ);
 
+		var lineBelt = new createjs.Shape();
+		lineBelt.graphics.setStrokeStyle(3).beginStroke("black").moveTo(0, this.levelHeight * .73);
+		lineBelt.graphics.lineTo(this.levelWidth, this.levelHeight * .73);
+
+		var lineBelt2 = new createjs.Shape();
+		lineBelt2.graphics.setStrokeStyle(3).beginStroke("black").moveTo(0, this.levelHeight * .8);
+		lineBelt2.graphics.lineTo(this.levelWidth, this.levelHeight * .8);
+
 		this.levelStage.addChild(line);
+		this.levelStage.addChild(lineBelt);
+		this.levelStage.addChild(lineBelt2);
+
 	}
 
 	//update
 	Level.prototype.updateLandfillBar = function(){
-		console.log('here in update');
 		this.landfillsQ.y -= 10;
 	}
 
 	Level.prototype.setBackgroundText = function(level) {
 		
 		var stageLayer = new createjs.Shape();
-		stageLayer.graphics.beginFill('green').drawRoundRect(0, 0, this.levelWidth, 90, 10);
+		stageLayer.graphics.beginFill('#737373').drawRoundRect(0, 0, this.levelWidth, 90, 10);
 		this.levelStage.addChild(stageLayer);
 
-		this.txtTitle = new createjs.Text(this.stageName, "bold 36px Arial", "#ffffff");
+		this.txtTitle = new createjs.Text(this.stageName, "bold 42px Arial", "#ffffff");
     	this.txtTitle.x = this.txtTitle.y = 10;
 
-    	this.txtTimerTitle = new createjs.Text("Time: ", "bold 20px Arial", "#ffffff");
+    	this.txtTimerTitle = new createjs.Text("Time: ", "bold 28px Arial", "#ffffff");
     	this.txtTimerTitle.x = 15;
     	this.txtTimerTitle.y = 55;
 
-		this.txtTimeRemain = new createjs.Text( convertMStoS(this.levelDefaultTime) + " s", "bold 20px Arial", "#ffffff");
-		this.txtTimeRemain.x = 75;
+		this.txtTimeRemain = new createjs.Text( convertMStoS(this.levelDefaultTime) + " s", "bold 28px Arial", "#ffffff");
+		this.txtTimeRemain.x = 90;
 		this.txtTimeRemain.y = 55;
 		
 		
-		this.txtScoreTitle = new createjs.Text("SCORE:", "bold 20px Arial", "#ffffff");
-		this.txtScoreTitle.x = screen_width - 200;
+		this.txtScoreTitle = new createjs.Text("SCORE:", "bold 28px Arial", "#ffffff");
+		this.txtScoreTitle.x = screen_width - 210;
 		this.txtScoreTitle.y = 55;
 		
-		this.txtScore = new createjs.Text(this.levelScore, "bold 20px Arial", "#ffffff");
-		this.txtScore.x = screen_width - 105;
+		this.txtScore = new createjs.Text(this.levelScore, "bold 28px Arial", "#ffffff");
+		this.txtScore.x = screen_width - 100;
 		this.txtScore.y = 55;
 
 		// put these objects into the level text container
@@ -354,21 +376,35 @@
 			var collision = {};
 			var min_dist = Number.MAX_VALUE;
 
-			// goes through the conveyor belt
+			// pushes the conveyor belt down the screen
 			for(var i = 0; i < this.conveyorBelt.length; i++){
 				this.conveyorBelt[i].y += RATE;
+				this.conveyorBelt[i].yBottom += RATE;
 
+				// gets the smallest y position of all the tiles
 				if(this.conveyorBelt[i].y < tile_min_dist){
 					tile_min_dist = this.conveyorBelt[i].y;
 				}
 
-				if(this.conveyorBelt[i].y > this.levelHeight * .73){
-					this.conveyorBelt[i].alpha -= .02;
-					if(this.conveyorBelt[i].alpha < .1){
+				// check top
+				if(this.conveyorBelt[i].y > this.levelHeight * .8){
+					// make tile slowly disappear
+					//this.conveyorBelt[i].alpha -= .02;
+					// if tile disappears then make it appear and reposition it
+					//if(this.conveyorBelt[i].alpha < .1){
+
 						this.conveyorBelt[i].alpha = 1;
-						this.conveyorBelt[i].y = tile_min_dist - 5;
-					}
+						//this.conveyorBelt[i].y = tile_min_dist;
+						this.conveyorBelt[i].y = this.lastBeltTileY;
+					//}
 				}
+
+				// check bottom
+				if(this.conveyorBelt[i].yBottom > this.levelHeight * .8){
+					//console.log("here");
+					
+				}
+
 			}
 
 			for(var i = 0; i < this.garbage.length; i++)
@@ -447,6 +483,7 @@
 				this.levelEnd = true;
 				console.log("time is out");
 			}
+
 			if(convertMStoS(this.timeRemain()) < convertMStoS(this.warningtime)){
 				this.txtTimeRemain.color = "red";
 			}
