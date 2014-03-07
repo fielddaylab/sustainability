@@ -43,23 +43,8 @@ function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
 
-    // check the window inner height
-    if(window.innerHeight > 1136)
-    {
-        canvas.height = 1136
-    }
-    else{
-        canvas.height= window.innerHeight * .98;
-    }
-
-    // check the window outer height
-    if(window.innerWidth > 640)
-    {
-        canvas.width = 640
-    }
-    else{
-        canvas.width = window.innerHeight * .98;
-    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
@@ -95,10 +80,18 @@ function init(){
     var query = window.location.search;
     if(query.substring(0,1) == '?'){
         query = query.substring(1);
-        console.log(query);
+        var args = query.split("&");
     }
 
-    var stageName = query; 
+    var stageName = args[0]; 
+
+    if(args.length == 3){
+    var playerId = args[1].split("=")[1];
+    var gameId = args[2].split("=")[1];
+
+    console.log(playerId);
+    console.log(gameId);
+    }
 
     // initializes the content manager
     contentManager = new ContentManager();
