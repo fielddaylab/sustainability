@@ -42,7 +42,7 @@
 
 		this.stageLevel = stageLevel;
 
-		if(stageLevel === "Nancy"){
+		if(stageLevel === "Dejope"){
 			this.levelBins = ['landfill', 'recycle'];
 			this.levelSpeed = 1;
 		}
@@ -62,7 +62,7 @@
 			this.levelSpeed = 3;
 		}
 
-		if(stageLevel === "WID"){
+		if(stageLevel === "Gordon"){
 			this.levelBins = ['landfill', 'recycle', 'compost', 'reuse'];
 			this.levelSpeed = 3;
 		}
