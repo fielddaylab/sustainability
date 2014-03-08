@@ -141,7 +141,6 @@
 			}
 
 			var tmpBin = contentManager.GetBin(this.levelBins[i]);
-
 			console.log(tmpBin.height);
 			yPos += 100 + tmpBin.height;
 			console.log("xpos: " + xPos);
@@ -180,7 +179,7 @@
 			yPos -= randomGarbage.img.height + yOff;
 			//
 
-			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos + (Math.random() * 50), yPos, this.levelHeight,this.levelWidth));
+			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos+ 50 + (Math.random() * 50), yPos, this.levelHeight,this.levelWidth));
 
 			// adds the child to the stage
 			this.levelStage.addChild(this.garbage[i]);
@@ -189,6 +188,10 @@
 
 	Level.prototype.loadConveyor = function(){
 
+		var bitmap = new createjs.Bitmap("src/img/asset_conveyor_frame01.png");
+		console.log(bitmap);
+		this.levelStage.addChild(bitmap);
+		/*
 		var tmp;
 		var yPos = this.levelHeight * .8;
 		var yOff = 10;
@@ -207,6 +210,7 @@
 		}
 
 		this.lastBeltTileY = yPos;
+		*/
 
 		// var tmp = new createjs.Shape();
 		// tmp.graphics.beginFill('#666699').drawRoundRect(5,200, 200, tileHeight, 10);

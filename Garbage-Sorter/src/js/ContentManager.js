@@ -26,6 +26,8 @@ function ContentManager(){
     this.imgK = new Image();
     this.imgL = new Image();
 
+    this.imgBelt = new Image();
+
     // returns image
     this.GetGarbage = function (binType){
         binType = typeof binType !== 'undefined' ? binType : false;
@@ -116,12 +118,15 @@ function ContentManager(){
         SetDownload(this.imgCL, "src/img/flask.png", handleImageLoad, handleImageError);
         
         // get garbage bin images
-        SetDownload(this.imgH, "src/img/landfill.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgG, "src/img/compost.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgI, "src/img/recycle.png", handleImageLoad, handleImageError);
+        SetDownload(this.imgH, "src/img/asset_bin_trash01.png", handleImageLoad, handleImageError);
+        SetDownload(this.imgG, "src/img/asset_bin_compost01.png", handleImageLoad, handleImageError);
+        SetDownload(this.imgI, "src/img/asset_bin_recycle01.png", handleImageLoad, handleImageError);
         SetDownload(this.imgJ, "src/img/reuse.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgK, "src/img/electronics.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgL, "src/img/chemical.png", handleImageLoad, handleImageError);
+        SetDownload(this.imgK, "src/img/asset_bin_tech01.png", handleImageLoad, handleImageError);
+        SetDownload(this.imgL, "src/img/asset_bin_hazmat01.png", handleImageLoad, handleImageError);
+
+        // get conveyorbelt 
+        SetDownload(this.imgBelt, "src/img/asset_conveyor_frame01.png", handleImageLoad, handleImageError);
     }
 
     // hands the images

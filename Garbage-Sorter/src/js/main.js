@@ -43,17 +43,29 @@ function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = 640;
+    canvas.height = 1136;
 
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
     screen_width = canvas.width;
     screen_height= canvas.height;
 
+    if(isMobile){
+        createjs.Touch.enable(stage);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    else{
+        stage.enableMouseOver(10);
+    }
+
 }
 
 function init(){
+
+     // checks what type of device is accessing the game
+    isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/); 
 
     // adjusts canvas size
     // sets up the stage
@@ -67,14 +79,6 @@ function init(){
 		topScore = 0;
 	}
 
-    // checks what type of device is accessing the game
-    isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/); 
-    if(isMobile){
-        createjs.Touch.enable(stage);
-    }
-    else{
-        stage.enableMouseOver(10);
-    }
 
     // checks url input
     var query = window.location.search;
