@@ -1,7 +1,7 @@
 // This class will be responsible for the layers
 
 (function (window){
-	function Level(stage, contentManager, gameWidth, gameHeight, stageName){
+	function Level(stage, contentManager, gameWidth, gameHeight, stageName, levelVersion){
 
 		this.levelStage = stage;
 		this.levelContentManager = contentManager;
@@ -11,12 +11,12 @@
 
 		this.stageName = stageName; 
 
-		this.levelVersion = 1;
+		this.levelVersion = levelVersion;
 
 		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 30000;
+		this.levelDefaultTime = 5000;
 		this.warningtime = convertMStoS(this.levelDefaultTime * .2);
 		this.longestCorrect = 0;
 
@@ -49,7 +49,7 @@
 		if(stageLevel === "Dejope"){
 			this.levelBins = ['landfill', 'recycle'];
 			this.levelSpeed = 1;
-		}
+		} 
 
 		if(stageLevel === "uSouth"){
 			this.levelBins = ['landfill', 'recycle', 'compost'];
@@ -288,7 +288,7 @@
 		stageLayer.graphics.beginFill('#737373').drawRoundRect(0, 0, this.levelWidth, 90, 10);
 		this.levelStage.addChild(stageLayer);
 
-		this.txtTitle = new createjs.Text(this.stageName, "bold 42px Arial", "#ffffff");
+		this.txtTitle = new createjs.Text(this.stageName + " " + this.levelVersion + " of 3", "bold 42px Arial", "#ffffff");
     	this.txtTitle.x = this.txtTitle.y = 10;
 
     	/*
@@ -521,7 +521,6 @@
 				//this.txtTimeRemain.text = "0.0 seconds";
 				this.levelWin = true;
 				this.levelEnd = true;
-				console.log("time is out");
 			}
 
 			/*

@@ -20,6 +20,8 @@ var isMobile;
 var window_width;
 var window_height;
 
+var levelVersion = 1;
+
 var container;
 var topScore = 0;
 var GarbageGame;
@@ -83,7 +85,6 @@ function init(){
 		topScore = 0;
 	}
 
-
     // checks url input
     var query = window.location.search;
     if(query.substring(0,1) == '?'){
@@ -91,14 +92,23 @@ function init(){
         var args = query.split("&");
     }
 
+    console.log(window.location.search);
     var stageName = args[0]; 
 
-    if(args.length == 3){
-    var playerId = args[1].split("=")[1];
-    var gameId = args[2].split("=")[1];
+    if(args.length == 2){
+        levelVersion = args[1].split("=")[1];
+        console.log(levelVersion);
+    }
 
-    console.log(playerId);
-    console.log(gameId);
+    if(args.length == 3){
+        var playerId = args[1].split("=")[1];
+        var gameId = args[2].split("=")[1];
+    }
+
+    if(args.length == 4){
+        levelVersion = args[1].split("=")[1];
+        var playerId = args[2].split("=")[1];
+        var gameId = args[3].split("=")[1];
     }
 
     // initializes the content manager
@@ -107,7 +117,7 @@ function init(){
     contentManager.StartDownload();
 
     // initializes the game
-    garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName);
+    garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName, levelVersion);
     // initializes sound
     sound();
 }

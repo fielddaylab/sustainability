@@ -1,7 +1,7 @@
 // This is the main class of the Garbage-Sorter Game
 
 (function (window) {
-	function GarbageGame(stage, contentManager, gameWidth, gameHeight, data){
+	function GarbageGame(stage, contentManager, gameWidth, gameHeight, name, levelVersion){
 
 		// set canvas
 		this.GarbageGameStage = stage;
@@ -11,7 +11,8 @@
 		this.level = null;
 		this.gameOver = false;
 		this.feedbackDisplayed = false;
-		this.levelName = data;
+		this.levelName = name;
+		this.levelVersion = levelVersion;
 
 		this.intro = false;
 	};
@@ -30,8 +31,11 @@
 		// get the level started
 		this.startLevel();
 		this.level.startLevel(this.levelName);
-		this.introScreen();
-
+		if(this.levelVersion == 1){
+			this.introScreen();
+		}else{
+			this.level.startWait();
+		}
 	}
 
 	// display intro
@@ -71,43 +75,38 @@
 
 		var screenText = new createjs.Text("--", "bold 32px Arial", "#AAAAAA");
 		screenText.text = "IMAGE";
-		screenText.x = w * .4;
+		screenText.x = w * .45;
 		screenText.y = h * .35;
 		intro.addChild(screenText);
 
 		// text for the instructions
-		var instructionText = new createjs.Text("--", "bold 24px Arial", "#ffffff");
-		instructionText.text = "To play: drag garbage to their proper bins. ";
+		var instructionText = new createjs.Text("--", "bold 32px Arial", "#ffffff");
+		instructionText.text = "TO PLAY: Sort the garbage into the proper bins.";
 		instructionText.x = w * .1;
 		instructionText.y = h * .57;
 		intro.addChild(instructionText);
 
-		var instructionText2 = new createjs.Text("--", "bold 24px Arial", "#ffffff");
-		instructionText2.text = "Be careful, don't let the garbage overflow. ";
+		var instructionText2 = new createjs.Text("--", "bold 32px Arial", "#ffffff");
+		instructionText2.text = "Be careful, don't let the garbage overflow.";
 		instructionText2.x = w * .1;
 		instructionText2.y = h * .60;
 		intro.addChild(instructionText2);
 
+		var waveText = new createjs.Text("--", "bold 42px Arial", "#ffffff");
+		waveText.text = "Beat all 3 waves!";
+		waveText.x = w * .1;
+		waveText.y = h * .65;
+		intro.addChild(waveText);
+
 		// buttons
 		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.7,w*.4,h*.08,10);
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.73,w*.4,h*.08,10);
 		intro.addChild(button);
 
 		var buttonText = new createjs.Text("PLAY", "bold 30px Arial", "green");
 		buttonText.x = w*.44;
-		buttonText.y = h*.72;
+		buttonText.y = h*.75;
 		intro.addChild(buttonText);
-
-		/*
-		var button2 = new createjs.Shape();
-		button2.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.8,w*.4,h*.08,10);
-		intro.addChild(button2);
-
-		var buttonText2 = new createjs.Text("Top Scores", "bold 30px Arial", "green");
-		buttonText2.x = w*.38;
-		buttonText2.y = h*.82;
-		intro.addChild(buttonText2);
-		*/
 	
 		button.addEventListener("rollover", function(evt){
 			evt.target.alpha = .5;
@@ -250,7 +249,7 @@
 
 		//end text
 		var stageText = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
-		stageText.text = "Stage: " + this.level.stageLevel;
+		stageText.text = "Stage: " + this.level.stageLevel + " " + this.levelVersion + " of 3";
 		stageText.x = w * .17;
 		stageText.y = h * .17;
 
@@ -303,33 +302,54 @@
 
 		var self = this;
 		button.addEventListener("click", function(evt){
-			
-			// changes the button to quit, allows for 2 clicks
-			if(buttonText.text === "Quit"){
 
-				if(self.level.levelScore > topScore){
-					localStorage.setItem('topScore', self.level.levelScore);
-				}
+			createjs.Sound.stop();
 
-				createjs.Sound.stop();
-				window.location = "index.html";
+			// create query string
+			// checks url input
+
+			if(this.levelVersion == 3){
+				// send webhook to aris for completion
 			}
+			else{
 
-			stageText.text = "Top Score:"
-			container.removeChild(recycleText);
-			container.removeChild(wrongText);
+				var search;
+	   			var query = window.location.search;
+	    		if(query.substring(0,1) == '?'){
+	        		query = query.substring(1);
+	        		var args = query.split("&");
+	    		}
 
-			var len = itemsText.length;
-			while (len--){
-				  container.removeChild(itemsText[len]);
+	    		var stageName = args[0]; 
+	    		var levelVersion = 0;
+
+	    		if(args.length == 2){
+	    			console.log("arg = 2");
+
+	        		levelVersion = args[1].split("=")[1];
+	        		search = "?" + args[0] + "&" + args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1);
+	        		window.location = "garbagesorter.html" + search;
+	    		}
+
+			    if(args.length == 4){
+			    	console.log("arg = 4");
+
+			        var playerId = args[1].split("=")[1];
+			        var gameId = args[2].split("=")[1];
+			        search = "?" + args[0] + "&" + args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + args[2] + "&" + args[3]; 
+	        		
+	        		window.location = "garbagesorter.html" + search;
+			    }
+
+			    //window.location.search = search;
+			    search = "?" + args[0] + "&" + args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + args[2] + "&" + args[3]; 
+				window.location = "garbagesorter.html" + search;
 			}
-
-			buttonText.text = "Quit";
 
 		});
 
-		var buttonText = new createjs.Text("NEXT", "bold 30px Arial", "green");
-		buttonText.x = w*.44;
+		var buttonText = new createjs.Text("Finish the next Wave.", "bold 30px Arial", "green");
+		buttonText.x = w*.35;
 		buttonText.y = h*.62;
 		container.addChild(buttonText);
 		
@@ -338,7 +358,7 @@
 
 	// level starts
 	GarbageGame.prototype.startLevel = function() {
-		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight, this.levelName);
+		this.level = new Level(this.GarbageGameStage, this.GGContentManger, this.gameWidth, this.gameHeight, this.levelName, this.levelVersion);
 	};
 
 	// updates the game
@@ -346,7 +366,6 @@
 		
 		
 		if(this.level.levelEnd){
-			console.log("this level end");
 
 			if(this.level.levelWin){
 				if(!this.feedbackDisplayed){
