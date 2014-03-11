@@ -2,8 +2,8 @@
  * Created by xaoyang on 12/12/13.
  */
 (function (window){
-    function GarbageBin(GarbageBinType, imgGarbageBin, x, y){
-        this.initialize(GarbageBinType, imgGarbageBin, x, y);
+    function GarbageBin(GarbageBinType, imgGarbageBin, x, y, SCALE){
+        this.initialize(GarbageBinType, imgGarbageBin, x, y, SCALE);
     }
     
     GarbageBin.prototype = new createjs.Sprite();
@@ -17,7 +17,7 @@
 	GarbageBin.boundingBox; 
 
     // initialization
-    GarbageBin.prototype.initialize = function (GarbageBinType, imgGarbageBin, x, y){
+    GarbageBin.prototype.initialize = function (GarbageBinType, imgGarbageBin, x, y, SCALE){
         console.log("GarbageBin object initialized");
         console.log("GarbageBin type: " +  GarbageBinType);
         console.log("GarbageBin img src: " + imgGarbageBin.src);

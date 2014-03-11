@@ -39,6 +39,8 @@ function convertMStoS(num, p){
 	return (num/ 1000).toFixed(p);
 }
 
+
+
 function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
@@ -48,18 +50,21 @@ function handleCanvas(){
 
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
-    screen_width = canvas.width;
-    screen_height= canvas.height;
 
     if(isMobile){
         createjs.Touch.enable(stage);
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        console.log("canvas.width: " + canvas.width);
+        console.log("canvas.height: " + canvas.height);
     }
     else{
         stage.enableMouseOver(10);
     }
 
+    screen_width = canvas.width;
+    screen_height= canvas.height;
 }
 
 function init(){
