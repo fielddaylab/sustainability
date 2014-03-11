@@ -20,6 +20,8 @@ var isMobile;
 var window_width;
 var window_height;
 
+var levelVersion = 1;
+
 var container;
 var topScore = 0;
 var GarbageGame;
@@ -39,27 +41,31 @@ function convertMStoS(num, p){
 	return (num/ 1000).toFixed(p);
 }
 
+
+
 function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
 
-    canvas.width = 640;
-    canvas.height = 1136;
+    canvas.width = 980;
+    canvas.height = 1409;
 
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
-    screen_width = canvas.width;
-    screen_height= canvas.height;
 
     if(isMobile){
         createjs.Touch.enable(stage);
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
     }
     else{
         stage.enableMouseOver(10);
     }
 
+    screen_width = canvas.width;
+    screen_height= canvas.height;
 }
 
 function init(){
@@ -79,7 +85,6 @@ function init(){
 		topScore = 0;
 	}
 
-
     // checks url input
     var query = window.location.search;
     if(query.substring(0,1) == '?'){
@@ -87,14 +92,23 @@ function init(){
         var args = query.split("&");
     }
 
+    console.log(window.location.search);
     var stageName = args[0]; 
 
-    if(args.length == 3){
-    var playerId = args[1].split("=")[1];
-    var gameId = args[2].split("=")[1];
+    if(args.length == 2){
+        levelVersion = args[1].split("=")[1];
+        console.log(levelVersion);
+    }
 
-    console.log(playerId);
-    console.log(gameId);
+    if(args.length == 3){
+        var playerId = args[1].split("=")[1];
+        var gameId = args[2].split("=")[1];
+    }
+
+    if(args.length == 4){
+        levelVersion = args[1].split("=")[1];
+        var playerId = args[2].split("=")[1];
+        var gameId = args[3].split("=")[1];
     }
 
     // initializes the content manager
@@ -103,22 +117,9 @@ function init(){
     contentManager.StartDownload();
 
     // initializes the game
-    garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName);
+    garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName, levelVersion);
     // initializes sound
     sound();
-}
-
-
-function reset(){
-    stage.removeAllChildren();
-    createjs.Ticker.removeAllEventListeners();
-    stage.update();
-    
-    pointInt = 0;
-    ONCE = true;
-    ENDGAME = false;
-    ITEM_SPEED = 1;
-    console.log("Game has been reset");
 }
 
 var src;            // the audio src we are trying to play
@@ -131,7 +132,7 @@ function sound() {
     // Create a single item to load.
     var assetsPath = "assets/";
     src3 = "src/sound/thud.ogg";
-    src2 = "src/sound/Son_Of_A_Rocket.ogg";
+    //src2 = "src/sound/Son_Of_A_Rocket.ogg";
     src = "src/sound/GemCollected.ogg";
     // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
 
@@ -149,11 +150,13 @@ function getSound(event){
 	createjs.Sound.play(src);
 }
 
+/*
 function playSound(event) {
 	console.log("sound loaded");
 	soundInstance = createjs.Sound.play(src2);  // start playing the sound we just loaded, storing the playing instance
     soundInstance.setVolume(.5);
 }
+*/
 
 function startGame(){
 

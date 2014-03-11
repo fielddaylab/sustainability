@@ -1,7 +1,7 @@
 // This class will be responsible for the layers
 
 (function (window){
-	function Level(stage, contentManager, gameWidth, gameHeight, stageName){
+	function Level(stage, contentManager, gameWidth, gameHeight, stageName, levelVersion){
 
 		this.levelStage = stage;
 		this.levelContentManager = contentManager;
@@ -11,16 +11,20 @@
 
 		this.stageName = stageName; 
 
+		this.levelVersion = levelVersion;
+
 		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 45000;
+		this.levelDefaultTime = 5000;
 		this.warningtime = convertMStoS(this.levelDefaultTime * .2);
 		this.longestCorrect = 0;
 
-		// 
+		//  
 		this.levelStart = false;
+		this.levelWin = false;
 		this.levelEnd = false;
+		this.landfillHeight = this.levelHeight * .85;
 
 		this.landfillsQ = null;
 
@@ -45,7 +49,7 @@
 		if(stageLevel === "Dejope"){
 			this.levelBins = ['landfill', 'recycle'];
 			this.levelSpeed = 1;
-		}
+		} 
 
 		if(stageLevel === "uSouth"){
 			this.levelBins = ['landfill', 'recycle', 'compost'];
@@ -53,25 +57,26 @@
 		}
 
 		if(stageLevel === "Chemistry"){
-			this.levelBins = ['landfill', 'recycle', 'reuse','chemical'];
+			this.levelBins = ['landfill', 'recycle', 'chemical'];
 			this.levelSpeed = 3;
 		}
 
 		if(stageLevel === "Grainger"){
-			this.levelBins = ['landfill', 'recycle', 'compost', 'reuse', 'electronics'];
+			this.levelBins = ['landfill', 'recycle', 'compost', 'electronics', 'chemical'];
 			this.levelSpeed = 3;
 		}
 
 		if(stageLevel === "Gordon"){
-			this.levelBins = ['landfill', 'recycle', 'compost', 'reuse'];
+			this.levelBins = ['landfill', 'recycle', 'electronics'];
 			this.levelSpeed = 3;
 		}
 
 		// initialize the contents and places them on the stage
+		//this.setBackground();
 		this.loadLandfillBar();
 		this.loadConveyor();
-		this.loadGarbage();
 		this.loadBins();
+		this.loadGarbage();
 		this.setBackgroundText();
 		
 	};
@@ -122,35 +127,43 @@
 	//	Loads the garbage bins onto the screen based on the level
 	Level.prototype.loadBins = function() {
 
+		//
+		console.log("Load Bins");
+
 		var xPos;								// x location of the object
 		var yPos = 0;								// y location of the object
 		var yOff; 								// y offset
 		var binCount = this.levelBins.length;
 
 		// position bins vertical 3 x 2
-		binCount > 3 ? yOff = this.levelHeight / 4 : yOff = this.levelHeight / (binCount + 1);
-		binCount > 3 ? xPos = 330 : xPos = 450;
+		yOff = this.levelHeight / (binCount + 1);
+		xPos = this.levelWidth * .6;
+		var tmpBin;
+		var SCALE = 1;
 
-		var j = 0;
-		for(var i = 0; i < this.levelBins.length ; i++){
+		for(var i = 0; i < binCount ; i++){
 
-			// happens once
-			if(i === 3){
-				xPos = 530;
-				j = 0;
+			if(binCount  == 2){
+				tmpBin = contentManager.GetBin(this.levelBins[i]);
+				yPos += yOff;
 			}
 
-			var tmpBin = contentManager.GetBin(this.levelBins[i]);
-			console.log(tmpBin.height);
-			yPos += 100 + tmpBin.height;
-			console.log("xpos: " + xPos);
-			console.log("ypos: " + yPos);
-			this.garbageBin.push(new GarbageBin(this.levelBins[i], tmpBin, xPos, yPos));
+			if(binCount == 3){
+				tmpBin = contentManager.GetBin(this.levelBins[i]);
+				yPos += yOff;
+			}
+
+			if(binCount == 5){
+				tmpBin = contentManager.GetBin(this.levelBins[i]);
+				yPos += (yOff - 10);
+				SCALE = .7;
+			}
+
+			this.garbageBin.push(new GarbageBin(this.levelBins[i], tmpBin, xPos, yPos, SCALE));
 
 			// adds the child to the stage
 			this.levelStage.addChild(this.garbageBin[i]);
 
-			j++;
 		}
 	};
 
@@ -188,9 +201,11 @@
 
 	Level.prototype.loadConveyor = function(){
 
-		var bitmap = new createjs.Bitmap("src/img/asset_conveyor_frame01.png");
-		console.log(bitmap);
-		this.levelStage.addChild(bitmap);
+		var conveyorBitmap = new createjs.Bitmap("src/img/asset_conveyor_frame01.png");
+		conveyorBitmap.y = 90;
+		conveyorBitmap.scaleY = 1.1;
+		this.levelStage.addChild(conveyorBitmap);
+		
 		/*
 		var tmp;
 		var yPos = this.levelHeight * .8;
@@ -220,7 +235,7 @@
 
 	Level.prototype.loadLandfillBar = function(){
 
-		var initY = this.levelHeight * .85;
+		var initY = this.landfillHeight;
 		var line = new createjs.Shape();
 		line.graphics.setStrokeStyle(3).beginStroke("red").moveTo(-10, initY);
 
@@ -232,9 +247,11 @@
 		line.graphics.lineTo(this.levelWidth, initY);
 
 		this.landfillsQ = new createjs.Shape();
-		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.15, 1);
+		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.2, 1);
+		console.log(this.landfillsQ);
 		this.levelStage.addChild(this.landfillsQ);
 
+		/*
 		var lineBelt = new createjs.Shape();
 		lineBelt.graphics.setStrokeStyle(3).beginStroke("black").moveTo(0, this.levelHeight * .73);
 		lineBelt.graphics.lineTo(this.levelWidth, this.levelHeight * .73);
@@ -242,16 +259,27 @@
 		var lineBelt2 = new createjs.Shape();
 		lineBelt2.graphics.setStrokeStyle(3).beginStroke("black").moveTo(0, this.levelHeight * .8);
 		lineBelt2.graphics.lineTo(this.levelWidth, this.levelHeight * .8);
+		*/
 
 		this.levelStage.addChild(line);
-		this.levelStage.addChild(lineBelt);
-		this.levelStage.addChild(lineBelt2);
+		//this.levelStage.addChild(lineBelt);
+		//this.levelStage.addChild(lineBelt2);
 
 	}
 
 	//update
 	Level.prototype.updateLandfillBar = function(){
-		this.landfillsQ.y -= 10;
+		this.landfillsQ.y -= 30;
+
+		console.log("bar rising: " + this.landfillsQ.y);
+
+		var diff = this.levelHeight - this.landfillHeight;
+		console.log(this.landfillsQ.y + diff);
+
+		if(this.landfillsQ.y + diff < 0){
+			this.levelEnd = true;
+			console.log("level lose");
+		}
 	}
 
 	Level.prototype.setBackgroundText = function(level) {
@@ -260,17 +288,18 @@
 		stageLayer.graphics.beginFill('#737373').drawRoundRect(0, 0, this.levelWidth, 90, 10);
 		this.levelStage.addChild(stageLayer);
 
-		this.txtTitle = new createjs.Text(this.stageName, "bold 42px Arial", "#ffffff");
+		this.txtTitle = new createjs.Text(this.stageName + " " + this.levelVersion + " of 3", "bold 42px Arial", "#ffffff");
     	this.txtTitle.x = this.txtTitle.y = 10;
 
+    	/*
     	this.txtTimerTitle = new createjs.Text("Time: ", "bold 28px Arial", "#ffffff");
     	this.txtTimerTitle.x = 15;
     	this.txtTimerTitle.y = 55;
-
+		
 		this.txtTimeRemain = new createjs.Text( convertMStoS(this.levelDefaultTime) + " s", "bold 28px Arial", "#ffffff");
 		this.txtTimeRemain.x = 90;
 		this.txtTimeRemain.y = 55;
-		
+		*/
 		
 		this.txtScoreTitle = new createjs.Text("SCORE:", "bold 28px Arial", "#ffffff");
 		this.txtScoreTitle.x = screen_width - 210;
@@ -282,8 +311,8 @@
 
 		// put these objects into the level text container
 		this.levelText.push(this.txtTitle);
-		this.levelText.push(this.txtTimerTitle);
-		this.levelText.push(this.txtTimeRemain);
+		//this.levelText.push(this.txtTimerTitle);
+		//this.levelText.push(this.txtTimeRemain);
 		this.levelText.push(this.txtScoreTitle);
 		this.levelText.push(this.txtScore);
 
@@ -295,6 +324,11 @@
 
 	Level.prototype.setBackground = function() {
 		// NOT implemented at the moment
+		var backgroundBitmap = new createjs.Bitmap("src/img/background01.png");
+		backgroundBitmap.y = 80;
+		backgroundBitmap.x = this.levelWidth * .3;
+		//backgroundBitmap.alpha = .8;
+		this.levelStage.addChild(backgroundBitmap);
 	};
 
 	// Returns a score
@@ -362,6 +396,7 @@
 			else{
 				this.updateScore(false, objB);
 				objB.contentCountWrong++;
+				this.updateLandfillBar();
 			}
 
 			objA.remove = true;
@@ -481,16 +516,17 @@
 			}
 
 			// check the time
-			this.txtTimeRemain.text = convertMStoS(this.timeRemain()) + " seconds";  
+			//this.txtTimeRemain.text = convertMStoS(this.timeRemain()) + " seconds";  
 			if(convertMStoS(this.timeRemain()) < 0 || convertMStoS(this.timeRemain()) == 0){
-				this.txtTimeRemain.text = "0.0 seconds";
+				//this.txtTimeRemain.text = "0.0 seconds";
+				this.levelWin = true;
 				this.levelEnd = true;
-				console.log("time is out");
 			}
 
+			/*
 			if(convertMStoS(this.timeRemain()) < convertMStoS(this.warningtime)){
 				this.txtTimeRemain.color = "red";
-			}
+			}*/
 			this.txtScore.text = this.levelScore;
 
 		}
