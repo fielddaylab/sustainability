@@ -11,6 +11,8 @@
 
 		this.stageName = stageName; 
 
+		this.levelVersion = 1;
+
 		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
@@ -70,7 +72,7 @@
 		}
 
 		// initialize the contents and places them on the stage
-		this.setBackground();
+		//this.setBackground();
 		this.loadLandfillBar();
 		this.loadConveyor();
 		this.loadBins();

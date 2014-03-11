@@ -122,7 +122,7 @@ function sound() {
     // Create a single item to load.
     var assetsPath = "assets/";
     src3 = "src/sound/thud.ogg";
-    src2 = "src/sound/Son_Of_A_Rocket.ogg";
+    //src2 = "src/sound/Son_Of_A_Rocket.ogg";
     src = "src/sound/GemCollected.ogg";
     // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
 
@@ -140,11 +140,13 @@ function getSound(event){
 	createjs.Sound.play(src);
 }
 
+/*
 function playSound(event) {
 	console.log("sound loaded");
 	soundInstance = createjs.Sound.play(src2);  // start playing the sound we just loaded, storing the playing instance
     soundInstance.setVolume(.5);
 }
+*/
 
 function startGame(){
 

@@ -58,7 +58,7 @@
 
 		// title text
 		var stageText = new createjs.Text("--", "bold 72px Arial", "#ffffff"); 
-		stageText.text = "Garbage-Sorter";
+		stageText.text = "Sort the Garbage!!";
 		stageText.x = w * .05;
 		stageText.y = h * .05;
 		intro.addChild(stageText);
@@ -126,7 +126,7 @@
 
 			// go to next step
 			self.intro = false;
-			playSound();
+			//playSound();
 			self.level.startWait();
 		})
 		
@@ -211,32 +211,12 @@
 
 		var self = this;
 		button.addEventListener("click", function(evt){
-			
-			// changes the button to quit, allows for 2 clicks
-			if(buttonText.text === "Quit"){
 
-				if(self.level.levelScore > topScore){
-					localStorage.setItem('topScore', self.level.levelScore);
-				}
-
-				createjs.Sound.stop();
-				window.location = "index.html";
-			}
-
-			stageText.text = "Top Score:"
-			container.removeChild(recycleText);
-			container.removeChild(wrongText);
-
-			var len = itemsText.length;
-			while (len--){
-				  container.removeChild(itemsText[len]);
-			}
-
-			buttonText.text = "Quit";
-
+			createjs.Sound.stop();
+			window.location = window.location.search;
 		});
 
-		var buttonText = new createjs.Text("NEXT", "bold 30px Arial", "green");
+		var buttonText = new createjs.Text("RETRY", "bold 30px Arial", "green");
 		buttonText.x = w*.44;
 		buttonText.y = h*.62;
 		container.addChild(buttonText);
