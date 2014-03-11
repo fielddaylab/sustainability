@@ -308,17 +308,30 @@
 			// create query string
 			// checks url input
 
+			var search;
+	   		var query = window.location.search;
+	    	if(query.substring(0,1) == '?'){
+	        	query = query.substring(1);
+	        	var args = query.split("&");
+	    	}
+
 			if(this.levelVersion == 3){
 				// send webhook to aris for completion
+
+				console.log(query);
+
+				var playerId = args[3].split("=")[1];
+				console.log(playerId);
+
+				var x = new XMLHttpRequest();	
+  				x.open("GET", "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/911/0/playerId", true);
+   				x.send();
+
+   				// send the request;
+   				// how do i get out of this back to aris and have it reload?
+   				
 			}
 			else{
-
-				var search;
-	   			var query = window.location.search;
-	    		if(query.substring(0,1) == '?'){
-	        		query = query.substring(1);
-	        		var args = query.split("&");
-	    		}
 
 	    		var stageName = args[0]; 
 	    		var levelVersion = 0;
@@ -331,6 +344,7 @@
 	        		window.location = "garbagesorter.html" + search;
 	    		}
 
+	    		// not working for aris, but below works <-- DUH ARIS HAS 5 arguments: 2 + game id + webpageid + playerID... lol
 			    if(args.length == 4){
 			    	console.log("arg = 4");
 
