@@ -14,13 +14,15 @@
 		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 45000;
+		this.levelDefaultTime = 30000;
 		this.warningtime = convertMStoS(this.levelDefaultTime * .2);
 		this.longestCorrect = 0;
 
 		//  
 		this.levelStart = false;
+		this.levelWin = false;
 		this.levelEnd = false;
+		this.landfillHeight = this.levelHeight * .85;
 
 		this.landfillsQ = null;
 
@@ -151,7 +153,7 @@
 
 			if(binCount == 5){
 				tmpBin = contentManager.GetBin(this.levelBins[i]);
-				yPos += yOff;
+				yPos += (yOff - 10);
 				SCALE = .7;
 			}
 
@@ -231,7 +233,7 @@
 
 	Level.prototype.loadLandfillBar = function(){
 
-		var initY = this.levelHeight * .85;
+		var initY = this.landfillHeight;
 		var line = new createjs.Shape();
 		line.graphics.setStrokeStyle(3).beginStroke("red").moveTo(-10, initY);
 
@@ -243,7 +245,8 @@
 		line.graphics.lineTo(this.levelWidth, initY);
 
 		this.landfillsQ = new createjs.Shape();
-		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.15, 1);
+		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.2, 1);
+		console.log(this.landfillsQ);
 		this.levelStage.addChild(this.landfillsQ);
 
 		/*
@@ -264,7 +267,17 @@
 
 	//update
 	Level.prototype.updateLandfillBar = function(){
-		this.landfillsQ.y -= 10;
+		this.landfillsQ.y -= 30;
+
+		console.log("bar rising: " + this.landfillsQ.y);
+
+		var diff = this.levelHeight - this.landfillHeight;
+		console.log(this.landfillsQ.y + diff);
+
+		if(this.landfillsQ.y + diff < 0){
+			this.levelEnd = true;
+			console.log("level lose");
+		}
 	}
 
 	Level.prototype.setBackgroundText = function(level) {
@@ -381,6 +394,7 @@
 			else{
 				this.updateScore(false, objB);
 				objB.contentCountWrong++;
+				this.updateLandfillBar();
 			}
 
 			objA.remove = true;
@@ -503,6 +517,7 @@
 			//this.txtTimeRemain.text = convertMStoS(this.timeRemain()) + " seconds";  
 			if(convertMStoS(this.timeRemain()) < 0 || convertMStoS(this.timeRemain()) == 0){
 				//this.txtTimeRemain.text = "0.0 seconds";
+				this.levelWin = true;
 				this.levelEnd = true;
 				console.log("time is out");
 			}

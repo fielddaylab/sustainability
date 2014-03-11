@@ -45,19 +45,18 @@ function handleCanvas(){
 
 	canvas = document.getElementById("canvas");
 
-    canvas.width = 640;
-    canvas.height = 1136;
+    canvas.width = 980;
+    canvas.height = 1409;
 
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
 
     if(isMobile){
         createjs.Touch.enable(stage);
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        console.log("canvas.width: " + canvas.width);
-        console.log("canvas.height: " + canvas.height);
     }
     else{
         stage.enableMouseOver(10);
@@ -111,19 +110,6 @@ function init(){
     garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName);
     // initializes sound
     sound();
-}
-
-
-function reset(){
-    stage.removeAllChildren();
-    createjs.Ticker.removeAllEventListeners();
-    stage.update();
-    
-    pointInt = 0;
-    ONCE = true;
-    ENDGAME = false;
-    ITEM_SPEED = 1;
-    console.log("Game has been reset");
 }
 
 var src;            // the audio src we are trying to play
