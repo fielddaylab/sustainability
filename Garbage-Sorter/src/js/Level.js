@@ -48,27 +48,22 @@
 
 		if(stageLevel === "Dejope"){
 			this.levelBins = ['landfill', 'recycle'];
-			this.levelSpeed = 1;
 		} 
 
 		if(stageLevel === "uSouth"){
 			this.levelBins = ['landfill', 'recycle', 'compost'];
-			this.levelSpeed = 3;
 		}
 
 		if(stageLevel === "Chemistry"){
 			this.levelBins = ['landfill', 'recycle', 'chemical'];
-			this.levelSpeed = 3;
 		}
 
 		if(stageLevel === "Grainger"){
-			this.levelBins = ['landfill', 'recycle', 'compost', 'electronics', 'chemical'];
-			this.levelSpeed = 3;
+			this.levelBins = ['landfill', 'recycle', 'compost', 'tech', 'chemical'];
 		}
 
 		if(stageLevel === "Gordon"){
-			this.levelBins = ['landfill', 'recycle', 'electronics'];
-			this.levelSpeed = 3;
+			this.levelBins = ['landfill', 'recycle', 'tech'];
 		}
 
 		// initialize the contents and places them on the stage
@@ -179,7 +174,7 @@
 
 		var randomGarbage = {};
 
-		yPos = this.levelHeight;
+		yPos = 200;
 
 		// places the garbage bin based on the number of bins 
 		for(var i = 0; i < garbageCount; i++)
@@ -192,7 +187,7 @@
 			yPos -= randomGarbage.img.height + yOff;
 			//
 
-			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos+ 50 + (Math.random() * 50), yPos, this.levelHeight,this.levelWidth));
+			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos + 50 + (Math.random() * 100), yPos, this.levelHeight,this.levelWidth));
 
 			// adds the child to the stage
 			this.levelStage.addChild(this.garbage[i]);
@@ -206,30 +201,6 @@
 		conveyorBitmap.scaleY = 1.1;
 		this.levelStage.addChild(conveyorBitmap);
 		
-		/*
-		var tmp;
-		var yPos = this.levelHeight * .8;
-		var yOff = 10;
-		var tileHeight = 150;
-		for(var i = 0; i < 10; i++){
-
-			tmp = new createjs.Shape();
-			tmp.graphics.beginFill('#666699').drawRoundRect(5,0, 200, tileHeight, 10);
-
-			yPos -= tileHeight + yOff;
-			tmp.y = yPos;
-			tmp.yBottom = yPos + tileHeight;
-			this.conveyorBelt.push(tmp);
-
-			this.levelStage.addChild(this.conveyorBelt[i]);
-		}
-
-		this.lastBeltTileY = yPos;
-		*/
-
-		// var tmp = new createjs.Shape();
-		// tmp.graphics.beginFill('#666699').drawRoundRect(5,200, 200, tileHeight, 10);
-		// this.levelStage.addChild(tmp);
 	};
 
 
@@ -248,22 +219,9 @@
 
 		this.landfillsQ = new createjs.Shape();
 		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.2, 1);
-		console.log(this.landfillsQ);
 		this.levelStage.addChild(this.landfillsQ);
 
-		/*
-		var lineBelt = new createjs.Shape();
-		lineBelt.graphics.setStrokeStyle(3).beginStroke("black").moveTo(0, this.levelHeight * .73);
-		lineBelt.graphics.lineTo(this.levelWidth, this.levelHeight * .73);
-
-		var lineBelt2 = new createjs.Shape();
-		lineBelt2.graphics.setStrokeStyle(3).beginStroke("black").moveTo(0, this.levelHeight * .8);
-		lineBelt2.graphics.lineTo(this.levelWidth, this.levelHeight * .8);
-		*/
-
 		this.levelStage.addChild(line);
-		//this.levelStage.addChild(lineBelt);
-		//this.levelStage.addChild(lineBelt2);
 
 	}
 
@@ -271,14 +229,10 @@
 	Level.prototype.updateLandfillBar = function(){
 		this.landfillsQ.y -= 30;
 
-		console.log("bar rising: " + this.landfillsQ.y);
-
 		var diff = this.levelHeight - this.landfillHeight;
-		console.log(this.landfillsQ.y + diff);
 
 		if(this.landfillsQ.y + diff < 0){
 			this.levelEnd = true;
-			console.log("level lose");
 		}
 	}
 
@@ -403,10 +357,11 @@
 		}
 	};
 
-	var RATE = 1.5;
+	var RATE = 4;
 	var tile_min_dist = Number.MAX_VALUE;
 	// Updates 
 	Level.prototype.Update = function() {
+		//RATE += this.levelVersion * .5;
 
 		if(this.levelStart){
 			var point = 0;

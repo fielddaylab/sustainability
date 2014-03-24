@@ -11,9 +11,10 @@
 		this.level = null;
 		this.gameOver = false;
 		this.feedbackDisplayed = false;
+		this.winComplete = false;
 		this.levelName = name;
 		this.levelVersion = levelVersion;
-
+		this.args = null;
 		this.intro = false;
 	};
 
@@ -45,6 +46,7 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
+		/*
 		var intro = new createjs.Container();
 		intro.setBounds(w * .10,h * .10, w * .78, h *.68);
 		intro.mouseEnabled = true;
@@ -128,10 +130,81 @@
 			//playSound();
 			self.level.startWait();
 		})
-		
+
+		this.GarbageGameStage.addChild(intro);
+		*/
+
+		var w = this.gameWidth;
+		var h = this.gameHeight;
+
+		var intro = new createjs.Container();
+		intro.x = 0;
+		intro.y = 0;
+		intro.setBounds(w * .10,h * .10, w * .78, h *.68);
+		intro.mouseEnabled = true;
+
+		var levelCompleteOverlay = new createjs.Bitmap("src/img/waste_level_complete_overlay.gif");
+		levelCompleteOverlay.scaleX = 1.55;
+		levelCompleteOverlay.scaleY = 1.55;
+		intro.addChild(levelCompleteOverlay);
+
+		//end text
+
+		var buildingText = new createjs.Text("--", "bold 60px Arial", "#FFFFFF"); 
+		buildingText.text = this.level.stageLevel;
+		buildingText.x = w * .05;
+		buildingText.y = h * .05;
+		intro.addChild(buildingText);
+
+		var introText = new createjs.Text("--", "bold 54px Arial", "#0000000"); 
+		introText.text = "Sort the waste for this building! ";
+		introText.x = w * .1;
+		introText.y = h * .28;
+		intro.addChild(introText);
+
+		var explainText = new createjs.Text("--", "bold 36px Arial", "#0000000"); 
+		explainText.text = "Beat all 3 waves of garbage!";
+		explainText.x = w * .45;
+		explainText.y = h * .35;
+		intro.addChild(explainText);
+
+		var explainText2 = new createjs.Text("--", "bold 36px Arial", "#0000000"); 
+		explainText2.text = "Don't let the garbage pile up.";
+		explainText2.x = w * .47;
+		explainText2.y = h * .38;
+		intro.addChild(explainText2);
+
+		var explainText3 = new createjs.Text("--", "bold 36px Arial", "#0000000"); 
+		explainText3.text = "You'll lose if the bar fills ups.";
+		explainText3.x = w * .47;
+		explainText3.y = h * .58;
+		intro.addChild(explainText3);
+
+		var button = new createjs.Shape();
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.5, h*.6,w*.6,h*.1,10);
+		button.alpha = .2;
+		intro.addChild(button);
+
+		var self = this;
+		button.addEventListener("click", function(evt){
+			self.GarbageGameStage.removeChild(intro);
+
+			// go to next step
+			self.intro = false;
+			//playSound();
+			self.level.startWait();
+
+		});
+
+		var buttonText = new createjs.Text("Start", "bold 42px Arial", "#00000");
+		buttonText.x = w*.8;
+		buttonText.y = h*.63;
+		intro.addChild(buttonText);
+
 		this.GarbageGameStage.addChild(intro);
 	};
 
+	// lose, should display lose transition
 	GarbageGame.prototype.loseScreen = function() {
 
 
@@ -140,73 +213,32 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
+		console.log('lose overlay');
+		var loseOverlay = new createjs.Bitmap("src/img/waste_loose_lower_overlay.gif");
+		loseOverlay.y = 165;
+		loseOverlay.scaleX = 1.55;
+		loseOverlay.scaleY = 1.55;
+		this.GarbageGameStage.addChild(loseOverlay);
+
+		// container
 		var container = new createjs.Container();
-		container.x = 10;
-		container.y = 10;
+		container.x = 0;
+		container.y = 0;
 		container.setBounds(w * .10,h * .10, w * .78, h *.68);
 		container.mouseEnabled = true;
 
-		var endOverlay = new createjs.Shape();
-		endOverlay.graphics.beginFill('green').drawRoundRect(w*.12, h*.12, w *.76, h *.66, 10);
-		container.addChild(endOverlay);
-
-		var overlay = new createjs.Shape();
-		overlay.graphics.beginFill('#54B368').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
-		overlay.alpha = 1;
-		container.addChild(overlay);
-
 		//end text
-		var stageText = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
-		stageText.text = "YOU LOSE";
-		stageText.x = w * .17;
-		stageText.y = h * .17;
-
-		var stagePoint = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
-		stagePoint.text = "Score: " + this.level.levelScore;
-		stagePoint.x = w * .17;
-		stagePoint.y = h * .21;
-
-		var recycleText = new createjs.Text("--", "bold 36px Arial", "green"); 
-		recycleText.text = "Recycled Items";
-		recycleText.x = w * .17;
-		recycleText.y = h * .30;
+		var stageText = new createjs.Text("--", "bold 42px Arial", "#000000"); 
+		stageText.text = "YOU LOSE...";
+		stageText.x = w * .5;
+		stageText.y = h * .7;
 
 		container.addChild(stageText);
-		container.addChild(stagePoint);
-		container.addChild(recycleText);
-
-		var tmp = null;
-		var itemsText = [];
-		var incorrectCount = 0;
-		for(var i = 0; i < this.level.levelBins.length; i++){
-			tmp = new createjs.Text("--", "bold 30px Arial", "#ffffff"); 
-			tmp.text = this.level.levelBins[i] + ": " + this.level.garbageBin[i].contentCountCorrect;
-			tmp.x = w * .18;
-			tmp.y = h * (.35 + (.03 *i));
-			
-			itemsText.push(tmp);
-			container.addChild(itemsText[i]);
-			incorrectCount += this.level.garbageBin[i].contentCountWrong;
-		}
-
-		var wrongText = new createjs.Text("--", "bold 30px Arial", "red"); 
-		wrongText.text = "incorrectly recycled: " + incorrectCount;
-		wrongText.x = w * .18;
-		wrongText.y = h * (.35 + (.03 * this.level.levelBins.length));
-
-		container.addChild(wrongText);
 
 		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.6,w*.4,h*.1,10);
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.55, h*.9,w*.45,h*.1,10);
+		button.alpha = .5;
 		container.addChild(button);
-
-		button.addEventListener("rollover", function(evt){
-			evt.target.alpha = .5;
-		});
-
-		button.addEventListener("rollout", function(evt){
-			evt.target.alpha = 1;
-		});
 
 		var self = this;
 		button.addEventListener("click", function(evt){
@@ -215,13 +247,12 @@
 			window.location = window.location.search;
 		});
 
-		var buttonText = new createjs.Text("RETRY", "bold 30px Arial", "green");
-		buttonText.x = w*.44;
-		buttonText.y = h*.62;
+		var buttonText = new createjs.Text("RETRY", "bold 42px Arial", "#000000");
+		buttonText.x = w*.75;
+		buttonText.y = h*.94;
 		container.addChild(buttonText);
 		
 		this.GarbageGameStage.addChild(container);
-
 	}
 
 	// display feedback
@@ -232,37 +263,44 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
+		var levelCompleteOverlay = new createjs.Bitmap("src/img/waste_level_complete_overlay.gif");
+		levelCompleteOverlay.scaleX = 1.55;
+		levelCompleteOverlay.scaleY = 1.55;
+		this.GarbageGameStage.addChild(levelCompleteOverlay);
+
 		var container = new createjs.Container();
-		container.x = 10;
-		container.y = 10;
+		container.x = 0;
+		container.y = 0;
 		container.setBounds(w * .10,h * .10, w * .78, h *.68);
 		container.mouseEnabled = true;
 
-		var endOverlay = new createjs.Shape();
-		endOverlay.graphics.beginFill('green').drawRoundRect(w*.12, h*.12, w *.76, h *.66, 10);
-		container.addChild(endOverlay);
-
-		var overlay = new createjs.Shape();
-		overlay.graphics.beginFill('#54B368').drawRoundRect(w*.15, h*.15, w*.7, h*.6, 10);
-		overlay.alpha = 1;
-		container.addChild(overlay);
-
 		//end text
-		var stageText = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
+		var winText = new createjs.Text("--", "bold 54px Arial", "#FFFFFF"); 
+		winText.text = "ALMOST THERE! ";
+		winText.x = 10;
+		winText.y = h * .2;
+
+		if(this.levelVersion == 3){
+			winText.text = "YOU DID IT!";
+		}
+
+
+		var stageText = new createjs.Text("--", "bold 42px Arial", "#000000"); 
 		stageText.text = "Stage: " + this.level.stageLevel + " " + this.levelVersion + " of 3";
-		stageText.x = w * .17;
-		stageText.y = h * .17;
+		stageText.x = w * .4;
+		stageText.y = h * .3;
 
-		var stagePoint = new createjs.Text("--", "bold 36px Arial", "#ffffff"); 
+		var stagePoint = new createjs.Text("--", "bold 42px Arial", "#000000"); 
 		stagePoint.text = "Score: " + this.level.levelScore;
-		stagePoint.x = w * .17;
-		stagePoint.y = h * .21;
+		stagePoint.x = w * .47;
+		stagePoint.y = h * .35;
 
-		var recycleText = new createjs.Text("--", "bold 36px Arial", "green"); 
+		var recycleText = new createjs.Text("--", "bold 42px Arial", "#000000"); 
 		recycleText.text = "Recycled Items";
-		recycleText.x = w * .17;
-		recycleText.y = h * .30;
+		recycleText.x = w * .5;
+		recycleText.y = h * .4;
 
+		container.addChild(winText);
 		container.addChild(stageText);
 		container.addChild(stagePoint);
 		container.addChild(recycleText);
@@ -271,34 +309,27 @@
 		var itemsText = [];
 		var incorrectCount = 0;
 		for(var i = 0; i < this.level.levelBins.length; i++){
-			tmp = new createjs.Text("--", "bold 30px Arial", "#ffffff"); 
+			tmp = new createjs.Text("--", "bold 30px Arial", "#000000"); 
 			tmp.text = this.level.levelBins[i] + ": " + this.level.garbageBin[i].contentCountCorrect;
-			tmp.x = w * .18;
-			tmp.y = h * (.35 + (.03 *i));
+			tmp.x = w * .5;
+			tmp.y = h * (.45 + (.03 *i));
 			
 			itemsText.push(tmp);
 			container.addChild(itemsText[i]);
 			incorrectCount += this.level.garbageBin[i].contentCountWrong;
 		}
 
-		var wrongText = new createjs.Text("--", "bold 30px Arial", "red"); 
+		var wrongText = new createjs.Text("--", "bold 36px Arial", "red"); 
 		wrongText.text = "incorrectly recycled: " + incorrectCount;
-		wrongText.x = w * .18;
-		wrongText.y = h * (.35 + (.03 * this.level.levelBins.length));
+		wrongText.x = w * .5;
+		wrongText.y = h * (.45 + (.03 * this.level.levelBins.length));
 
 		container.addChild(wrongText);
 
 		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.6,w*.4,h*.1,10);
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.5, h*.6,w*.6,h*.1,10);
+		button.alpha = .2;
 		container.addChild(button);
-
-		button.addEventListener("rollover", function(evt){
-			evt.target.alpha = .5;
-		});
-
-		button.addEventListener("rollout", function(evt){
-			evt.target.alpha = 1;
-		});
 
 		var self = this;
 		button.addEventListener("click", function(evt){
@@ -312,63 +343,115 @@
 	   		var query = window.location.search;
 	    	if(query.substring(0,1) == '?'){
 	        	query = query.substring(1);
-	        	var args = query.split("&");
+	        	self.args = query.split("&");
 	    	}
 
 			if(this.levelVersion == 3){
-				// send webhook to aris for completion
-
-				console.log(query);
-
-				var playerId = args[3].split("=")[1];
-				console.log(playerId);
-
-				var x = new XMLHttpRequest();	
-  				x.open("GET", "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/911/0/playerId", true);
-   				x.send();
-
-   				// send the request;
-   				// how do i get out of this back to aris and have it reload?
-   				
+				self.winComplete = true;
+				console.log("should have new screen");
 			}
 			else{
 
-	    		var stageName = args[0]; 
+	    		var stageName = self.args[0]; 
 	    		var levelVersion = 0;
 
-	    		if(args.length == 2){
+	    		if(self.args.length == 2){
 	    			console.log("arg = 2");
 
-	        		levelVersion = args[1].split("=")[1];
-	        		search = "?" + args[0] + "&" + args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1);
+	        		levelVersion = self.args[1].split("=")[1];
+	        		search = "?" + self.args[0] + "&" + self.args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1);
 	        		window.location = "garbagesorter.html" + search;
 	    		}
 
 	    		// not working for aris, but below works <-- DUH ARIS HAS 5 arguments: 2 + game id + webpageid + playerID... lol
-			    if(args.length == 4){
+			    if(self.args.length == 4){
 			    	console.log("arg = 4");
 
-			        var playerId = args[1].split("=")[1];
-			        var gameId = args[2].split("=")[1];
-			        search = "?" + args[0] + "&" + args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + args[2] + "&" + args[3]; 
+			        var playerId = self.args[1].split("=")[1];
+			        var gameId = self.args[2].split("=")[1];
+			        search = "?" + self.args[0] + "&" + self.args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + self.args[2] + "&" + self.args[3]; 
 	        		
 	        		window.location = "garbagesorter.html" + search;
 			    }
 
 			    //window.location.search = search;
-			    search = "?" + args[0] + "&" + args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + args[2] + "&" + args[3]; 
+			    search = "?" + self.args[0] + "&" + self.args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + args[2] + "&" + self.args[3]; 
 				window.location = "garbagesorter.html" + search;
 			}
 
 		});
 
-		var buttonText = new createjs.Text("Finish the next Wave.", "bold 30px Arial", "green");
-		buttonText.x = w*.35;
-		buttonText.y = h*.62;
+		var buttonText = new createjs.Text("Sort the next batch.", "bold 36px Arial", "#00000");
+		buttonText.x = w*.6;
+		buttonText.y = h*.63;
 		container.addChild(buttonText);
-		
+			
+		if(this.levelVersion == 3){
+			buttonText.text = "Continue";
+			buttonText.x = w * .75;
+		}
+
 		this.GarbageGameStage.addChild(container);
 	}; 
+
+	GarbageGame.prototype.completeScreen = function() {
+		this.winComplete = false;
+
+		var w = this.gameWidth;
+		var h = this.gameHeight;
+
+		var backOverlay = new createjs.Shape();
+		backOverlay.graphics.beginFill('#AAAAAA').drawRoundRect(0, 0,w,h,10);				
+		this.GarbageGameStage.addChild(backOverlay);
+
+		var levelCompleteOverlay = new createjs.Bitmap("src/img/waste_win_lower_overlay.gif");
+		levelCompleteOverlay.scaleX = 1.55;
+		levelCompleteOverlay.scaleY = 1.55;
+		levelCompleteOverlay.y = 10;
+		this.GarbageGameStage.addChild(levelCompleteOverlay);
+
+		//
+		var button = new createjs.Shape();
+		button.graphics.beginFill('#FFFFFF').drawRoundRect(w*.35, h*.9,w*.65,h*.1,10);
+		button.alpha = .2;
+		this.GarbageGameStage.addChild(button);
+
+		var buttonText = new createjs.Text("Continue saving the campus!", "bold 36px Arial", "#000000");
+		buttonText.x = w*.40;
+		buttonText.y = h*.945;
+		this.GarbageGameStage.addChild(buttonText);
+
+		var self = this;
+		button.addEventListener("click", function(evt){
+			console.log("SHOULD SEND ARIS REQUEST");
+			
+			//console.log('query: ' + query);
+			var playerId = self.args[2].split("=")[1];
+			console.log('playerId: ' + playerId);
+
+			var x = new XMLHttpRequest();	
+			x.open("GET", "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/911/0/" + playerId, true);
+			x.send();
+
+			// exit and reload
+			var x = new XMLHttpRequest();	
+			x.open("GET", "aris://closeMe", true);
+			x.send();
+		});
+
+		var completeText = new createjs.Text("--", "bold 36px Arial", "#000000"); 
+		completeText.text = "You did it! The trash is just... vanishing!"
+		completeText.x = w * .05;
+		completeText.y = h * .8;
+		this.GarbageGameStage.addChild(completeText);
+
+		var awesomeText = new createjs.Text("--", "bold 36px Arial", "#000000"); 
+		awesomeText.text = "This is AWESOME!";
+		awesomeText.x = w * .05;
+		awesomeText.y = h * .85;
+		this.GarbageGameStage.addChild(awesomeText);
+
+	}
 
 	// level starts
 	GarbageGame.prototype.startLevel = function() {
@@ -384,6 +467,10 @@
 			if(this.level.levelWin){
 				if(!this.feedbackDisplayed){
 					this.winScreen();
+				}
+
+				if(this.winComplete){
+					this.completeScreen();
 				}
 			}
 			else{

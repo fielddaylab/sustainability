@@ -14,7 +14,6 @@
 	Garbage.height;
 	Garbage.radius;
 	Garbage.boundingBox;
-    Garbage.pressed = false;
 	
     // constructor:
     Garbage.prototype.Sprite_intialize = Garbage.prototype.initialize;
@@ -58,6 +57,7 @@
         this.remove = false;
         this.collision = false;
         this.dumped = false;
+        this.pressed = false;
 
         // can scale image
         this.scaleX = .9;
@@ -84,7 +84,10 @@
         this.boundingBox.x = this.x;
         this.boundingBox.y = this.y;
 
-        this.y += rate;
+        if(!this.pressed){
+            this.y += rate;
+        }
+        
         this.initY = this.y;
         
         if(this.y > (this.gh * .8))
@@ -137,13 +140,14 @@
 
 	// rollover and rollout does not work for touch
 	Garbage.prototype.on("rollover", function(evt) {
-		evt.target.alpha = .5;
+		//evt.target.alpha = .5;
         evt.target.boundingBox.visible = true;
+        evt.target.boundingBox.alpha = .5;
 	});
 	
 	
 	Garbage.prototype.on("rollout", function(evt) {
-		evt.target.alpha = 1;
+		//evt.target.alpha = 1;
         evt.target.boundingBox.visible = false;
 	});
 

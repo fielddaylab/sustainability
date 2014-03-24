@@ -82,6 +82,7 @@
         // not doing anything right now
     }
 	
+    /*
 	GarbageBin.prototype.on("rollover", function(evt) {
 		evt.target.alpha = .5;
         evt.target.scaleX = 1.2;
@@ -96,6 +97,7 @@
         evt.target.scaleY = 1;
         evt.target.boundingBox.visible = false;
 	});
-
+    */
+    
     window.GarbageBin = GarbageBin;
 }(window));

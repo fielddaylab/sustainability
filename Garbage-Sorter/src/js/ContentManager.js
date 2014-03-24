@@ -7,7 +7,7 @@ function ContentManager(){
     var onDownloadCompleted;
     var numImagesLoaded = 0;
 
-    var NUM_ELMENTS_TO_DOWNLOAD = 26;
+    var NUM_ELMENTS_TO_DOWNLOAD = 29;
 
 	// garbage items, need to rename
     this.banana = new Image();
@@ -39,6 +39,9 @@ function ContentManager(){
     this.chemBin = new Image();
 
     this.imgBelt = new Image();
+    this.loseOverlay = new Image();
+    this.winOverlay = new Image();
+    this.levelCompleteOverlay = new Image();
 
     // returns image
     this.GetGarbage = function (binType){
@@ -93,8 +96,8 @@ function ContentManager(){
                         break;
                     case "tech":
                         no_to_img_map.push({bin : binType[i], img: this.batteries});
-                        o_to_img_map.push({bin : binType[i], img: this.inkCart});
-                        o_to_img_map.push({bin : binType[i], img: this.cellphone});
+                        no_to_img_map.push({bin : binType[i], img: this.inkCart});
+                        no_to_img_map.push({bin : binType[i], img: this.cellphone});
                         break;
                     case "chemical":
                         no_to_img_map.push({bin : binType[i], img: this.cleaner});
@@ -161,6 +164,11 @@ function ContentManager(){
 
         // get conveyorbelt 
         SetDownload(this.imgBelt, "src/img/asset_conveyor_frame01.png", handleImageLoad, handleImageError);
+
+        // get overlay
+        SetDownload(this.loseOverlay, "src/img/waste_loose_lower_overlay.gif", handleImageLoad, handleImageError);
+        SetDownload(this.winOverlay, "src/img/waste_win_lower_overlay.gif", handleImageLoad, handleImageError);
+        SetDownload(this.levelCompleteOverlay, "src/img/waste_level_complete_overlay.gif", handleImageLoad, handleImageError);
     }
 
     // hands the images
