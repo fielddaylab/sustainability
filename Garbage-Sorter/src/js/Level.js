@@ -131,11 +131,15 @@
 		console.log("Load Bins");
 
 		var xPos;								// x location of the object
-		var yPos = 0;								// y location of the object
+		var yPos = 0;							// y location of the object
 		var yOff; 								// y offset
 		var binCount = this.levelBins.length;
 
+<<<<<<< HEAD
 		// position bins vertical 3 x 2
+=======
+		// position bins
+>>>>>>> cb0abec790cb9cc3ffb96e9ac5deb474acf5d553
 		yOff = this.levelHeight / (binCount + 1);
 		xPos = this.levelWidth * .6;
 		var tmpBin;

@@ -7,24 +7,36 @@ function ContentManager(){
     var onDownloadCompleted;
     var numImagesLoaded = 0;
 
-    var NUM_ELMENTS_TO_DOWNLOAD = 13;
+    var NUM_ELMENTS_TO_DOWNLOAD = 26;
 
 	// garbage items, need to rename
-    this.imgA = new Image();
-	this.imgB = new Image();
-	this.imgC = new Image(); 
-	this.imgD = new Image();
-	this.imgE = new Image();
-	this.imgF = new Image();
-    this.imgCL = new Image();
+    this.banana = new Image();
+	this.batteries = new Image();
+	this.bottle = new Image(); 
+	this.can = new Image();
+	this.cellphone = new Image();
+	this.chipBag = new Image();
+    this.cleaner = new Image();
+    this.cup = new Image();
+    this.fruit = new Image();
+    this.glasses = new Image();
+    this.burger = new Image();
+    this.pizza = new Image();
+    this.inkCart = new Image();
+    this.medication = new Image();
+    this.newspaper = new Image();
+    this.noodle = new Image();
+    this.cleanPlate = new Image();
+    this.greasyPlate = new Image();
+    this.salad = new Image();
+    this.syringes = new Image();
 	
-	// bin items, need to rename
-	this.imgG = new Image();
-	this.imgH = new Image();
-	this.imgI = new Image();
-	this.imgJ = new Image();
-    this.imgK = new Image();
-    this.imgL = new Image();
+	// waste bins
+	this.compostBin = new Image();
+	this.trashBin = new Image();
+	this.recycleBin = new Image();
+    this.techBin = new Image();
+    this.chemBin = new Image();
 
     this.imgBelt = new Image();
 
@@ -35,7 +47,7 @@ function ContentManager(){
         // if user does not define bintypes thus allowing all types of garbage
         if(!binType){
             // FIGURE OUT A BETTER IMPLEMENTATION..... 
-            var num = Math.floor(Math.random() * 6); 
+            /*var num = Math.floor(Math.random() * 6); 
             var no_to_img_map =  [
                 {   bin : "compost",
                     img  : this.imgA  },  
@@ -43,13 +55,13 @@ function ContentManager(){
                     img  : this.imgB  },
                 {   bin : "electronics",
                     img  : this.imgC  },
-                {   bin : "reuse",
-                    img  : this.imgD  },
                 {   bin : "recycle",
                     img  : this.imgE  },
                 {   bin : "recycle",
                     img  : this.imgF  }
-            ];
+            ];*/
+
+            // outdated
         }
         else{
 
@@ -60,23 +72,34 @@ function ContentManager(){
             for(var i = 0; i < binType.length; i++){
                 switch (binType[i]) {
                     case "recycle":
-                        no_to_img_map.push({bin : binType[i], img: this.imgE});
-                        no_to_img_map.push({bin : binType[i], img: this.imgF});
+                        no_to_img_map.push({bin : binType[i], img: this.bottle});
+                        no_to_img_map.push({bin : binType[i], img: this.can});
+                        no_to_img_map.push({bin : binType[i], img: this.cup});
+                        no_to_img_map.push({bin : binType[i], img: this.newspaper});
+                        no_to_img_map.push({bin : binType[i], img: this.glasses});
                         break;
                     case "landfill":
-                        no_to_img_map.push({bin : binType[i], img: this.imgB});
-                        break;
-                    case "reuse":
-                        no_to_img_map.push({bin : binType[i], img: this.imgD});
+                        no_to_img_map.push({bin : binType[i], img: this.pizza});
+                        no_to_img_map.push({bin : binType[i], img: this.burger});
+                        no_to_img_map.push({bin : binType[i], img: this.noodle});
+                        no_to_img_map.push({bin : binType[i], img: this.greasyPlate});
+                        no_to_img_map.push({bin : binType[i], img: this.chipBag});
                         break;
                     case "compost":
-                        no_to_img_map.push({bin : binType[i], img: this.imgA});
+                        no_to_img_map.push({bin : binType[i], img: this.banana});
+                        no_to_img_map.push({bin : binType[i], img: this.fruit});
+                        no_to_img_map.push({bin : binType[i], img: this.cleanPlate});
+                        no_to_img_map.push({bin : binType[i], img: this.salad});
                         break;
-                    case "electronics":
-                        no_to_img_map.push({bin : binType[i], img: this.imgC});
+                    case "tech":
+                        no_to_img_map.push({bin : binType[i], img: this.batteries});
+                        o_to_img_map.push({bin : binType[i], img: this.inkCart});
+                        o_to_img_map.push({bin : binType[i], img: this.cellphone});
                         break;
                     case "chemical":
-                        no_to_img_map.push({bin : binType[i], img: this.imgCL});
+                        no_to_img_map.push({bin : binType[i], img: this.cleaner});
+                        no_to_img_map.push({bin : binType[i], img: this.syringes});
+                        no_to_img_map.push({bin : binType[i], img: this.medication});
                         break;
                 }
             }
@@ -90,12 +113,11 @@ function ContentManager(){
     // returns image
     this.GetBin = function (binType) {
         var type_to_img = {
-            'compost' : this.imgG,
-            'landfill': this.imgH,
-            'recycle' : this.imgI,
-            'reuse'   : this.imgJ,
-            'electronics' : this.imgK,
-            'chemical': this.imgL
+            'compost' : this.compostBin,
+            'landfill': this.trashBin,
+            'recycle' : this.recycleBin,
+            'tech' : this.techBin,
+            'chemical': this.chemBin
         };
         
         return type_to_img[binType];
@@ -109,21 +131,33 @@ function ContentManager(){
     // public method to launch the download process
     this.StartDownload = function () {
         // get garbage images
-        SetDownload(this.imgA, "src/img/banana.png", handleImageLoad, handleImageError)	;
-        SetDownload(this.imgB, "src/img/chips.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgC, "src/img/cellphone.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgD, "src/img/shirt.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgE, "src/img/waterbottle.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgF, "src/img/plasticbag.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgCL, "src/img/flask.png", handleImageLoad, handleImageError);
-        
+        SetDownload(this.banana, "src/img/asset_banana01.png", handleImageLoad, handleImageError)	;
+        SetDownload(this.batteries, "src/img/asset_batteries01.png", handleImageLoad, handleImageError);
+        SetDownload(this.bottle, "src/img/asset_bottle01.png", handleImageLoad, handleImageError);
+        SetDownload(this.can, "src/img/asset_can01.png", handleImageLoad, handleImageError);
+        SetDownload(this.cellphone, "src/img/asset_cell_phone01.png", handleImageLoad, handleImageError);
+        SetDownload(this.chipBag, "src/img/asset_chip_bag01.png", handleImageLoad, handleImageError);
+        SetDownload(this.cleaner, "src/img/asset_cleaner01.png", handleImageLoad, handleImageError);
+        SetDownload(this.cup, "src/img/asset_cup01.png", handleImageLoad, handleImageError);
+        SetDownload(this.fruit, "src/img/asset_fruit01.png", handleImageLoad, handleImageError);
+        SetDownload(this.glasses, "src/img/asset_glasses01.png", handleImageLoad, handleImageError);
+        SetDownload(this.burger, "src/img/asset_half_burger01.png", handleImageLoad, handleImageError);
+        SetDownload(this.pizza, "src/img/asset_half_pizza01.png", handleImageLoad, handleImageError);
+        SetDownload(this.inkCart, "src/img/asset_ink_cart01.png", handleImageLoad, handleImageError);
+        SetDownload(this.medication, "src/img/asset_medication01.png", handleImageLoad, handleImageError);
+        SetDownload(this.newspaper, "src/img/asset_newspaper01.png", handleImageLoad, handleImageError);
+        SetDownload(this.noodle, "src/img/asset_noodle01.png", handleImageLoad, handleImageError);
+        SetDownload(this.cleanPlate, "src/img/asset_paper_plate_clean01.png", handleImageLoad, handleImageError);
+        SetDownload(this.greasyPlate, "src/img/asset_paper_plate_greasy01.png", handleImageLoad, handleImageError);
+        SetDownload(this.salad, "src/img/asset_salad01.png", handleImageLoad, handleImageError);
+        SetDownload(this.syringes, "src/img/asset_syringes01.png", handleImageLoad, handleImageError);
+
         // get garbage bin images
-        SetDownload(this.imgH, "src/img/asset_bin_trash01.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgG, "src/img/asset_bin_compost01.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgI, "src/img/asset_bin_recycle01.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgJ, "src/img/reuse.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgK, "src/img/asset_bin_tech01.png", handleImageLoad, handleImageError);
-        SetDownload(this.imgL, "src/img/asset_bin_hazmat01.png", handleImageLoad, handleImageError);
+        SetDownload(this.trashBin, "src/img/asset_bin_trash01.png", handleImageLoad, handleImageError);
+        SetDownload(this.compostBin, "src/img/asset_bin_compost01.png", handleImageLoad, handleImageError);
+        SetDownload(this.recycleBin, "src/img/asset_bin_recycle01.png", handleImageLoad, handleImageError);
+        SetDownload(this.techBin, "src/img/asset_bin_tech01.png", handleImageLoad, handleImageError);
+        SetDownload(this.chemBin, "src/img/asset_bin_hazmat01.png", handleImageLoad, handleImageError);
 
         // get conveyorbelt 
         SetDownload(this.imgBelt, "src/img/asset_conveyor_frame01.png", handleImageLoad, handleImageError);
