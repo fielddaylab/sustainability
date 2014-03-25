@@ -59,10 +59,6 @@
         this.dumped = false;
         this.pressed = false;
 
-        // can scale image
-        this.scaleX = .9;
-        this.scaleY = .9;
-
         //velocity
         this.vX = 1;
         this.vY = 0;

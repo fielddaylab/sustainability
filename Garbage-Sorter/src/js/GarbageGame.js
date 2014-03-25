@@ -46,142 +46,100 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
-		/*
-		var intro = new createjs.Container();
-		intro.setBounds(w * .10,h * .10, w * .78, h *.68);
-		intro.mouseEnabled = true;
-
-		// background screen
-		var screenIntro = new createjs.Shape();
-		screenIntro.graphics.beginFill('#54B368').drawRoundRect(0,0,w,h,10);
-		intro.addChild(screenIntro);
-
-		// small screen in center
-		var overlay = new createjs.Shape();
-		overlay.graphics.beginFill('green').drawRoundRect(w*.02, h*.02, w*.96, h*.96, 5);
-		overlay.alpha = 1;
-		intro.addChild(overlay);
-
-		// title text
-		var stageText = new createjs.Text("--", "bold 72px Arial", "#ffffff"); 
-		stageText.text = "Sort the Garbage!!";
-		stageText.x = w * .05;
-		stageText.y = h * .05;
-		intro.addChild(stageText);
-
-		// small screen in center
-		var littleScreen = new createjs.Shape();
-		littleScreen.graphics.beginFill('#FFFFFF').drawRoundRect(w*.10, h*.15, w*.8, h*.40, 5);
-		littleScreen.alpha = 1;
-		intro.addChild(littleScreen);
-
-		var screenText = new createjs.Text("--", "bold 32px Arial", "#AAAAAA");
-		screenText.text = "IMAGE";
-		screenText.x = w * .45;
-		screenText.y = h * .35;
-		intro.addChild(screenText);
-
-		// text for the instructions
-		var instructionText = new createjs.Text("--", "bold 32px Arial", "#ffffff");
-		instructionText.text = "TO PLAY: Sort the garbage into the proper bins.";
-		instructionText.x = w * .1;
-		instructionText.y = h * .57;
-		intro.addChild(instructionText);
-
-		var instructionText2 = new createjs.Text("--", "bold 32px Arial", "#ffffff");
-		instructionText2.text = "Be careful, don't let the garbage overflow.";
-		instructionText2.x = w * .1;
-		instructionText2.y = h * .60;
-		intro.addChild(instructionText2);
-
-		var waveText = new createjs.Text("--", "bold 42px Arial", "#ffffff");
-		waveText.text = "Beat all 3 waves!";
-		waveText.x = w * .1;
-		waveText.y = h * .65;
-		intro.addChild(waveText);
-
-		// buttons
-		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.3, h*.73,w*.4,h*.08,10);
-		intro.addChild(button);
-
-		var buttonText = new createjs.Text("PLAY", "bold 30px Arial", "green");
-		buttonText.x = w*.44;
-		buttonText.y = h*.75;
-		intro.addChild(buttonText);
-	
-		button.addEventListener("rollover", function(evt){
-			evt.target.alpha = .5;
-		});
-
-		button.addEventListener("rollout", function(evt){
-			evt.target.alpha = 1;
-		});
-
-		// not pretty
-		var self = this;
-		button.addEventListener("click", function(evt){
-			// this => is the window
-			// make this, remove child intro
-			self.GarbageGameStage.removeChild(intro);
-
-			// go to next step
-			self.intro = false;
-			//playSound();
-			self.level.startWait();
-		})
-
-		this.GarbageGameStage.addChild(intro);
-		*/
-
-		var w = this.gameWidth;
-		var h = this.gameHeight;
-
 		var intro = new createjs.Container();
 		intro.x = 0;
 		intro.y = 0;
 		intro.setBounds(w * .10,h * .10, w * .78, h *.68);
 		intro.mouseEnabled = true;
 
-		var levelCompleteOverlay = new createjs.Bitmap("src/img/waste_level_complete_overlay.gif");
-		levelCompleteOverlay.scaleX = 1.55;
-		levelCompleteOverlay.scaleY = 1.55;
-		intro.addChild(levelCompleteOverlay);
 
-		//end text
+		var buildingOverlay = "";
+		var buildingOverlayWidth = "";
+		switch(this.levelName) {
+			case "uSouth":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badUnion.src);
+				buildingOverlayWidth = this.GGContentManger.badUnion.width;
+				break;
+			case "Dejope":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badDejope.src);
+				buildingOverlayWidth = this.GGContentManger.badDejope.width;
+				break;
+			case "Chemistry":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badChemistry.src);
+				buildingOverlayWidth = this.GGContentManger.badChemistry.width;
+				break;
+			case "Grainger":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badGrainger.src);
+				buildingOverlayWidth = this.GGContentManger.badGrainger.width;
+				break;
+			case "Gordon":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badGordon.src);
+				buildingOverlayWidth = this.GGContentManger.badGordon.width;
+				break;
+		}
 
-		var buildingText = new createjs.Text("--", "bold 60px Arial", "#FFFFFF"); 
-		buildingText.text = this.level.stageLevel;
-		buildingText.x = w * .05;
-		buildingText.y = h * .05;
-		intro.addChild(buildingText);
+		// pan the image background
+		buildingOverlay.scaleX = 1.55;
+		buildingOverlay.scaleY = 2;
+		intro.addChild(buildingOverlay);
 
-		var introText = new createjs.Text("--", "bold 54px Arial", "#0000000"); 
-		introText.text = "Sort the waste for this building! ";
-		introText.x = w * .1;
-		introText.y = h * .28;
-		intro.addChild(introText);
+		// math for panning the background
+		//
 
-		var explainText = new createjs.Text("--", "bold 36px Arial", "#0000000"); 
-		explainText.text = "Beat all 3 waves of garbage!";
-		explainText.x = w * .45;
-		explainText.y = h * .35;
-		intro.addChild(explainText);
+		var stopDistance = (buildingOverlayWidth* 1.55 )- w;
+		buildingOverlay.addEventListener("tick", function(evt){
+			if(!(buildingOverlay.x < -stopDistance)){
+				buildingOverlay.x -= 3;
+			}
+		})
 
-		var explainText2 = new createjs.Text("--", "bold 36px Arial", "#0000000"); 
-		explainText2.text = "Don't let the garbage pile up.";
-		explainText2.x = w * .47;
-		explainText2.y = h * .38;
-		intro.addChild(explainText2);
+		var overlayHeight = this.GGContentManger.introOverlay.height;
+		var introLevelOverlay = new createjs.Bitmap(this.GGContentManger.introOverlay.src);
+		introLevelOverlay.scaleX = 1.55;
+		introLevelOverlay.scaleY = 1.55;
 
-		var explainText3 = new createjs.Text("--", "bold 36px Arial", "#0000000"); 
-		explainText3.text = "You'll lose if the bar fills ups.";
-		explainText3.x = w * .47;
-		explainText3.y = h * .58;
-		intro.addChild(explainText3);
+		//pin to bottom
+		introLevelOverlay.y = h - (1.55 * overlayHeight);
+		intro.addChild(introLevelOverlay);
+
+		var showText = new createjs.Text("--", "48px Times", "#0000000"); 
+		showText.text = "Show your staff how to sort";
+		showText.x = w * .36;
+		showText.y = h * .7;
+		intro.addChild(showText);
+
+		var showText2 = new createjs.Text("--", "48px Times", "#0000000"); 
+		showText2.text = "the waste.";
+		showText2.x = w * .36;
+		showText2.y = h * .74;
+		intro.addChild(showText2);
+
+		var showText3 = new createjs.Text("--", "48px Times", "#0000000"); 
+		showText3.text = "It will set off a";
+		showText3.x = w * .36;
+		showText3.y = h * .8;
+		intro.addChild(showText3);
+
+		var showText4 = new createjs.Text("--", "bold 48px Times", "#0000000"); 
+		showText4.text = "chain-reaction";
+		showText4.x = w * .67;
+		showText4.y = h * .8;
+		intro.addChild(showText4);
+
+		var showText5 = new createjs.Text("--", "48px Times", "#0000000"); 
+		showText5.text = "and";
+		showText5.x = w * .36;
+		showText5.y = h * .84;
+		intro.addChild(showText5);
+
+		var showText6 = new createjs.Text("--", "bold 48px Times", "#0000000"); 
+		showText6.text = "save the future!";
+		showText6.x = w * .45;
+		showText6.y = h * .84;
+		intro.addChild(showText6);
 
 		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.5, h*.6,w*.6,h*.1,10);
+		button.graphics.beginFill('#FFFFFF').drawRoundRect(w*.5, h*.9,w*.6,h*.1,10);
 		button.alpha = .2;
 		intro.addChild(button);
 
@@ -196,9 +154,9 @@
 
 		});
 
-		var buttonText = new createjs.Text("Start", "bold 42px Arial", "#00000");
-		buttonText.x = w*.8;
-		buttonText.y = h*.63;
+		var buttonText = new createjs.Text("Begin", "bold 54px Arial", "#00000");
+		buttonText.x = w*.75;
+		buttonText.y = h*.93;
 		intro.addChild(buttonText);
 
 		this.GarbageGameStage.addChild(intro);
@@ -213,11 +171,40 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
-		console.log('lose overlay');
-		var loseOverlay = new createjs.Bitmap("src/img/waste_loose_lower_overlay.gif");
-		loseOverlay.y = 165;
+		var buildingOverlay = "";
+		var buildingOverlayWidth = "";
+		switch(this.levelName) {
+			case "uSouth":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badUnion.src);
+				buildingOverlayWidth = this.GGContentManger.badUnion.width;
+				break;
+			case "Dejope":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badDejope.src);
+				buildingOverlayWidth = this.GGContentManger.badDejope.width;
+				break;
+			case "Chemistry":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badChemistry.src);
+				buildingOverlayWidth = this.GGContentManger.badChemistry.width;
+				break;
+			case "Grainger":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badGrainger.src);
+				buildingOverlayWidth = this.GGContentManger.badGrainger.width;
+				break;
+			case "Gordon":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.badGordon.src);
+				buildingOverlayWidth = this.GGContentManger.badGordon.width;
+				break;
+		}
+
+		buildingOverlay.scaleX = 1.55;
+		buildingOverlay.scaleY = 2;
+		this.GarbageGameStage.addChild(buildingOverlay);
+
+		var loseOverlayHeight = this.GGContentManger.loseOverlay.height;
+		var loseOverlay = new createjs.Bitmap(this.GGContentManger.loseOverlay.src);
 		loseOverlay.scaleX = 1.55;
 		loseOverlay.scaleY = 1.55;
+		loseOverlay.y = h - (1.55 * loseOverlayHeight);
 		this.GarbageGameStage.addChild(loseOverlay);
 
 		// container
@@ -229,11 +216,34 @@
 
 		//end text
 		var stageText = new createjs.Text("--", "bold 42px Arial", "#000000"); 
-		stageText.text = "YOU LOSE...";
+		stageText.text = "It didn't work.";
 		stageText.x = w * .5;
 		stageText.y = h * .7;
-
 		container.addChild(stageText);
+
+		var stageText2 = new createjs.Text("--", "42px Arial", "#000000"); 
+		stageText2.text = "Too many items were lost";
+		stageText2.x = w * .45;
+		stageText2.y = h * .75;
+		container.addChild(stageText2);
+
+		var stageText3 = new createjs.Text("--", "42px Arial", "#000000"); 
+		stageText3.text = "or mis-sorted. The programs";
+		stageText3.x = w * .4;
+		stageText3.y = h * .79;
+		container.addChild(stageText3);
+
+		var stageText4 = new createjs.Text("--", "42px Arial", "#000000"); 
+		stageText4.text = "to compost and recycle cost";
+		stageText4.x = w * .4;
+		stageText4.y = h * .83;
+		container.addChild(stageText4);
+
+		var stageText5 = new createjs.Text("--", "42px Arial", "#000000"); 
+		stageText5.text = "too much and were cut.";
+		stageText5.x = w * .4;
+		stageText5.y = h * .86;
+		container.addChild(stageText5);
 
 		var button = new createjs.Shape();
 		button.graphics.beginFill('#ffffff').drawRoundRect(w*.55, h*.9,w*.45,h*.1,10);
@@ -247,7 +257,7 @@
 			window.location = window.location.search;
 		});
 
-		var buttonText = new createjs.Text("RETRY", "bold 42px Arial", "#000000");
+		var buttonText = new createjs.Text("Try again", "bold 42px Arial", "#000000");
 		buttonText.x = w*.75;
 		buttonText.y = h*.94;
 		container.addChild(buttonText);
@@ -263,10 +273,13 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
-		var levelCompleteOverlay = new createjs.Bitmap("src/img/waste_level_complete_overlay.gif");
+		var levelCompleteOverlayHeight = this.GGContentManger.levelCompleteOverlay.height;
+		var levelCompleteOverlay = new createjs.Bitmap(this.GGContentManger.levelCompleteOverlay.src);
 		levelCompleteOverlay.scaleX = 1.55;
 		levelCompleteOverlay.scaleY = 1.55;
 		this.GarbageGameStage.addChild(levelCompleteOverlay);
+
+		levelCompleteOverlay.y = h - (1.55 * levelCompleteOverlayHeight);
 
 		var container = new createjs.Container();
 		container.x = 0;
@@ -275,33 +288,27 @@
 		container.mouseEnabled = true;
 
 		//end text
-		var winText = new createjs.Text("--", "bold 54px Arial", "#FFFFFF"); 
-		winText.text = "ALMOST THERE! ";
-		winText.x = 10;
-		winText.y = h * .2;
+		var winText = new createjs.Text("--", "bold 54px Times", "#000000"); 
+		winText.text = "Almost there. ";
+		winText.x = w * .5;
+		winText.y = h * .28;
 
 		if(this.levelVersion == 3){
 			winText.text = "YOU DID IT!";
 		}
 
 
-		var stageText = new createjs.Text("--", "bold 42px Arial", "#000000"); 
-		stageText.text = "Stage: " + this.level.stageLevel + " " + this.levelVersion + " of 3";
-		stageText.x = w * .4;
-		stageText.y = h * .3;
-
 		var stagePoint = new createjs.Text("--", "bold 42px Arial", "#000000"); 
-		stagePoint.text = "Score: " + this.level.levelScore;
-		stagePoint.x = w * .47;
-		stagePoint.y = h * .35;
+		stagePoint.text = "SCORE: " + this.level.levelScore;
+		stagePoint.x = w * .5;
+		stagePoint.y = h * .33;
 
 		var recycleText = new createjs.Text("--", "bold 42px Arial", "#000000"); 
 		recycleText.text = "Recycled Items";
 		recycleText.x = w * .5;
-		recycleText.y = h * .4;
+		recycleText.y = h * .38;
 
 		container.addChild(winText);
-		container.addChild(stageText);
 		container.addChild(stagePoint);
 		container.addChild(recycleText);
 
@@ -312,7 +319,7 @@
 			tmp = new createjs.Text("--", "bold 30px Arial", "#000000"); 
 			tmp.text = this.level.levelBins[i] + ": " + this.level.garbageBin[i].contentCountCorrect;
 			tmp.x = w * .5;
-			tmp.y = h * (.45 + (.03 *i));
+			tmp.y = h * (.43 + (.03 *i));
 			
 			itemsText.push(tmp);
 			container.addChild(itemsText[i]);
@@ -322,12 +329,12 @@
 		var wrongText = new createjs.Text("--", "bold 36px Arial", "red"); 
 		wrongText.text = "incorrectly recycled: " + incorrectCount;
 		wrongText.x = w * .5;
-		wrongText.y = h * (.45 + (.03 * this.level.levelBins.length));
+		wrongText.y = h * (.43 + (.03 * this.level.levelBins.length));
 
 		container.addChild(wrongText);
 
 		var button = new createjs.Shape();
-		button.graphics.beginFill('#ffffff').drawRoundRect(w*.5, h*.6,w*.6,h*.1,10);
+		button.graphics.beginFill('#ffffff').drawRoundRect(w*.6, h*.6,w*.4,h*.1,10);
 		button.alpha = .2;
 		container.addChild(button);
 
@@ -375,15 +382,15 @@
 			    }
 
 			    //window.location.search = search;
-			    search = "?" + self.args[0] + "&" + self.args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + args[2] + "&" + self.args[3]; 
+			    search = "?" + self.args[0] + "&" + self.args[1].split("=")[0] + "=" + (parseInt(this.levelVersion) + 1) + "&" + self.args[2] + "&" + self.args[3]; 
 				window.location = "garbagesorter.html" + search;
 			}
 
 		});
 
-		var buttonText = new createjs.Text("Sort the next batch.", "bold 36px Arial", "#00000");
-		buttonText.x = w*.6;
-		buttonText.y = h*.63;
+		var buttonText = new createjs.Text("Continue", "bold 42px Arial", "#000000");
+		buttonText.x = w*.75;
+		buttonText.y = h*.61;
 		container.addChild(buttonText);
 			
 		if(this.levelVersion == 3){
@@ -400,15 +407,52 @@
 		var w = this.gameWidth;
 		var h = this.gameHeight;
 
-		var backOverlay = new createjs.Shape();
-		backOverlay.graphics.beginFill('#AAAAAA').drawRoundRect(0, 0,w,h,10);				
-		this.GarbageGameStage.addChild(backOverlay);
+		var buildingOverlay = "";
+		var buildingOverlayWidth = "";
+		switch(this.levelName) {
+			case "uSouth":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.goodUnion.src);
+				buildingOverlayWidth = this.GGContentManger.goodUnion.width;
+				break;
+			case "Dejope":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.goodDejope.src);
+				buildingOverlayWidth = this.GGContentManger.goodDejope.width;
+				break;
+			case "Chemistry":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.goodChemistry.src);
+				buildingOverlayWidth = this.GGContentManger.goodChemistry.width;
+				break;
+			case "Grainger":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.goodGrainger.src);
+				buildingOverlayWidth = this.GGContentManger.goodGrainger.width;
+				break;
+			case "Gordon":
+				buildingOverlay = new createjs.Bitmap(this.GGContentManger.goodGordon.src);
+				buildingOverlayWidth = this.GGContentManger.goodGordon.width;
+				break;
+		}
 
-		var levelCompleteOverlay = new createjs.Bitmap("src/img/waste_win_lower_overlay.gif");
-		levelCompleteOverlay.scaleX = 1.55;
-		levelCompleteOverlay.scaleY = 1.55;
-		levelCompleteOverlay.y = 10;
-		this.GarbageGameStage.addChild(levelCompleteOverlay);
+		// pan the image background
+		buildingOverlay.scaleX = 1.55;
+		buildingOverlay.scaleY = 2.5;
+		this.GarbageGameStage.addChild(buildingOverlay);
+
+		// math for panning the background
+		//
+
+		var stopDistance = (buildingOverlayWidth* 1.55 )- w;
+		buildingOverlay.addEventListener("tick", function(evt){
+			if(!(buildingOverlay.x < -(stopDistance - 10))){
+				buildingOverlay.x -= 3;
+			}
+		})
+
+		var winOverlayHeight = this.GGContentManger.winOverlay.height;
+		var winOverlay = new createjs.Bitmap(this.GGContentManger.winOverlay.src);
+		winOverlay.scaleX = 1.55;
+		winOverlay.scaleY = 1.55;
+		winOverlay.y = h - (1.55 * winOverlayHeight);
+		this.GarbageGameStage.addChild(winOverlay);
 
 		//
 		var button = new createjs.Shape();
@@ -423,20 +467,19 @@
 
 		var self = this;
 		button.addEventListener("click", function(evt){
-			console.log("SHOULD SEND ARIS REQUEST");
-			
-			//console.log('query: ' + query);
-			var playerId = self.args[2].split("=")[1];
-			console.log('playerId: ' + playerId);
+			var playerId = self.args[3].split("=")[1];
+			//console.log('playerId: ' + playerId);
 
 			var x = new XMLHttpRequest();	
-			x.open("GET", "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/911/0/" + playerId, true);
+			x.open("GET", self.level.stageLevelWebHook + playerId, true);
 			x.send();
 
-			// exit and reload
-			var x = new XMLHttpRequest();	
-			x.open("GET", "aris://closeMe", true);
-			x.send();
+			// gives +1
+			//ARIS.giveItemCount(60048,1);
+
+			// uses ARIS object
+			ARIS.closeMe();
+
 		});
 
 		var completeText = new createjs.Text("--", "bold 36px Arial", "#000000"); 

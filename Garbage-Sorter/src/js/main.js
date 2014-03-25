@@ -75,15 +75,7 @@ function init(){
 
     // adjusts canvas size
     // sets up the stage
-    handleCanvas();   
-
-    // check local storage
-	if(localStorage.getItem('topScore')){
-		topScore = localStorage.getItem('topScore');
-	}
-	else{
-		topScore = 0;
-	}
+    handleCanvas();
 
     // checks url input
     var query = window.location.search;

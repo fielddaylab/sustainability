@@ -16,7 +16,7 @@
 		// keeps track of level stats
 		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 5000;
+		this.levelDefaultTime = 30000;
 		this.warningtime = convertMStoS(this.levelDefaultTime * .2);
 		this.longestCorrect = 0;
 
@@ -48,26 +48,31 @@
 
 		if(stageLevel === "Dejope"){
 			this.levelBins = ['landfill', 'recycle'];
+			this.stageLevelWebHook = "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/913/0/";
 		} 
 
 		if(stageLevel === "uSouth"){
 			this.levelBins = ['landfill', 'recycle', 'compost'];
+			this.stageLevelWebHook = "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/911/0/";
 		}
 
 		if(stageLevel === "Chemistry"){
 			this.levelBins = ['landfill', 'recycle', 'chemical'];
+			this.stageLevelWebHook = "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/916/0/";
 		}
 
 		if(stageLevel === "Grainger"){
 			this.levelBins = ['landfill', 'recycle', 'compost', 'tech', 'chemical'];
+			this.stageLevelWebHook = "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/918/0/";
 		}
 
 		if(stageLevel === "Gordon"){
 			this.levelBins = ['landfill', 'recycle', 'tech'];
+			this.stageLevelWebHook = "http://arisgames.org/server/json.php/v1.webhooks.setWebHookReq/13080/915/0/";
 		}
 
 		// initialize the contents and places them on the stage
-		//this.setBackground();
+		this.setBackground();
 		this.loadLandfillBar();
 		this.loadConveyor();
 		this.loadBins();
@@ -130,7 +135,6 @@
 		var yOff; 								// y offset
 		var binCount = this.levelBins.length;
 
-		// position bins
 		yOff = this.levelHeight / (binCount + 1);
 		xPos = this.levelWidth * .6;
 		var tmpBin;
@@ -227,7 +231,7 @@
 
 	//update
 	Level.prototype.updateLandfillBar = function(){
-		this.landfillsQ.y -= 30;
+		this.landfillsQ.y -= 60;
 
 		var diff = this.levelHeight - this.landfillHeight;
 
@@ -278,9 +282,11 @@
 
 	Level.prototype.setBackground = function() {
 		// NOT implemented at the moment
-		var backgroundBitmap = new createjs.Bitmap("src/img/background01.png");
+		var backgroundBitmap = new createjs.Bitmap("src/img/main_play_background.jpg");
+		backgroundBitmap.scaleX = 2.5;
+		backgroundBitmap.scaleY = 2.7;
+
 		backgroundBitmap.y = 80;
-		backgroundBitmap.x = this.levelWidth * .3;
 		//backgroundBitmap.alpha = .8;
 		this.levelStage.addChild(backgroundBitmap);
 	};
@@ -357,7 +363,7 @@
 		}
 	};
 
-	var RATE = 4;
+	var RATE = 6;
 	var tile_min_dist = Number.MAX_VALUE;
 	// Updates 
 	Level.prototype.Update = function() {

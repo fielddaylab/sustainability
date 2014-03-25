@@ -7,7 +7,7 @@ function ContentManager(){
     var onDownloadCompleted;
     var numImagesLoaded = 0;
 
-    var NUM_ELMENTS_TO_DOWNLOAD = 29;
+    var NUM_ELMENTS_TO_DOWNLOAD = 41;
 
 	// garbage items, need to rename
     this.banana = new Image();
@@ -39,9 +39,25 @@ function ContentManager(){
     this.chemBin = new Image();
 
     this.imgBelt = new Image();
+    this.introOverlay = new Image();
     this.loseOverlay = new Image();
     this.winOverlay = new Image();
     this.levelCompleteOverlay = new Image();
+    this.backgroundImg = new Image();
+
+    // building overlays
+    this.badDejope = new Image();
+    this.badChemistry = new Image();
+    this.badGordon    = new Image();
+    this.badGrainger  = new Image();
+    this.badUnion     = new Image();
+
+    this.goodDejope = new Image();
+    this.goodChemistry= new Image();
+    this.goodGordon   = new Image();
+    this.goodGrainger = new Image();
+    this.goodUnion    = new Image();
+
 
     // returns image
     this.GetGarbage = function (binType){
@@ -164,11 +180,27 @@ function ContentManager(){
 
         // get conveyorbelt 
         SetDownload(this.imgBelt, "src/img/asset_conveyor_frame01.png", handleImageLoad, handleImageError);
+        SetDownload(this.backgroundImg, "src/img/main_play_background.jpg", handleImageLoad, handleImageError);
 
         // get overlay
+        SetDownload(this.introOverlay, "src/img/waste_intro_overlay.gif", handleImageLoad, handleImageError);
         SetDownload(this.loseOverlay, "src/img/waste_loose_lower_overlay.gif", handleImageLoad, handleImageError);
         SetDownload(this.winOverlay, "src/img/waste_win_lower_overlay.gif", handleImageLoad, handleImageError);
         SetDownload(this.levelCompleteOverlay, "src/img/waste_level_complete_overlay.gif", handleImageLoad, handleImageError);
+    
+        // get building overlay
+        SetDownload(this.badUnion, "src/img/building_union_south_bad_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.badChemistry, "src/img/building_chemistry_bad_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.badGrainger, "src/img/building_grainger_bad_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.badGordon, "src/img/building_gordon_bad_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.badDejope, "src/img/building_education_bad_compressed.jpg", handleImageLoad, handleImageError);
+        
+        SetDownload(this.goodUnion, "src/img/building_union_south_good_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.goodChemistry, "src/img/building_chemistry_good_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.goodGrainger, "src/img/building_grainger_good_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.goodGordon, "src/img/building_gordon_good_compressed.jpg", handleImageLoad, handleImageError);
+        SetDownload(this.goodDejope, "src/img/building_education_good_compressed.jpg", handleImageLoad, handleImageError);
+
     }
 
     // hands the images
