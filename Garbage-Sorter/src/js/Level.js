@@ -10,15 +10,15 @@
 		this.levelHeight = gameHeight;
 
 		this.stageName = stageName; 
-
 		this.levelVersion = levelVersion;
+		this.levelWave = 0;
 
 		// keeps track of level stats
-		this.levelSpeed = 1;
 		this.levelScore = 0;
-		this.levelDefaultTime = 30000;
+		this.levelDefaultTime = 300000;
 		this.warningtime = convertMStoS(this.levelDefaultTime * .2);
 		this.longestCorrect = 0;
+		this.garbageCount = 0;
 
 		//  
 		this.levelStart = false;
@@ -76,9 +76,7 @@
 		this.loadLandfillBar();
 		this.loadConveyor();
 		this.loadBins();
-		this.loadGarbage();
-		this.setBackgroundText();
-		
+		this.reloadGarbage();		
 	};
 
 	Level.prototype.startWait = function(){
@@ -166,36 +164,140 @@
 		}
 	};
 
+	Level.prototype.reloadGarbage = function(){
+		var c, r, d;
+		
+		if(this.levelVersion == 1){
+			switch (this.levelWave){
+				case 0:
+					c = 1;
+					r = 6;
+					break;
+				case 1:
+					c = 2;
+					r = 6.5;
+					break;
+				case 2:
+					c = 3;
+					r = 6;
+					break;
+				case 3:
+					c = 5;
+					r = 6;
+					break;
+				case 4:
+					c = 6;
+					r = 5;
+					d = .4;
+					break;
+				case 5:
+					c = 8;
+					r = 7;
+					d = .5;
+					break;
+			}
+		}
+		else if(this.levelVersion == 2){
+			switch (this.levelWave){
+				case 0:
+					c = 2;
+					r = 8;
+					break;
+				case 1:
+					c = 5;
+					r = 6.5;
+					break;
+				case 2:
+					c = 4;
+					r = 6;
+					d = .5;
+					break;
+				case 3:
+					c = 5;
+					r = 6;
+					d = .7;
+					break;
+				case 4:
+					c = 8;
+					r = 7;
+					d = .4;
+					break;
+				case 5:
+					c = 10;
+					r = 7;
+					d = .6;
+					break;
+			}
+		}
+		else if(this.levelVersion == 3){
+			switch (this.levelWave){
+				case 0:
+					c = 5;
+					r = 8;
+					d = .9;
+					break;
+				case 1:
+					c = 7;
+					r = 6.5;
+					d = .8;
+					break;
+				case 2:
+					c = 7;
+					r = 8;
+					d = .5;
+					break;
+				case 3:
+					c = 6;
+					r = 6;
+					d = .7;
+					break;
+				case 4:
+					c = 10;
+					r = 7;
+					d = .6;
+					break;
+				case 5:
+					c = 15;
+					r = 7;
+					d = .7;
+					break;
+			}
+		}
+
+		this.loadGarbage(c, r, d);
+		this.setBackgroundText();
+	}
+
 	// Loads the garbage and places it on the screen. 
-	Level.prototype.loadGarbage = function() {
+	// Takes a garbageCount - how many in the batch
+	// Takes a garbage density - how clumped up are the garbage
+	// Takes a rate - how fast garbage comes down
+	Level.prototype.loadGarbage = function(garbageCount, gRate, garbageDensity) {
 
-		var garbageCount = 105;
+		garbageCount = typeof garbageCount !== 'undefined' ? garbageCount : 5;
+		garbageDensity = typeof garbageDensity !== 'undefined' ? garbageDensity : .6;
+		gRate = typeof gRate !== 'undefined' ? gRate : 5;
 
-		var yPos = 0;			// y location for object
-		var xPos = 50;		// x location for object
-		//var yOff = this.levelHeight / garbageCount;	// the y offset for the item
+		var yPos = 100;		// y location for object
+		var xPos = 100;		// x location for object
 		var yOff = 20;
 
 		var randomGarbage = {};
 
-		yPos = 200;
-
 		// places the garbage bin based on the number of bins 
 		for(var i = 0; i < garbageCount; i++)
 		{	
-			// calculates the y position, grabs a random object
-			//yPos = yOff + 40 + (yOff * .7 * i);
-			
+			// get the random garbage
 			randomGarbage = this.levelContentManager.GetGarbage(this.levelBins);	
-			
-			yPos -= randomGarbage.img.height + yOff;
-			//
+			yPos -= (randomGarbage.img.height + yOff) * (1.4 - garbageDensity);	 // determines the placing of the garbage
 
-			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos + 50 + (Math.random() * 100), yPos, this.levelHeight,this.levelWidth));
+			this.garbage.push(new Garbage(randomGarbage.bin, randomGarbage.img, xPos + (Math.random() * 100), yPos, this.levelHeight,this.levelWidth, gRate));
 
 			// adds the child to the stage
 			this.levelStage.addChild(this.garbage[i]);
 		}
+
+		this.garbageCount += garbageCount;
 	};
 
 	Level.prototype.loadConveyor = function(){
@@ -224,7 +326,6 @@
 		this.landfillsQ = new createjs.Shape();
 		this.landfillsQ.graphics.beginFill('red').drawRoundRect(0, this.levelHeight, this.levelWidth, this.levelHeight*.2, 1);
 		this.levelStage.addChild(this.landfillsQ);
-
 		this.levelStage.addChild(line);
 
 	}
@@ -240,39 +341,46 @@
 		}
 	}
 
-	Level.prototype.setBackgroundText = function(level) {
-		
-		var stageLayer = new createjs.Shape();
-		stageLayer.graphics.beginFill('#737373').drawRoundRect(0, 0, this.levelWidth, 90, 10);
-		this.levelStage.addChild(stageLayer);
+	Level.prototype.setBackgroundText = function(refresh) {
+		refresh = typeof refresh !== 'undefined' ? refresh : false;
 
-		this.txtTitle = new createjs.Text(this.stageName + " " + this.levelVersion + " of 3", "bold 42px Arial", "#ffffff");
+		if(typeof this.stageHeader == 'undefined'){
+			this.stageHeader = new createjs.Shape();
+		}
+		
+		this.stageHeader.graphics.beginFill('#737373').drawRoundRect(0, 0, this.levelWidth, 90, 10);
+		this.levelStage.addChild(this.stageHeader);
+
+		if(typeof this.txtTitle == 'undefined'){
+			this.txtTitle = new createjs.Text(this.stageName + " " + this.levelVersion + " of 3", "bold 42px Arial", "#ffffff");
+		}
+    	
     	this.txtTitle.x = this.txtTitle.y = 10;
-
-    	/*
-    	this.txtTimerTitle = new createjs.Text("Time: ", "bold 28px Arial", "#ffffff");
-    	this.txtTimerTitle.x = 15;
-    	this.txtTimerTitle.y = 55;
 		
-		this.txtTimeRemain = new createjs.Text( convertMStoS(this.levelDefaultTime) + " s", "bold 28px Arial", "#ffffff");
-		this.txtTimeRemain.x = 90;
-		this.txtTimeRemain.y = 55;
-		*/
+		if(typeof this.txtScoreTitle == 'undefined'){
+			this.txtScoreTitle = new createjs.Text("SCORE:", "bold 28px Arial", "#ffffff");
+		}
 		
-		this.txtScoreTitle = new createjs.Text("SCORE:", "bold 28px Arial", "#ffffff");
 		this.txtScoreTitle.x = screen_width - 210;
 		this.txtScoreTitle.y = 55;
 		
-		this.txtScore = new createjs.Text(this.levelScore, "bold 28px Arial", "#ffffff");
+		if(typeof this.txtScore == 'undefined'){
+			this.txtScore = new createjs.Text(this.levelScore, "bold 28px Arial", "#ffffff");
+		}
+		
 		this.txtScore.x = screen_width - 100;
 		this.txtScore.y = 55;
 
 		// put these objects into the level text container
 		this.levelText.push(this.txtTitle);
-		//this.levelText.push(this.txtTimerTitle);
-		//this.levelText.push(this.txtTimeRemain);
 		this.levelText.push(this.txtScoreTitle);
 		this.levelText.push(this.txtScore);
+
+		if(refresh){
+			for(var i = 0; i < this.levelText.length; i++){
+				this.levelStage.removeChild(this.levelText[i]);
+			}
+		}
 
 		for(var i = 0; i < this.levelText.length; i++){
 			this.levelStage.addChild(this.levelText[i]);
@@ -287,7 +395,6 @@
 		backgroundBitmap.scaleY = 2.7;
 
 		backgroundBitmap.y = 80;
-		//backgroundBitmap.alpha = .8;
 		this.levelStage.addChild(backgroundBitmap);
 	};
 
@@ -376,6 +483,7 @@
 			var collision = {};
 			var min_dist = Number.MAX_VALUE;
 
+			/*
 			// pushes the conveyor belt down the screen
 			for(var i = 0; i < this.conveyorBelt.length; i++){
 				this.conveyorBelt[i].y += RATE;
@@ -406,10 +514,11 @@
 				}
 
 			}
+			*/
 
 			for(var i = 0; i < this.garbage.length; i++)
 			{
-				this.garbage[i].tick(RATE);
+				this.garbage[i].tick();
 				for(var j = 0; j < this.garbageBin.length; j++){
 
 					collision = this.checkCollision(this.garbage[i], this.garbageBin[j]);
@@ -444,6 +553,7 @@
 					this.levelStage.removeChild(this.garbage[i].boundingBox);
 					this.levelStage.removeChild(this.garbage[i]);
 					this.garbage.splice(i, 1);
+					this.garbageCount--;
 				}
 
 				hit = false;
@@ -465,14 +575,16 @@
 			// checks to see if there are any garbage left
 			// clears the bins, reloads the garbage, then reloads the bins
 			if(this.garbage.length === 0){
-				for(var i = 0; i < this.garbageBin.length; i++){
-					this.levelStage.removeChild(this.garbageBin[i]);
+
+				if(this.levelWave == 5){
+					console.log("END OF WAVES");
+					
+					this.levelWin = true;
+					this.levelEnd = true;
 				}
-
-				this.loadGarbage();
-
-				for(var i = 0; i < this.garbageBin.length; i++){
-					this.levelStage.addChild(this.garbageBin[i]);
+				else{
+					this.levelWave++;
+					this.reloadGarbage();
 				}
 			}
 
