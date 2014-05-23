@@ -28,6 +28,7 @@
        	var halfY = Math.floor(imgGarbage.height / 2);
        	
         // becareful: if width exceeds the image, will not display the image
+        // In the future, use bitmap rather than spritesheet
         var localSpriteSheet = new createjs.SpriteSheet({
             images: [imgGarbage], // image to use
             frames: {width: imgGarbage.width, height: imgGarbage.height, regX: halfX, regY: halfY},
@@ -77,6 +78,7 @@
 
     Garbage.prototype.tick = function() {
 
+        // if outside scope of the screen do not show
         if(this.y < 0){
             this.visible = false;
         }
@@ -84,13 +86,16 @@
             this.visible = true;
         }
 
+        // set the bounding box's location to the garbage 
         this.boundingBox.x = this.x;
         this.boundingBox.y = this.y;
 
+        // if not picked, keep moving
         if(!this.pressed){
             this.y += this.vY;
-        }
+        }   
         
+        // y coord to snap back once user releases object
         this.initY = this.y;
         
         if(this.y > (this.gh * .8))
@@ -113,11 +118,6 @@
 		evt.target.x = evt.stageX;
 		evt.target.y = evt.stageY;
         evt.target.pressed = true;
-
-        /* Not sure if tick or pressmove better?
-        evt.target.boundingBox.x =  evt.target.x;
-        evt.target.boundingBox.y =  evt.target.y;
-        */
 
         if(isMobile){
             evt.target.boundingBox.visible = true;
@@ -147,7 +147,6 @@
         evt.target.boundingBox.visible = true;
         evt.target.boundingBox.alpha = .5;
 	});
-	
 	
 	Garbage.prototype.on("rollout", function(evt) {
 		//evt.target.alpha = 1;

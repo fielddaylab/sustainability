@@ -18,10 +18,13 @@
 
     // initialization
     GarbageBin.prototype.initialize = function (GarbageBinType, imgGarbageBin, x, y, SCALE){
+        
+        /*
         console.log("GarbageBin object initialized");
         console.log("GarbageBin type: " +  GarbageBinType);
         console.log("GarbageBin img src: " + imgGarbageBin.src);
-       
+        */
+
        	var halfX = Math.floor(imgGarbageBin.width / 2);
        	var halfY = Math.floor(imgGarbageBin.height / 2);
        	

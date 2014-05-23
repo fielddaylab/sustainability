@@ -2,29 +2,20 @@
  * Created by xaoyang on 12/13/13.
  */
  
+ // game objects
 var canvas;
 var stage;
 var level;
 var contentManager;
+var GarbageGame;
+
+var soundThud;
+var soundCorrect;            // the audio src we are trying to play
+
+// device information
 var screen_width;
 var screen_height;
-
-var START_TIME = 35000; //ms
-var WARNING_TIME = 20000; //ms
-var GAME_ON = true;
-var SETTING = 'easy';
-var ENDGAME = false;
-
-// checks to see if mobile
 var isMobile;
-var window_width;
-var window_height;
-
-var levelVersion = 1;
-
-var container;
-var topScore = 0;
-var GarbageGame;
 
 // create a timer class
 // uses date.now() to set up timer
@@ -42,11 +33,11 @@ function convertMStoS(num, p){
 }
 
 
-
-function handleCanvas(){
+function initCanvas(){
 
 	canvas = document.getElementById("canvas");
 
+    // look into why 980 and 1409
     canvas.width = 980;
     canvas.height = 1409;
 
@@ -75,7 +66,9 @@ function init(){
 
     // adjusts canvas size
     // sets up the stage
-    handleCanvas();
+    initCanvas();
+    // initializes sound
+    initSound();
 
     // checks url input
     var query = window.location.search;
@@ -84,12 +77,13 @@ function init(){
         var args = query.split("&");
     }
 
-    console.log(window.location.search);
+    // console.log(window.location.search);
     var stageName = args[0]; 
+    var levelVersion = 1;
 
     if(args.length == 2){
         levelVersion = args[1].split("=")[1];
-        console.log(levelVersion);
+        // console.log("level: " + levelVersion);
     }
 
     if(args.length == 3){
@@ -110,56 +104,38 @@ function init(){
 
     // initializes the game
     garbageGame = new GarbageGame(stage, contentManager, screen_width, screen_height, stageName, levelVersion);
-    // initializes sound
-    sound();
 }
 
-var src;            // the audio src we are trying to play
-var src2;
-var soundInstance;  // the soundInstance returned by Sound when we create or play a src
-
 // content handler should  handle this
-function sound() {
+function initSound() {
 
     // Create a single item to load.
     var assetsPath = "assets/";
-    src3 = "src/sound/thud.ogg";
-    //src2 = "src/sound/Son_Of_A_Rocket.ogg";
-    src = "src/sound/GemCollected.ogg";
-    // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
+    soundThud = "src/sound/thud.ogg";
+    soundCorrect = "src/sound/GemCollected.ogg";
 
 	createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
-    //createjs.Sound.addEventListener("fileload", playSound); // add an event listener for when load is completed
-    createjs.Sound.registerSound(src);  // register sound, which preloads by default
+    createjs.Sound.registerSound(soundCorrect);  // register sound, which preloads by default
 }
 
-// game should handle this
-function playThud(event){
-    createjs.Sound.play(src3);
-}
-
-function getSound(event){
-	createjs.Sound.play(src);
-}
-
-/*
-function playSound(event) {
-	console.log("sound loaded");
-	soundInstance = createjs.Sound.play(src2);  // start playing the sound we just loaded, storing the playing instance
-    soundInstance.setVolume(.5);
-}
-*/
 
 function startGame(){
 
 	garbageGame.startGame();
 
     stage.update();
-    createjs.Ticker.addEventListener("tick", tick);
+    createjs.Ticker.addEventListener("tick", function() {
+        garbageGame.updateGame();
+    });
+    
     createjs.Ticker.setFPS(60);
 }
 
+// game should handle this
+function playThud(event){
+    createjs.Sound.play(soundThud);
+}
 
-function tick(){
-	garbageGame.updateGame();
+function playCorrect(event){
+    createjs.Sound.play(soundCorrect);
 }

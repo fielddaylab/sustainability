@@ -207,7 +207,7 @@ function ContentManager(){
     function SetDownload(imgElement, url,loadedHandler, errorHandler){
         
         imgElement.src = url;
-        console.log("img source: " + imgElement.src);
+        // console.log("img source: " + imgElement.src);
         
         imgElement.onload = loadedHandler;
         imgElement.onerror = errorHandler;
@@ -217,7 +217,7 @@ function ContentManager(){
     function handleImageLoad(e){
         numImagesLoaded++;
 
-        console.log("images load: " + numImagesLoaded);
+        // console.log("images load: " + numImagesLoaded);
 
         // If all elements have been downloaded
         if(numImagesLoaded === NUM_ELMENTS_TO_DOWNLOAD){

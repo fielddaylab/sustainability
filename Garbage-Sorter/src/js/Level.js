@@ -303,8 +303,10 @@
 	Level.prototype.loadConveyor = function(){
 
 		var conveyorBitmap = new createjs.Bitmap("src/img/asset_conveyor_frame01.png");
+		
 		conveyorBitmap.y = 90;
 		conveyorBitmap.scaleY = 1.1;
+		conveyorBitmap.cache(0, 0, 284, (1007 * 1.1));
 		this.levelStage.addChild(conveyorBitmap);
 		
 	};
@@ -395,6 +397,7 @@
 		backgroundBitmap.scaleY = 2.7;
 
 		backgroundBitmap.y = 80;
+		backgroundBitmap.cache(0,0, this.levelWidth, this.levelHeight);
 		this.levelStage.addChild(backgroundBitmap);
 	};
 
@@ -427,7 +430,7 @@
 			this.levelScore += -50;
 		}
 
-		getSound();
+		playCorrect();
 
 		txt.visible = true;
 		txt.x = objB.x - 50;
